@@ -33,12 +33,12 @@ while Keys < 10: #total keys needed should be less than the total amount of mini
             print("Great Job, you got the first key!!!")
             print("You just need two more until you can escape from these pitiful challenges")
         case 2:
-            print("Juat 1 key to go!")
+            print("Just 1 key to go!")
             print("I can't wait!")
             print("It is going to be so much fun!")
             print("Go on, get the final key and escape!")
 
-    game = str(input("Choose your next challenge: G, H, R")) #write the first letter of the game here, make sure it is different for each game
+    game = str(input("Choose your next challenge: G, H, R, U")) #write the first letter of the game here, make sure it is different for each game
     match game:
         case "G": 
             print("Notfinishedyet") #Gambling game here

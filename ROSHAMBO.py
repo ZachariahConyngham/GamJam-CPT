@@ -61,7 +61,7 @@ time.sleep(1)
 print("Lets begin...")
 
 wins = 0
-while wins < 10:
+while wins < 5:
     answer = "N"
     roshambolist = ["R", "S", "P"]
     answer = str(input("Choose... S for scissors... R for rock... and P for paper"))
