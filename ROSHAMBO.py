@@ -71,28 +71,46 @@ while wins < 10:
             entity1answer = random.choice(roshambolist)
             match entity1answer:
                 case "R":
+                    print("I choose Rock")
+                    print("It's a tie")
                     wins += 0
                 case "S":
+                    print("I choose Scissors")
+                    print("You win this round...")
                     wins += 1
                 case "P":
+                    print("I choose Paper")
+                    print("You lost this round")
                     wins = 0
         case "S":
             entity1answer = random.choice(roshambolist)
             match entity1answer:
                 case "R":
+                    print("I choose Rock")
+                    print("You lost this round")
                     wins = 0
                 case "S":
+                    print("I choose Scissors")
+                    print("It's a tie")
                     wins += 0
                 case "P":
+                    print("I choose Paper")
+                    print("You win this round...")
                     wins += 1
         case "P":
             entity1answer = random.choice(roshambolist)
             match entity1answer:
                 case "R":
+                    print("I choose Rock")
+                    print("You win this round...")
                     wins += 1
                 case "S":
+                    print("I choose Scissors")
+                    print("You lost this round")
                     wins = 0
                 case "P":
+                    print("I choose Paper")
+                    print("It's a tie")
                     wins += 0
 
 print("Congratulations")
@@ -102,3 +120,6 @@ print("I have one last request though")
 print("Be weary of the one who guides you")
 print("He is not the helper he seems to be")
 print("Good luck, little bird")
+
+
+
