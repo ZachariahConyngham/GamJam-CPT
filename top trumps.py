@@ -1,0 +1,43 @@
+import random, time, sys, os
+
+cards = [
+    "Knight-5-8-1-6",
+    "Ranger-4-2-1-7",
+    "Berserker-7-6-0-8",
+    "Mage-3-1-8-5",
+    "Healer-1-0-10-3",
+    "Very Normal Pig-1-1-0-0",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "Wizard-4-2-8-4",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "Ogre-8-8-1-6",
+    "Triceratops-7-6-0-7",
+    "Dragon-8-6-3-8",
+    "28",
+    "29",
+    "Primal Aspid-3-3-3-10",
+    "31",
+    "Quadceratops-8-7-0-8",
+    "33",
+    "34",
+    "Dragon Hydra-9-7-4-10",
+    "Nightstalker King Jerry-10-9-5-8-T",
+]
+hand = []
+
+# stats: attack, defense, magic, fear factor (all out of 10)
