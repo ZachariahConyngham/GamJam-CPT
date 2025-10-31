@@ -7,7 +7,7 @@ words = [
     "PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS",
     "CHARGOGGAGOGGMANCHAUGAGGOGGCHAUBUNAGUNGAMAUGG",
     "CLANKER",
-    "POLYNOMIAL P(X) = Q(X)A(X) + R(X)",
+    "POLYNOMIAL",
     "SIX SEVEN",
     "SEISMOGRAPH",
     "BEAN",
@@ -25,7 +25,22 @@ words = [
     "FORT STREET HIGH SCHOOL",
     "TRIGONOMETRY",
     "AMONG US",
-    "JONK",
+    "AZURE",
+    "EMBEZZLE",
+    "FJORD",
+    "FLAPJACK",
+    "CALIPH",
+    "EUOUAE",
+    "ASKEW",
+    "ALLEGRETTO",
+    "PEMULWUY",
+    "DECRESCENDO",
+    "HOLLOW KNIGHT",
+    "SILKSONG",
+    "THERE IS AN IMPOSTER AMONG US",
+    "COMPUTING",
+    "YI PING",
+    "ZOTE",
 ]
 dialogue = [
     "...\n",
@@ -43,27 +58,34 @@ dialogue = [
     "Good luck, squiglet.\n",
 ]
 disrespect = [
-    "You should kill yourself, squiglet.\n",
+    "You're not worth my time, squiglet.\n",
     "Haha, you're not guessing this one.\n",
     "You've still got many letters to go.\n",
     "You really think you can beat me?\n",
     "HAHAHAHAHAHAHAHAHAHA!!! YOU ABSOLUTELY SUCK!!!\n",
     "Good luck, you're gonna need it.\n",
     "A squiglet like you won't be getting this one.\n",
+    "How'd you guess such an abhorrent letter, squiglet? WRONG!\n",
+    "You might need to consider getting better.\n",
+    "I despise you for that guess.\n",
 ]
 letters = []
 alrguess = []
 wrong = [""]
 guess = ""
-mistakes = 4
+mistakes = 7
+wins = 0
+maxwins = 3
 id = random.randint(0, len(words)) - 1
 
 length = len(words[id])
 
-for line in dialogue:
-    time.sleep(2)
-    print(line)
-time.sleep(3)
+skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
+if not skip == "Y":
+    for line in dialogue:
+        time.sleep(2)
+        print(line)
+    time.sleep(3)
 
 count = 0
 while count < length:
@@ -76,37 +98,81 @@ for letter in letters:
         letters[count] = words[id][count]
     count += 1
 
-print(" ".join(letters))
 
-os.system("cls")
+def generate():
+    os.system("cls")
+    print(" ".join(letters) + "\n")
+    print("Already guessed: " + ", ".join(alrguess))
+    print("Errors left: " + str(mistakes))
+    print("Games won: " + str(wins) + "/" + str(maxwins))
+
+
+generate()
 
 while "_" in letters and not mistakes < 1:
     guess = ""
     while not len(guess) == 1:
         guess = (input("\nGuess a letter. Or die. I don't mind. ")).upper()
         if guess in alrguess:
+            os.system("cls")
             time.sleep(1)
             print("...\n")
             time.sleep(1)
             print("You've already guessed that, squiglet.\n")
             time.sleep(3)
         elif guess.isalpha() == False:
+            os.system("cls")
             time.sleep(1)
             print("...\n")
             time.sleep(1)
             print("Little squiglet. Do you know what a letter is? Are you braindead?\n")
             time.sleep(3)
         elif guess == "SOLVE":
+            os.system("cls")
             time.sleep(1)
             print("...\n")
             time.sleep(1)
             print("You wanna solve? Good luck, squiglet.\n")
-            time.sleep(3)
+            time.sleep(1)
             solve = input("Guess here: ").upper()
             if solve == words[id]:
-                print("You win.")
-                sys.exit()
+                os.system("cls")
+                print("You win.\n")
+                wins += 1
+                time.sleep(1)
+                if wins == 1:
+                    print("But you're not done yet.\n")
+                    time.sleep(1)
+                    print("You best me three times, I let you go.\n")
+                elif wins == 2:
+                    print("You're still not done though.\n")
+                    time.sleep(1)
+                    print(
+                        "I said THREE games. One left. And only "
+                        + str(mistakes)
+                        + " errors to go.\n"
+                    )
+                elif wins == 3:
+                    print("You win the game.\n")
+                    time.sleep(1)
+                    print("Leave.\n")
+                    time.sleep(1)
+                    print("Come again later. If you want, squiglet.\n")
+                    time.sleep(1)
+                    print("We've got many more games to play.\n")
+                    time.sleep(4)
+                    sys.end()
+                time.sleep(3)
+                id = random.randint(0, len(words)) - 1
+                letters.clear()
+                alrguess.clear()
+                count = 0
+                length = len(words[id])
+                while count < length:
+                    letters.append("_")
+                    count += 1
             else:
+                os.system("cls")
                 time.sleep(1)
                 print("...\n")
                 time.sleep(1)
@@ -116,6 +182,7 @@ while "_" in letters and not mistakes < 1:
                 time.sleep(2)
                 mistakes -= 1
         elif not len(guess) == 1:
+            os.system("cls")
             time.sleep(1)
             print("...\n")
             time.sleep(1)
@@ -123,20 +190,24 @@ while "_" in letters and not mistakes < 1:
             time.sleep(3)
         else:
             if guess in words[id]:
+                os.system("cls")
                 time.sleep(1)
                 print("...\n")
                 time.sleep(1)
                 print("Fine. The word contains '" + guess + "'. You happy?\n")
                 time.sleep(2)
                 start_index = 0
+                index = 0
                 while True:
                     index = words[id].find(guess, start_index)
                     if index == -1:
                         break
+                    print(index)
                     letters[index] = guess
                     start_index = index + 1
                 alrguess.append(guess)
             else:
+                os.system("cls")
                 mistakes -= 1
                 time.sleep(1)
                 print("...\n")
@@ -144,10 +215,7 @@ while "_" in letters and not mistakes < 1:
                 print(disrespect[random.randint(0, len(disrespect) - 1)])
                 time.sleep(3)
                 alrguess.append(guess)
-
-        os.system("cls")
-        print(" ".join(letters) + "\n")
-        print("Already guessed: " + ", ".join(alrguess))
-        print("Errors left: " + str(mistakes))
+        generate()
 
 print("YOU LOSE, SQUIGLET!!! HAHAHAHHHAH!")
+print("By the way, the word was " + words[id] + ". How'd you even fail that? Goodbye.")
