@@ -1,4 +1,4 @@
-import random, time
+import random, time, sys, os
 
 words = [
     "POLYMORPHISM",
@@ -61,8 +61,9 @@ id = random.randint(0, len(words)) - 1
 length = len(words[id])
 
 for line in dialogue:
-    time.sleep(1.5)
+    time.sleep(2)
     print(line)
+time.sleep(3)
 
 count = 0
 while count < length:
@@ -77,6 +78,7 @@ for letter in letters:
 
 print(" ".join(letters))
 
+os.system("cls")
 
 while "_" in letters and not mistakes < 1:
     guess = ""
@@ -87,16 +89,23 @@ while "_" in letters and not mistakes < 1:
             print("...\n")
             time.sleep(1)
             print("You've already guessed that, squiglet.\n")
-            time.sleep(2)
+            time.sleep(3)
         elif guess.isalpha() == False:
             time.sleep(1)
             print("...\n")
             time.sleep(1)
             print("Little squiglet. Do you know what a letter is? Are you braindead?\n")
-            time.sleep(2)
+            time.sleep(3)
         elif guess == "SOLVE":
-            if guess == words[id]:
-                break
+            time.sleep(1)
+            print("...\n")
+            time.sleep(1)
+            print("You wanna solve? Good luck, squiglet.\n")
+            time.sleep(3)
+            solve = input("Guess here: ").upper()
+            if solve == words[id]:
+                print("You win.")
+                sys.exit()
             else:
                 time.sleep(1)
                 print("...\n")
@@ -111,7 +120,7 @@ while "_" in letters and not mistakes < 1:
             print("...\n")
             time.sleep(1)
             print("That's not a letter, squiglet. That's multiple letters.\n")
-            time.sleep(2)
+            time.sleep(3)
         else:
             if guess in words[id]:
                 time.sleep(1)
@@ -133,15 +142,12 @@ while "_" in letters and not mistakes < 1:
                 print("...\n")
                 time.sleep(1)
                 print(disrespect[random.randint(0, len(disrespect) - 1)])
-                time.sleep(2)
+                time.sleep(3)
                 alrguess.append(guess)
 
+        os.system("cls")
         print(" ".join(letters) + "\n")
         print("Already guessed: " + ", ".join(alrguess))
         print("Errors left: " + str(mistakes))
 
-
-if mistakes < 1:
-    print("You lose!")
-else:
-    print("You win!")
+print("YOU LOSE, SQUIGLET!!! HAHAHAHHHAH!")
