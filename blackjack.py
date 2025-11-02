@@ -4,12 +4,22 @@ cardsnumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 Cards = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
 Suits = ["Diamonds", "Spades", "Hearts", "Clubs"]
 
+gamenumber = 0
 wins=0
 dealertotal = 0
 while wins < 10:
+    gamenumber +=1
+    total = 0
+    dealertotal = 0
+    if gamenumber > 25:
+        wins = 10
+    else:
+        hit = "Y"
     hit = "Y"
+    print("Game number:", gamenumber)
+    print("Number of wins:", wins)
     print("The dealer has:")
-    if hit == "Y":
+    if hit == "Y" or "y":
         cardnumber = random.choice(cardsnumber)
         dealertotal += cardnumber
         match cardnumber:
@@ -70,9 +80,14 @@ while wins < 10:
             case 21:
                 print("You Win")
                 wins += 1
+                dealertotal = 20
+                hit = "N"
             case _:
-                print("You lose")
-
+                if total > 21:
+                    print("You lose")
+                    hit = "N"
+                else:
+                    hit = "N"
 
     while dealertotal < 17:
         print("The Dealers next card is:")
@@ -102,12 +117,18 @@ while wins < 10:
         print(facecard, "of", random.choice(Suits))
     if dealertotal > 21:
         print("You win")
+        wins += 1
     else:
-        print("Your total is", total)
-        print("The dealers total is", dealertotal)
-        if dealertotal < total:
-            print("You win")
+        if total == 21:
+            print("you win") 
             wins += 1
         else:
-            print("you lose")
+            print("The dealers total is", dealertotal)
+            print("Your total is", total)
+            if dealertotal < total < 22:
+                print("You win")
+                wins += 1
+            else:
+                print("you lose")
 print("Congratulations, you have beaten the blackjack minigame")
+print("It took you", total, "attempts to beat the blackjack")
