@@ -1,6 +1,7 @@
 import time
 Keys = 0
 
+
 time.sleep(3)
 print(".")
 time.sleep(3)
@@ -20,19 +21,24 @@ print("You must complete 1 challenge per key")
 
 
 
-while Keys < 3: #total keys needed should be less than the total amount of minigames
-    game = "e"
+while Keys < 10: #total keys needed should be less than the total amount of minigames
+    if Keys > 3:
+        game = str(input("Do you want to move on (Y) or try move of the minigames (N), Y or N"))
+        if game == "Y":
+            Keys = 10
+    else:
+        game = "e"
     match Keys:
         case 1:
             print("Great Job, you got the first key!!!")
             print("You just need two more until you can escape from these pitiful challenges")
         case 2:
-            print("Juat 1 key to go!")
+            print("Just 1 key to go!")
             print("I can't wait!")
             print("It is going to be so much fun!")
             print("Go on, get the final key and escape!")
 
-    game = str(input("Choose your next challenge: G, H, R")) #write the first letter of the game here, make sure it is different for each game
+    game = str(input("Choose your next challenge: G, H, R, U")) #write the first letter of the game here, make sure it is different for each game
     match game:
         case "G": 
             print("Notfinishedyet") #Gambling game here
@@ -40,6 +46,8 @@ while Keys < 3: #total keys needed should be less than the total amount of minig
             print("Notfinishedyet") #hangman here
         case "R":
             print("Notfinishedyet") #Roshambo here
+        case "U":
+            print("Notfinishedyet") #Uno
 
 
 
