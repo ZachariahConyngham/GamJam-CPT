@@ -41,7 +41,7 @@ while Keys < 10: #total keys needed should be less than the total amount of mini
             print("It is going to be so much fun!")
             print("Go on, get the final key and escape!")
 
-    game = str(input("Choose your next challenge: G, H, R, U, B, B, S")) #write the first letter of the game here, make sure it is different for each game
+    game = str(input("Choose your next challenge: G, H, R, U, BL, BA, S")) #write the first letter of the game here, make sure it is different for each game
     match game:
         case "G": 
             print("Notfinishedyet") #Gambling game here
@@ -53,7 +53,6 @@ while Keys < 10: #total keys needed should be less than the total amount of mini
             print("Notfinishedyet") #Uno
         case "Bl":
             blackjack() #Blackjack FINISHED AND IMPLEMENTED
-            print("nonfinishedyet") #Blackjack
         case "Ba":
             print("nonfinishedyet") #Battleships
         case "S":
