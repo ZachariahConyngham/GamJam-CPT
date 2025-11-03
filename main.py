@@ -1,3 +1,5 @@
+
+from blackjack import blackjack
 import time
 Keys = 0
 
@@ -14,6 +16,7 @@ print("Hello")
 print("Don't be alarmed")
 print("It is just me")
 print("I am here to help you")
+name = str(input("What is your name?"))
 print("The only way for you to escape is to follow my lead")
 print("You need to get 3 keys")
 print("And then you are free!!!")
@@ -38,7 +41,7 @@ while Keys < 10: #total keys needed should be less than the total amount of mini
             print("It is going to be so much fun!")
             print("Go on, get the final key and escape!")
 
-    game = str(input("Choose your next challenge: G, H, R, U")) #write the first letter of the game here, make sure it is different for each game
+    game = str(input("Choose your next challenge: G, H, R, U, BL, BA, S")) #write the first letter of the game here, make sure it is different for each game
     match game:
         case "G": 
             print("Notfinishedyet") #Gambling game here
@@ -48,6 +51,12 @@ while Keys < 10: #total keys needed should be less than the total amount of mini
             print("Notfinishedyet") #Roshambo here
         case "U":
             print("Notfinishedyet") #Uno
+        case "Bl":
+            blackjack() #Blackjack FINISHED AND IMPLEMENTED
+        case "Ba":
+            print("nonfinishedyet") #Battleships
+        case "S":
+            print("nonfinishedyet") #Snakesandladders
 
 
 
