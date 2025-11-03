@@ -40,7 +40,15 @@ words = [
     "THERE IS AN IMPOSTER AMONG US",
     "COMPUTING",
     "YI PING",
-    "ZOTE", "THE QUICK BROWN FOX JUMPS OVER THE LADY DOG", "BALATRO", "PRACTICE", "PRACTISE", "2ND SEPTEMBER 1666"
+    "ZOTE",
+    "THE QUICK BROWN FOX JUMPS OVER THE LADY DOG",
+    "BALATRO",
+    "PRACTICE",
+    "PRACTISE",
+    "2ND SEPTEMBER 1666",
+    "GAUGE",
+    "BIBLOIGRAPHY",
+    "DA CAPO AL FINE",
 ]
 dialogue = [
     "...\n",
@@ -80,11 +88,34 @@ id = random.randint(0, len(words)) - 1
 
 length = len(words[id])
 
+
+def clear():  # Clears the terminal
+    if os.name == "nt":
+        _ = os.system("cls")
+    else:
+        _ = os.system("clear")
+
+
+def generate():  # generates board
+    clear()
+    print(" ".join(letters) + "\n")
+    print("Already guessed: " + ", ".join(alrguess))
+    print("Errors left: " + str(mistakes))
+    print("Games won: " + str(wins) + "/" + str(maxwins))
+
+
+def yap(line):  # yappin
+    for letter in line:
+        print(letter, end="", flush=True)
+        time.sleep(0.05)
+
+
 skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
 if not skip == "Y":
+    os.system("cls")
     for line in dialogue:
-        time.sleep(2)
-        print(line)
+        yap(line)
+        time.sleep(1)
     time.sleep(3)
 
 count = 0
@@ -99,14 +130,6 @@ for letter in letters:
     count += 1
 
 
-def generate():
-    os.system("cls")
-    print(" ".join(letters) + "\n")
-    print("Already guessed: " + ", ".join(alrguess))
-    print("Errors left: " + str(mistakes))
-    print("Games won: " + str(wins) + "/" + str(maxwins))
-
-
 generate()
 
 while "_" in letters and not mistakes < 1:
@@ -116,50 +139,50 @@ while "_" in letters and not mistakes < 1:
         if guess in alrguess:
             os.system("cls")
             time.sleep(1)
-            print("...\n")
+            yap("...\n")
             time.sleep(1)
-            print("You've already guessed that, squiglet.\n")
+            yap("You've already guessed that, squiglet.\n")
             time.sleep(3)
         elif guess.isalpha() == False:
             os.system("cls")
             time.sleep(1)
-            print("...\n")
+            yap("...\n")
             time.sleep(1)
-            print("Little squiglet. Do you know what a letter is? Are you braindead?\n")
+            yap("Little squiglet. Do you know what a letter is? Are you braindead?\n")
             time.sleep(3)
         elif guess == "SOLVE":
             os.system("cls")
             time.sleep(1)
-            print("...\n")
+            yap("...\n")
             time.sleep(1)
-            print("You wanna solve? Good luck, squiglet.\n")
+            yap("You wanna solve? Good luck, squiglet.\n")
             time.sleep(1)
             solve = input("Guess here: ").upper()
             if solve == words[id]:
                 os.system("cls")
-                print("You win.\n")
+                yap("You win.\n")
                 wins += 1
                 time.sleep(1)
                 if wins == 1:
-                    print("But you're not done yet.\n")
+                    yap("But you're not done yet.\n")
                     time.sleep(1)
-                    print("You best me three times, I let you go.\n")
+                    yap("You best me three times, I let you go.\n")
                 elif wins == 2:
-                    print("You're still not done though.\n")
+                    yap("You're still not done though.\n")
                     time.sleep(1)
-                    print(
+                    yap(
                         "I said THREE games. One left. And only "
                         + str(mistakes)
                         + " errors to go.\n"
                     )
                 elif wins == 3:
-                    print("You win the game.\n")
+                    yap("You win the game.\n")
                     time.sleep(1)
-                    print("Leave.\n")
+                    yap("Leave.\n")
                     time.sleep(1)
-                    print("Come again later. If you want, squiglet.\n")
+                    yap("Come again later. If you want, squiglet.\n")
                     time.sleep(1)
-                    print("We've got many more games to play.\n")
+                    yap("We've got many more games to play.\n")
                     time.sleep(4)
                     sys.end()
                 time.sleep(3)
@@ -174,9 +197,9 @@ while "_" in letters and not mistakes < 1:
             else:
                 os.system("cls")
                 time.sleep(1)
-                print("...\n")
+                yap("...\n")
                 time.sleep(1)
-                print(
+                yap(
                     "HAHAHHAHAHAHAH!!! YOU GOT IT WRONG!!! YOU ARE REALLY BAD AT THIS!!!\n"
                 )
                 time.sleep(2)
@@ -184,17 +207,17 @@ while "_" in letters and not mistakes < 1:
         elif not len(guess) == 1:
             os.system("cls")
             time.sleep(1)
-            print("...\n")
+            yap("...\n")
             time.sleep(1)
-            print("That's not a letter, squiglet. That's multiple letters.\n")
+            yap("That's not a letter, squiglet. That's multiple letters.\n")
             time.sleep(3)
         else:
             if guess in words[id]:
                 os.system("cls")
                 time.sleep(1)
-                print("...\n")
+                yap("...\n")
                 time.sleep(1)
-                print("Fine. The word contains '" + guess + "'. You happy?\n")
+                yap("Fine. The word contains '" + guess + "'. You happy?\n")
                 time.sleep(2)
                 start_index = 0
                 index = 0
@@ -210,12 +233,12 @@ while "_" in letters and not mistakes < 1:
                 os.system("cls")
                 mistakes -= 1
                 time.sleep(1)
-                print("...\n")
+                yap("...\n")
                 time.sleep(1)
-                print(disrespect[random.randint(0, len(disrespect) - 1)])
+                yap(disrespect[random.randint(0, len(disrespect) - 1)])
                 time.sleep(3)
                 alrguess.append(guess)
         generate()
 
-print("YOU LOSE, SQUIGLET!!! HAHAHAHHHAH!")
-print("By the way, the word was " + words[id] + ". How'd you even fail that? Goodbye.")
+yap("YOU LOSE, SQUIGLET!!! HAHAHAHHHAH!")
+yap("By the way, the word was " + words[id] + ". How'd you even fail that? Goodbye.")
