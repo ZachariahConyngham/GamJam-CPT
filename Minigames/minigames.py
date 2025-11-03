@@ -18,9 +18,15 @@ print("It is just me")
 print("I am here to help you")
 name = str(input("What is your name?"))
 print("The only way for you to escape is to follow my lead")
-print("You need to get 3 keys")
-print("And then you are free!!!")
-print("You must complete 1 challenge per key")
+print("You will need to get enough 1, 2, 3")
+print("And then you can escape!!!")
+print("You can gain 1, 2, 3 overtime!")
+print("You can only gain 1 or 2 or 3 at any 1 time")
+print("You can choose which one to get at anytime")
+print("Try to reach 100 of a material")
+print("Then you can challenge a minigame")
+
+
 
 
 
