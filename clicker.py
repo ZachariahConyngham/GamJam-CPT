@@ -32,17 +32,21 @@ matdesc = [
     "Fuel for your rocket. Might come in handy later.",
 ]
 mat = [2, 2, 0, 0, 0, 0, 0]
+value = [0.25, 0.5, 0.5, 2, 4, 10, 5]
 
 
-gnnames = ["Trees", "Bushes", "Ponds", "Mines", "Smeltries"]
+gnnames = ["Trees", "Bushes", "Ponds", "Mines", "Supermarkets"]
 gndesc = [
     "A normal looking tree that produces plenty of wood and a small chance of berries.",
     "A bush that generates berries for harvesting.",
     "A fishing pond that produces a seemingly infinite amount of fish and water.",
     "A mine that allows you to harvest metal and scraps.",
-    "A smeltry that can cook your items to make them better." "",
+    "A market that produces literally anything and everything ever.",
 ]
 gn = [0, 0, 0, 0, 0]
+cost = [3, 15, 80, 350, 1400, 16400, 60000, 240000, 1350000, 8000000]
+
+# Increase by 25% per purchase
 
 money = 0
 
@@ -65,9 +69,6 @@ def yap(line):  # yappin
 
 def load():
     clear()
-
-    left_lines = []
-    right_lines = []
 
     print("---------------------------------------------------------------------------")
     cl = "\nCurrent location: " + location
