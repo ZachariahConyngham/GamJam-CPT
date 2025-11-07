@@ -33,7 +33,7 @@ matdesc = [
 ]
 mat = [0, 0, 0, 0, 0, 0, 0]
 mps = [0, 0, 0, 0, 0, 0, 0]
-value = [0.5, 0.75, 0.75, 2, 5, 30, 5]
+value = [1, 1.5, 1.5, 3, 8, 40, 15]
 
 
 gnnames = ["Trees", "Bushes", "Ponds", "Mines", "Supermarkets"]
@@ -47,7 +47,8 @@ gndesc = [
 gn = [1, 0, 0, 0, 0]
 cost = [3, 15, 80, 350, 1400, 16400, 60000, 240000, 1350000, 8000000]
 selected = False
-ramping = 20000000  # Increase by 25% per purchase
+autosell = False
+ramping = 1.25  # Increase by 25% per purchase
 
 money = 0
 
@@ -71,18 +72,26 @@ def yap(line):  # yappin
 def load():
     clear()
 
-    print("---------------------------------------------------------------------------")
+    print(
+        "---------------------------------------------------------------------------\n"
+    )
 
-    print("\n\n")
+    print("\n")
 
     print(
         "---------------------------------------------------------------------------\n"
     )
 
-    print("Resources:\n\n\n\n\n\n\n\n")
+    print("\n")
 
     print(
-        "\n----------------------------------------------------------------------------\n"
+        "---------------------------------------------------------------------------\n"
+    )
+
+    print("Resources:\n\n\n\n\n\n\n\n\n")
+
+    print(
+        "----------------------------------------------------------------------------\n\n"
     )
 
 
@@ -90,7 +99,12 @@ def update():
     left_lines = []
     right_lines = []
 
-    sys.stdout.write(f"\033[{2};{0}H")
+    sys.stdout.write(f"\033[{3};{0}H")
+    sys.stdout.flush()
+
+    print(f"{"Autosell: False":<40}{"Settings Menu"}")
+
+    sys.stdout.write(f"\033[{6};{0}H")
     sys.stdout.flush()
 
     cl = "\nCurrent location: " + location
@@ -118,7 +132,7 @@ def update():
             )
 
     for i in range(len(left_lines)):
-        sys.stdout.write(f"\033[{i + 9};{0}H")
+        sys.stdout.write(f"\033[{i + 13};{0}H")
         sys.stdout.flush()
         if i < len(right_lines):
             print(f"{left_lines[i]:<40}{right_lines[i]}", flush=True)
@@ -126,7 +140,7 @@ def update():
             print(left_lines[i])
     # print("Select: " + str(select) + ", Selectcol: " + str(selectcol))
 
-    sys.stdout.write(f"\033[{19};{0}H")
+    sys.stdout.write(f"\033[{23};{0}H")
     sys.stdout.flush()
     print("\033[2K", end="")
     if selected == False:
@@ -135,7 +149,13 @@ def update():
             print("\033[2K", end="")
             print("You currently have: " + str(math.floor(mat[select])))
             print("\033[2K", end="")
-            print("Producing: " + str(mps[select]) + " per second")
+            print(
+                "Producing: "
+                + str(mps[select])
+                + " per second ($"
+                + str(round(mps[select] * value[select], 2))
+                + " per second)"
+            )
         else:
             print(gndesc[select])
             print("\033[2K", end="")
@@ -204,8 +224,8 @@ while True:
                             money -= round(cost[select] * (ramping ** gn[select]), 2)
                             gn[select] += 1
                 else:
-                    money += value[select] * mat[select]
-                    mat[select] = 0
+                    money += value[select] * math.floor(mat[select])
+                    mat[select] -= math.floor(mat[select])
             case "x":
                 if selected == True:
                     selected = False
@@ -218,4 +238,7 @@ while True:
     time.sleep(1 / 50)
 
     for i in range(len(mat)):
-        mat[i] += mps[i] * 0.02
+        if autosell == False:
+            mat[i] += mps[i] * 0.02
+        else:
+            money += mps[i] * 0.02 * value[i]
