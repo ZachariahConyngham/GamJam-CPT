@@ -18,39 +18,32 @@ dialogue = [
     "(You might have to survive on your own for a while.)",
 ]
 select = 0
-selectcol = 0
+selectcol = 1
 location = "???"
 
-matnames = ["Wood", "Berries", "Water", "Fish", "Scraps", "Metal", "Fuel"]
-matdesc = [
-    "A log of wood that is useful for crafting.",
-    "A purple berry that grows on bushes and trees. Very delicious.",
-    "Drinkable water that is great for ensuring you don't die of thirst.",
-    "A very very normal looking fish. Edible (probably).",
-    "A scrap of metal that could be smelted into something useful.",
-    "A fully smelted ingot of metal that is vital for crafting.",
-    "Fuel for your rocket. Might come in handy later.",
-]
-mat = [0, 0, 0, 0, 0, 0, 0]
-mps = [0, 0, 0, 0, 0, 0, 0]
-value = [1, 1.5, 1.5, 3, 8, 40, 15]
 
-
-gnnames = ["Trees", "Bushes", "Ponds", "Mines", "Supermarkets"]
+gnnames = ["Market Stand", "Green Grocer", "Car Wash", "McDolands", "Restaurant", "Marketplace", "Warehouse", "Hotel", "Bank", "Casino", "Power Plant"]
 gndesc = [
-    "A normal looking tree that produces plenty of wood and a small chance of berries.",  # 0.5 wood, 0.1 berries
-    "A bush that generates berries for harvesting.",  # 0.5 berries
-    "A fishing pond that produces a seemingly infinite amount of fish and water.",  # 0.5 water, 0.2 fish
-    "A mine that allows you to harvest metal and scraps.",  # 0.5 scraps, 0.025 metal
-    "A market that produces literally anything and everything ever.",  # 0.5 wood/berries/water, 0.25 fish/scraps, 0.01 metal
+    "A small market stand that will earn you some cash.",
+    "A store that sells vegetables for a modest price.",
+    "A new brand of Crystal Car Wash that will earn you some bucks.",
+    "A factory of minimum wage workers doing the least amount of work possible.",
+    "A pristine Italian restaurant that serves only the finest spaghetti.",
+    "A large marketplace center that acts as the hub of shopping.",
+    "A production warehouse that makes the latest line of toys, games, and everything in between.",
+    "A manky has-been hotel that somehow still attracts visitors.",
+    "A definitely-not-a-scam bank that prints hard cash.",
+    "An illegal gambling facility, only for the elite.",
+    "A nuclear power plant. Makes money one way or another.",
 ]
-gn = [1, 0, 0, 0, 0]
-cost = [3, 15, 80, 350, 1400, 16400, 60000, 240000, 1350000, 8000000]
+gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+mps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]
+cost = [2, 60, 900, 8500, 55000, 240000, 3500000, 20000000, 444444444, 7000000000, 80000000000]
 selected = False
-autosell = False
 ramping = 1.25  # Increase by 25% per purchase
 
 money = 0
+day = 0
 
 columns = shutil.get_terminal_size().columns
 half = columns // 2
@@ -67,6 +60,23 @@ def yap(line):  # yappin
     for letter in line:
         print(letter, end="", flush=True)
         time.sleep(0.05)
+
+
+def shorten(n):
+    suffixes = ['', 'k', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion', ' octillion', ' nonillion']
+    if n == 0:
+        return '0'
+    magnitude = int(math.log10(abs(n)) // 3)
+    magnitude = max(0, min(magnitude, len(suffixes) - 1))
+    short = n / (10 ** (3 * magnitude))
+
+    if short.is_integer():
+        short_str = str(int(short))
+    else:
+        short_str = f"{short:.2f}".rstrip('0').rstrip('.')
+    
+    return f"{short_str}{suffixes[magnitude]}"
+
 
 
 def load():
@@ -88,7 +98,7 @@ def load():
         "---------------------------------------------------------------------------\n"
     )
 
-    print("Resources:\n\n\n\n\n\n\n\n\n")
+    print("Resources:\n\n\n\n\n\n\n\n\n\n\n")
 
     print(
         "----------------------------------------------------------------------------\n\n"
@@ -96,94 +106,64 @@ def load():
 
 
 def update():
-    left_lines = []
-    right_lines = []
-
     sys.stdout.write(f"\033[{3};{0}H")
     sys.stdout.flush()
 
-    print(f"{"Autosell: False":<40}{"Settings Menu"}")
+    print(f"{"Settings Menu":<40}{"Settings Menu"}")
 
-    sys.stdout.write(f"\033[{6};{0}H")
+    sys.stdout.write(f"\033[{7};{0}H")
     sys.stdout.flush()
 
-    cl = "\nCurrent location: " + location
-    mn = "Money: $" + str(round(money, 2)) + "\n"
-    print(f"{cl:<40}{mn}")
+    dc = "Current Day: " + str(day)
+    mn = "Money: $" + shorten(money)
+    print("\033[2K", end="")
+    print(f"{dc:<40}{mn}")
 
-    for i in range(len(mat)):
-        if select == i and selectcol == 0:
-            left_lines.append(
-                f"{matnames[i] + ": " + str(math.floor(mat[i])) + " <     "}"
-            )
-        else:
-            left_lines.append(
-                f"{matnames[i] + ": " + str(math.floor(mat[i]))}" + "     "
-            )
+    sys.stdout.write(f"\033[{11};{0}H")
+    sys.stdout.flush()
 
     for i in range(len(gn)):
         if select == i and selectcol == 1:
-            right_lines.append(
+            print(
                 f"{gnnames[i] + ": " + str(math.floor(gn[i])) + " <     "}"
             )
         else:
-            right_lines.append(
+            print(
                 f"{gnnames[i] + ": " + str(math.floor(gn[i]))}" + "     "
             )
 
-    for i in range(len(left_lines)):
-        sys.stdout.write(f"\033[{i + 13};{0}H")
-        sys.stdout.flush()
-        if i < len(right_lines):
-            print(f"{left_lines[i]:<40}{right_lines[i]}", flush=True)
-        else:
-            print(left_lines[i])
+    # for i in range(len(left_lines)):
+        # sys.stdout.write(f"\033[{i + 13};{0}H")
+        # sys.stdout.flush()
+        # if i < len(right_lines):
+            # print(f"{left_lines[i]:<40}{right_lines[i]}", flush=True)
+        # else:
+            # print(left_lines[i])
     # print("Select: " + str(select) + ", Selectcol: " + str(selectcol))
 
-    sys.stdout.write(f"\033[{23};{0}H")
+    sys.stdout.write(f"\033[{24};{0}H")
     sys.stdout.flush()
     print("\033[2K", end="")
     if selected == False:
-        if selectcol == 0:
-            print(matdesc[select])
-            print("\033[2K", end="")
-            print("You currently have: " + str(math.floor(mat[select])))
-            print("\033[2K", end="")
-            print(
-                "Producing: "
-                + str(mps[select])
-                + " per second ($"
-                + str(round(mps[select] * value[select], 2))
-                + " per second)"
-            )
-        else:
-            print(gndesc[select])
-            print("\033[2K", end="")
-            print("You currently own: " + str(math.floor(gn[select])))
-            print("\033[2K", end="")
+        print(gndesc[select])
+        print("\033[2K", end="")
+        print("You currently own: " + str(math.floor(gn[select])) + " (Producing $" + shorten(mps[select] * gn[select]) + " per second)")
+        print("\033[2K", end="")
     else:
         if money >= cost[select] * (ramping ** gn[select]):
             print(
                 "Buy one for $"
-                + str(round(cost[select] * (ramping ** gn[select]), 2))
+                + shorten(cost[select] * (ramping ** gn[select]))
                 + "? (SPACE to confirm, X to cancel)"
             )
         else:
             print(
                 "Buy one for $"
-                + str(round(cost[select] * (ramping ** gn[select]), 2))
+                + shorten(cost[select] * (ramping ** gn[select]))
                 + "? (Just kidding you're way too poor to afford that loser)"
             )
         print("\033[2K", end="")
         print("\033[2K", end="")
-
-    mps[0] = (gn[0] * 0.5) + (gn[4] * 0.5)
-    mps[1] = (gn[0] * 0.1) + (gn[1] * 0.5) + (gn[4] * 0.5)
-    mps[2] = (gn[2] * 0.5) + (gn[4] * 0.5)
-    mps[3] = (gn[2] * 0.2) + (gn[4] * 0.25)
-    mps[4] = (gn[3] * 0.5) + (gn[4] * 0.25)
-    mps[5] = (gn[3] * 0.02) + (gn[4] * 0.01)
-    mps[6] = 0
 
 
 skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
@@ -223,22 +203,14 @@ while True:
                         if money >= cost[select] * (ramping ** gn[select]):
                             money -= round(cost[select] * (ramping ** gn[select]), 2)
                             gn[select] += 1
-                else:
-                    money += value[select] * math.floor(mat[select])
-                    mat[select] -= math.floor(mat[select])
             case "x":
                 if selected == True:
                     selected = False
-        if selectcol == 0:
-            select = max(0, min(select, len(mat) - 1))
-        else:
+        if selectcol == 1:
             select = max(0, min(select, len(gn) - 1))
-        selectcol = max(0, min(selectcol, 1))
+        selectcol = max(1, min(selectcol, 1))
     update()
     time.sleep(1 / 50)
 
-    for i in range(len(mat)):
-        if autosell == False:
-            mat[i] += mps[i] * 0.02
-        else:
-            money += mps[i] * 0.02 * value[i]
+    for i in range(len(gn)):
+        money += mps[i] * gn[i] * 0.02
