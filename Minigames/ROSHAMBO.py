@@ -1,125 +1,140 @@
-import time
+import os, time
 import random
 
-print("Well")
+def clear():  # Clears the terminal
+    if os.name == "nt":
+        _ = os.system("cls")
+    else:
+        _ = os.system("clear")
+
+
+def yap(line):  # yappin
+    for letter in line:
+        print(letter, end="", flush=True)
+        time.sleep(0.05)
+
+
+
+yap("Well")
 time.sleep(0.25)
-print("Well")
+yap("Well")
 time.sleep(0.25)
-print("Well")
+yap("Well")
 time.sleep(2)
-print(".")
+yap(".")
 time.sleep(1)
-print(".")
+yap(".")
 time.sleep(1)
-print(".")
+yap(".")
 time.sleep(1)
-print("A little bird has fallen from its nest")
-time.sleep(1)
-
-print(".")
-time.sleep(1)
-print(".")
-time.sleep(1)
-print(".")
+yap("A little bird has fallen from its nest")
 time.sleep(1)
 
-print("What a shame")
+yap(".")
 time.sleep(1)
-print(".")
+yap(".")
 time.sleep(1)
-print(".")
-time.sleep(1)
-print(".")
+yap(".")
 time.sleep(1)
 
-print("Maybe I could help you little bird")
+yap("What a shame")
 time.sleep(1)
-print("But you would have to something for me")
+yap(".")
 time.sleep(1)
-print("How about we play a little game?") 
+yap(".")
 time.sleep(1)
-print("Have you heard of the game Roshambo?")
+yap(".")
 time.sleep(1)
-print("It is a simple game")
+clear()
+yap("Maybe I could help you little bird")
 time.sleep(1)
-print("You and I will both choose either rock, scissors or paper")
+yap("But you would have to something for me")
 time.sleep(1)
-print("Rock beats scissors")
+yap("How about we play a little game?") 
 time.sleep(1)
-print("Scissors beats paper")
+yap("Have you heard of the game Roshambo?")
 time.sleep(1)
-print("and Paper beats rock")
+yap("It is a simple game")
 time.sleep(1)
-print("If you win")
+yap("You and I will both choose either rock, scissors or paper")
 time.sleep(1)
-print("I'll give you the key you need to get up")
+yap("Rock beats scissors")
 time.sleep(1)
-print("if you lose...")
+yap("Scissors beats paper")
 time.sleep(1)
-print("How about we get to that later...")
+yap("and Paper beats rock")
 time.sleep(1)
-print("Lets begin...")
+yap("If you win")
+time.sleep(1)
+yap("I'll give you the key you need to get up")
+time.sleep(1)
+yap("if you lose...")
+time.sleep(1)
+yap("How about we get to that later...")
+time.sleep(1)
+yap("Lets begin...")
+clear()
 
 wins = 0
 while wins < 5:
     answer = "N"
     roshambolist = ["R", "S", "P"]
     answer = str(input("Choose... S for scissors... R for rock... and P for paper"))
-
     match answer:
         case "R":
             entity1answer = random.choice(roshambolist)
             match entity1answer:
                 case "R":
-                    print("I choose Rock")
-                    print("It's a tie")
+                    yap("I choose Rock")
+                    yap("It's a tie")
                     wins += 0
                 case "S":
-                    print("I choose Scissors")
-                    print("You win this round...")
+                    yap("I choose Scissors")
+                    yap("You win this round...")
                     wins += 1
                 case "P":
-                    print("I choose Paper")
-                    print("You lost this round")
+                    yap("I choose Paper")
+                    yap("You lost this round")
                     wins = 0
         case "S":
             entity1answer = random.choice(roshambolist)
             match entity1answer:
                 case "R":
-                    print("I choose Rock")
-                    print("You lost this round")
+                    yap("I choose Rock")
+                    yap("You lost this round")
                     wins = 0
                 case "S":
-                    print("I choose Scissors")
-                    print("It's a tie")
+                    yap("I choose Scissors")
+                    yap("It's a tie")
                     wins += 0
                 case "P":
-                    print("I choose Paper")
-                    print("You win this round...")
+                    yap("I choose Paper")
+                    yap("You win this round...")
                     wins += 1
         case "P":
             entity1answer = random.choice(roshambolist)
             match entity1answer:
                 case "R":
-                    print("I choose Rock")
-                    print("You win this round...")
+                    yap("I choose Rock")
+                    yap("You win this round...")
                     wins += 1
                 case "S":
-                    print("I choose Scissors")
-                    print("You lost this round")
+                    yap("I choose Scissors")
+                    yap("You lost this round")
                     wins = 0
                 case "P":
-                    print("I choose Paper")
-                    print("It's a tie")
+                    yap("I choose Paper")
+                    yap("It's a tie")
                     wins += 0
+    clear()
 
-print("Congratulations")
-print("You beat me fair and square")
-print("Here is your key")
-print("I have one last request though")
-print("Be weary of the one who guides you")
-print("He is not the helper he seems to be")
-print("Good luck, little bird")
-
+yap("Congratulations")
+yap("You beat me fair and square")
+yap("Here is your key")
+yap("I have one last request though")
+yap("Be weary of the one who guides you")
+yap("He is not the helper he seems to be")
+yap("Good luck, little bird")
+clear()
 
 
