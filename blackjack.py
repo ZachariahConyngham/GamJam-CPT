@@ -1,5 +1,14 @@
 import random
+import os, time
+
+
 def blackjack():
+    def clear():  # Clears the terminal
+        if os.name == "nt":
+            _ = os.system("cls")
+        else:
+            _ = os.system("clear")
+    clear()
     facecards = ["Jack", "Queen", "King"]
     cardsnumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     Cards = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
@@ -8,6 +17,7 @@ def blackjack():
     wins=0
     dealertotal = 0
     while wins < 10:
+        clear()
         gamenumber +=1
         total = 0
         dealertotal = 0
@@ -129,4 +139,7 @@ def blackjack():
                 else:
                     print("you lose")
     print("Congratulations, you have beaten the blackjack minigame")
-    print("It took you", total, "attempts to beat the blackjack")
+    print("It took you", total, "attempts to beat the blackjack")\
+
+
+blackjack()
