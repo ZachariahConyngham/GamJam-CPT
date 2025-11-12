@@ -76,9 +76,10 @@ yap("Lets begin...")
 clear()
 
 wins = 0
-while wins < 5:
+while wins < 3:
     answer = "N"
     roshambolist = ["R", "S", "P"]
+    print("You currently have", wins, "wins")
     answer = str(input("Choose... S for scissors... R for rock... and P for paper"))
     match answer:
         case "R":
