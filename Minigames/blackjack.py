@@ -8,17 +8,18 @@ def blackjack():
             _ = os.system("cls")
         else:
             _ = os.system("clear")
+
     clear()
     facecards = ["Jack", "Queen", "King"]
     cardsnumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     Cards = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
     Suits = ["Diamonds", "Spades", "Hearts", "Clubs"]
     gamenumber = 0
-    wins=0
+    wins = 0
     dealertotal = 0
     while wins < 10:
         clear()
-        gamenumber +=1
+        gamenumber += 1
         total = 0
         dealertotal = 0
         if gamenumber > 25:
@@ -84,7 +85,28 @@ def blackjack():
             print(facecard, "of", random.choice(Suits))
             print("Your current total is", total)
             match total:
-                case 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20:
+                case (
+                    1
+                    | 2
+                    | 3
+                    | 4
+                    | 5
+                    | 6
+                    | 7
+                    | 8
+                    | 9
+                    | 10
+                    | 11
+                    | 12
+                    | 13
+                    | 14
+                    | 15
+                    | 16
+                    | 17
+                    | 18
+                    | 19
+                    | 20
+                ):
                     hit = str(input("Do you want another card? (Y or N)"))
                 case 21:
                     print("You Win")
@@ -128,7 +150,7 @@ def blackjack():
             wins += 1
         else:
             if total == 21:
-                print("you win") 
+                print("you win")
                 wins += 1
             else:
                 print("The dealers total is", dealertotal)
@@ -139,7 +161,7 @@ def blackjack():
                 else:
                     print("you lose")
     print("Congratulations, you have beaten the blackjack minigame")
-    print("It took you", total, "attempts to beat the blackjack")\
+    print("It took you", total, "attempts to beat the blackjack")
 
 
 blackjack()

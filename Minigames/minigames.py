@@ -1,6 +1,6 @@
-
-from blackjack import blackjack
+from Minigames.blackjack import blackjack
 import time
+
 Keys = 0
 
 
@@ -27,12 +27,11 @@ print("Try to reach 100 of a material")
 print("Then you can challenge a minigame")
 
 
-
-
-
-while Keys < 10: #total keys needed should be less than the total amount of minigames
+while Keys < 10:  # total keys needed should be less than the total amount of minigames
     if Keys > 3:
-        game = str(input("Do you want to move on (Y) or try move of the minigames (N), Y or N"))
+        game = str(
+            input("Do you want to move on (Y) or try move of the minigames (N), Y or N")
+        )
         if game == "Y":
             Keys = 10
     else:
@@ -40,35 +39,33 @@ while Keys < 10: #total keys needed should be less than the total amount of mini
     match Keys:
         case 1:
             print("Great Job, you got the first key!!!")
-            print("You just need two more until you can escape from these pitiful challenges")
+            print(
+                "You just need two more until you can escape from these pitiful challenges"
+            )
         case 2:
             print("Just 1 key to go!")
             print("I can't wait!")
             print("It is going to be so much fun!")
             print("Go on, get the final key and escape!")
 
-
-    game = str(input("Choose your next challenge: G, H, R, U, BL, BA, S")) #write the first letter of the game here, make sure it is different for each game
+    game = str(
+        input("Choose your next challenge: G, H, R, U, BL, BA, S")
+    )  # write the first letter of the game here, make sure it is different for each game
     match game:
-        case "G": 
-            print("Notfinishedyet") #Gambling game here pair 1
+        case "G":
+            print("Notfinishedyet")  # Gambling game here pair 1
         case "H":
-            print("Notfinishedyet") #hangman here pair1
+            print("Notfinishedyet")  # hangman here pair1
         case "R":
-            print("Notfinishedyet") #Roshambo here pair2
+            print("Notfinishedyet")  # Roshambo here pair2
         case "U":
-            print("Notfinishedyet") #Uno
+            print("Notfinishedyet")  # Uno
         case "Bl":
-            blackjack() #Blackjack FINISHED AND IMPLEMENTED pair2
+            blackjack()  # Blackjack FINISHED AND IMPLEMENTED pair2
         case "Ba":
-            print("nonfinishedyet") #Battleships pair 3
+            print("nonfinishedyet")  # Battleships pair 3
         case "S":
-            print("nonfinishedyet") #Snakesandladders pair 3
-
-
-
-
-
+            print("nonfinishedyet")  # Snakesandladders pair 3
 
 
 if Keys == 3:
@@ -97,4 +94,4 @@ if Keys == 3:
     print("You always believe whatever you are told.")
     time.sleep(1)
     print("Time for your final challenge.")
-#final minigame here
+# final minigame here

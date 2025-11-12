@@ -1,10 +1,10 @@
 import os, time, math, sys
 import msvcrt
-import shutil
 
-os.system("")
+# from Minigames import snakes_ladders, ROSHAMBO, hangman, blackjack
 
-dialogue = [
+
+opndialogue = [
     "...",
     "(You haven't bothered to add any dialogue intro yet.)",
     "(Very smart.)",
@@ -41,6 +41,7 @@ gndesc = [
     "A nuclear power plant. Makes money one way or another.",
 ]
 gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+bmps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]
 mps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]
 cost = [
     2,
@@ -58,6 +59,13 @@ cost = [
 selected = False
 ramping = 1.25  # Base - Increase by 25% per purchase
 
+minigames = [
+    "Roshambo",
+    "Snakes and Ladders",
+    "Blackjack",
+    "Hangman",
+    "Guess the number",
+]
 
 upg = [
     "More Cash",
@@ -117,15 +125,15 @@ upgab = [
     "8-2",
     "9-2",
     "10-2",
-    "11-2",
     "a-3",
 ]
 bought = []
 
 
-money = 9990000000000000000000000000000000000000000000000000000000000000000000000
+money = 0
 day = 0
 page = 0
+sanity = 0
 
 
 def clear():  # Clears the terminal
@@ -219,13 +227,13 @@ def update():
     if select == -1:
         match selectcol:
             case 0:
-                print(f"{"Main <":<30}{"Upgrades":<30}{"Settings"}")
+                print(f"{"Main <":<30}{"Upgrades":<30}{"Minigames"}")
             case 1:
-                print(f"{"Main":<30}{"Upgrades <":<30}{"Settings"}")
+                print(f"{"Main":<30}{"Upgrades <":<30}{"Minigames"}")
             case 2:
-                print(f"{"Main":<30}{"Upgrades":<30}{"Settings <"}")
+                print(f"{"Main":<30}{"Upgrades":<30}{"Minigames <"}")
     else:
-        print(f"{"Main":<30}{"Upgrades":<30}{"Settings"}")
+        print(f"{"Main":<30}{"Upgrades":<30}{"Minigames"}")
 
     sys.stdout.write(f"\033[{7};{0}H")
     sys.stdout.flush()
@@ -253,7 +261,6 @@ def update():
         # else:
         # print(left_lines[i])
         # print("Select: " + str(select) + ", Selectcol: " + str(selectcol))
-
         sys.stdout.write(f"\033[{25};{0}H")
         sys.stdout.flush()
         print("\033[2K", end="")
@@ -297,15 +304,9 @@ def update():
     if page == 1:  # Upgrades page
         sys.stdout.write(f"\033[{11};{0}H")
         sys.stdout.flush()
-
-        for i in range(11 + len(bought)):
+        for i in range(11):
             print("\033[2K", end="")
-            if i not in bought and i < len(upg):
-                count = 0
-                for i1 in bought:
-                    if i1 < i:
-                        count += 1
-                i -= count
+            if i < len(upg):
                 if selectcol == 0 and i == select:
                     print(upg[i] + " ($" + shorten(upgcost[i]) + ") <")
                 else:
@@ -316,18 +317,26 @@ def update():
         print("\033[2K", end="")
 
         if select != -1:
-            print(upgdesc[select - len(bought)])
+            print(upgdesc[select])
             print("\033[2K", end="")
-            up = upgab[select - len(bought)].split("-")
-            if up[0] != "a":
+            up = upgab[select].split("-")
+            if up[0] != "a" and up[0] is not None:
                 print(gnnames[int(up[0])] + " - x" + up[1] + " production")
             else:
                 print("All generators - x" + up[1] + " production")
-            print(bought)
+            print(len(bought))
             print(str(select) + " " + str(selectcol))
 
         print("\033[2K")
         print("\033[2K")
+
+    if (
+        page == 2
+    ):  # Minigames (ZAC) hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+        sys.stdout.write(f"\033[{11};{0}H")
+        sys.stdout.flush()
+        for yap in minigames:
+            print(yap)
 
 
 # where the running actually starts
@@ -336,13 +345,13 @@ def update():
 skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
 if skip != "Y":
     clear()
-    for line in dialogue:
+    for line in opndialogue:
         yap(line)
         time.sleep(1)
         print("\n")
 
 load()
-print("\033[?25l", end="")
+print("\033[?25l", end="")  # Hides the player cursor
 
 while True:
     if msvcrt.kbhit():  # Key check
@@ -372,7 +381,11 @@ while True:
                 if page == 1 and selectcol == 0 and select != -1:
                     if money >= upgcost[select]:
                         money -= round(upgcost[select], 2)
-                        bought.append(select)
+                        bought.append(upgab[select])
+                        upg.remove(upg[select])
+                        upgcost.remove(upgcost[select])
+                        upgdesc.remove(upgdesc[select])
+                        upgab.remove(upgab[select])
                 if select == -1:
                     load()
                     match selectcol:
@@ -403,4 +416,14 @@ while True:
     time.sleep(1 / 50)
 
     for i in range(len(gn)):
+        mult = 1
+        if i < len(bought):
+            for index in bought:
+                index1 = bought[i].split("-")
+                if index1[0] == "a":
+                    mult *= int(index1[1])
+                elif i == int(index1[0]):
+                    mult *= int(index1[1])
+                mps[i] = bmps[i] * mult
+
         money += mps[i] * gn[i] * 0.02

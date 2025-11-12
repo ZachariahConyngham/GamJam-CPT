@@ -1,16 +1,16 @@
-from blackjack import blackjack
+from Minigames import blackjack, ROSHAMBO, hangman, snakes_ladders, numberguess
+
 
 bald = 1
 value = 0
 minigame = "N/A"
 
 if value > 500:
-    minigametime = str(input("Would you like to play a game for a boost to a material? Y/N"))
+    minigametime = str(
+        input("Would you like to play a game for a boost to a material? Y/N")
+    )
 else:
     minigametime = "N"
-
-
-
 
 
 while minigametime == "Y":
@@ -22,4 +22,3 @@ while minigametime == "Y":
             ROSHAMBO()
         case "z":
             numberguess()
-
