@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 18,
+          "SelectedChildIndex": 17,
           "Children": [
             {
               "$type": "Bookmark",
@@ -55,10 +55,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:7:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -108,7 +104,7 @@
               "RelativeDocumentMoniker": "battleshipsadv.py",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\GamJam-CPT\\battleshipsadv.py",
               "RelativeToolTip": "battleshipsadv.py",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAADcAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAKYAAAAAAAAAAAArwK4AAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-10-31T02:39:02.433Z",
               "EditorCaption": ""
@@ -121,7 +117,7 @@
               "RelativeDocumentMoniker": "ROSHAMBO.py",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\GamJam-CPT\\ROSHAMBO.py",
               "RelativeToolTip": "ROSHAMBO.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAHYAAACw0cog6XIZwAUAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-10-31T02:35:18.189Z"
             },

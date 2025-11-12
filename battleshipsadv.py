@@ -264,23 +264,33 @@ while gamemode == "":
 			time.sleep(0.2)
 			print("Now we can start.")
 			time.sleep(1)
-			turn = 0
-			print("--------Turn %s--------" % (turn))
-			print_game_board()
-			
-			print("This is the first turn.")
-			print("As my guest,")
-			print("I'll let you attack first.")
-			print("Your goal is to attack coordinates that may contain my ships. ")
-			print("If you can shoot all my ships out of the water,")
-			print("You would win.")
-			print("But.", end="")
-			print(".", end="")
-			print(".", end="")
-			print("That's not happening.")
-
-			print("---Your Turn---")
-			target = input("Where would you like to attack?(e.g. a1, d5) ")
+			turn = [0, "kai"]
+			gamestate = "ongoing"
+			while gamestate == "ongoing":
+				print("--------Turn %s--------" % (turn[0]))
+				print_game_board()
+				if turn[0] == 0:
+					print("This is the first turn.")
+					print("As my guest,")
+					print("I'll let you attack first.")
+					print("Your goal is to attack coordinates that may contain my ships. ")
+					print("If you can shoot all my ships out of the water,")
+					print("You would win.")
+					print("But.", end="")
+					print(".", end="")
+					print(".", end="")
+					print("That's not happening.")
+					turn[1] = "user"
+				if turn[1] == "user":
+					print("---Your Turn---")
+					target = ""
+					while target == "":
+						target = input("Where would you like to attack?(e.g. a1, d5) ")
+						if len(target) != 2 or not target[0].isalpha() or not target[1].isdigit():
+							target = ""
+							continue
+						if (target[0] not in columns) or (target[1] not in range(1, 11))
+					if kaiBoard[columns.index(target[0])]
 
 				
 
