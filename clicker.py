@@ -56,7 +56,7 @@ cost = [
     80000000000,
 ]
 selected = False
-ramping = 0  # Base - Increase by 25% per purchase
+ramping = 1.25  # Base - Increase by 25% per purchase
 
 
 upg = [
@@ -120,9 +120,10 @@ upgab = [
     "11-2",
     "a-3",
 ]
+bought = []
 
 
-money = 0
+money = 9990000000000000000000000000000000000000000000000000000000000000000000000
 day = 0
 page = 0
 
@@ -165,7 +166,7 @@ def shorten(n):  # shortens numbers so that they are readable
         " novemdecillion",
         " vigintillion",
         " unvigintillion",
-        "duovigintillion",
+        " duovigintillion",
         " quattuorvigintillion",
         " quinvigintillion",
         " sexvigintillion",
@@ -297,27 +298,33 @@ def update():
         sys.stdout.write(f"\033[{11};{0}H")
         sys.stdout.flush()
 
-        for i in range(len(upg)):
+        for i in range(11 + len(bought)):
             print("\033[2K", end="")
-            if i == 11:
-                break
-            if selectcol == 0 and i == select:
-                print(upg[i] + " ($" + shorten(upgcost[i]) + ") <")
-            else:
-                print(upg[i] + " ($" + shorten(upgcost[i]) + ")")
+            if i not in bought and i < len(upg):
+                count = 0
+                for i1 in bought:
+                    if i1 < i:
+                        count += 1
+                i -= count
+                if selectcol == 0 and i == select:
+                    print(upg[i] + " ($" + shorten(upgcost[i]) + ") <")
+                else:
+                    print(upg[i] + " ($" + shorten(upgcost[i]) + ")")
 
         sys.stdout.write(f"\033[{25};{0}H")
         sys.stdout.flush()
         print("\033[2K", end="")
 
         if select != -1:
-            print(upgdesc[select])
+            print(upgdesc[select - len(bought)])
             print("\033[2K", end="")
-            up = upgab[select].split("-")
+            up = upgab[select - len(bought)].split("-")
             if up[0] != "a":
                 print(gnnames[int(up[0])] + " - x" + up[1] + " production")
             else:
                 print("All generators - x" + up[1] + " production")
+            print(bought)
+            print(str(select) + " " + str(selectcol))
 
         print("\033[2K")
         print("\033[2K")
@@ -365,6 +372,7 @@ while True:
                 if page == 1 and selectcol == 0 and select != -1:
                     if money >= upgcost[select]:
                         money -= round(upgcost[select], 2)
+                        bought.append(select)
                 if select == -1:
                     load()
                     match selectcol:
