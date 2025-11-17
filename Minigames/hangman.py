@@ -87,13 +87,6 @@ def hangthatman():
 
     length = len(words[id])
 
-    skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
-    if not skip == "Y":
-        for line in dialogue:
-            time.sleep(2)
-            print(line)
-        time.sleep(3)
-
     count = 0
     while count < length:
         letters.append("_")

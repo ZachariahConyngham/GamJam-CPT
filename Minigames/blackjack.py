@@ -162,6 +162,3 @@ def blackjack():
                     print("you lose")
     print("Congratulations, you have beaten the blackjack minigame")
     print("It took you", total, "attempts to beat the blackjack")
-
-
-blackjack()

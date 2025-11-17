@@ -1,7 +1,13 @@
-import os, time, math, sys
+import os, time, math, sys, copy
 import msvcrt
 
-# from Minigames import snakes_ladders, ROSHAMBO, hangman, blackjack
+from Minigames import (
+    hangman,
+    blackjack,
+    ROSHAMBO,
+    snakes_ladders,
+    skills_gamblingtime,
+)
 
 
 opndialogue = [
@@ -40,9 +46,156 @@ gndesc = [
     "An illegal gambling facility, only for the elite.",
     "A nuclear power plant. Makes money one way or another.",
 ]
+gnart = [
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|          _┌┬┬┬┬┬┬┬┬┬┬┬┬┬┐         |",
+        "|         |\|    Market   |         |",
+        "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
+        "|         | |     (ö)     |         |",
+        "|         |\|     {█}     |         |",
+        "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
+        "|          \[_____________]         |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                +-^-+              |",
+        "|                ┘ ⌂ └              |",
+        "|            Green Grocery          |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+]
+print("------------------------------------------")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("|                                        |")
+print("------------------------------------------")
 gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 bmps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]
 mps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]
+tmps = 0.5
 cost = [
     2,
     60,
@@ -60,11 +213,12 @@ selected = False
 ramping = 1.25  # Base - Increase by 25% per purchase
 
 minigames = [
+    "Guess the Number",
     "Roshambo",
-    "Snakes and Ladders",
-    "Blackjack",
     "Hangman",
-    "Guess the number",
+    "Blackjack",
+    "Snakes and Ladders",
+    "Battleships",
 ]
 
 upg = [
@@ -72,39 +226,39 @@ upg = [
     "Marketing Increase",
     "Better Fruits",
     "Exquisite Soap",
-    "Overworking",
-    "Golden Spaghetti",
+    "16 Hour Shifts",
+    "More Cooks",
     "Trading Hub",
     "Child Labour",
     "Red House Monopoly",
     "Thousand Dollar Bills",
-    "104-Card Deck",
+    "Weighty Dice",
     "Radioactive Waste",
     "Increased Profits",
 ]
 upgdesc = [
-    "Like money? Here's some more!",
-    "More marketing = more money. Simple as that.",
+    "Produce a little more money.",
+    "The better your marketing is, the more you'll make.",
     "Finer fruits sell for more profits.",
     "These cars are gonna be eaten off when you're done with them.",
-    "The sentient corn bricks are going to be working overtime.",
-    "As you all know, real Italian spaghetti was made with minerals.",
+    "There's no way this is legal.",
+    "If there's one thing we all hate, it's waiting for fo.",
     "The hub of all trade - one might call it a trading hub.",
     "Who doesn't love a pinch of child labour?",
     "You already know that landing here is going to charge $2000 at best.",
     "Condensed bills will make your stacks worth more.",
-    "How cooked would a poker game be with two decks as one?",
+    "It's almost as if these die always roll a six.",
     "The more radioactive it is, the more it sells for.",
     "Cash moneys.",
 ]
 upgcost = [
-    750,
-    2800,
-    17500,
-    80000,
-    900000,
-    7500000,
-    38000000,
+    500,
+    2000,
+    8000,
+    30000,
+    160000,
+    1300000,
+    24000000,
     144000000,
     750000000,
     9000000000,
@@ -133,7 +287,9 @@ bought = []
 money = 0
 day = 0
 page = 0
-sanity = 0
+sanity = 100
+sanmult = 1
+warp = 0
 
 
 def clear():  # Clears the terminal
@@ -175,6 +331,7 @@ def shorten(n):  # shortens numbers so that they are readable
         " vigintillion",
         " unvigintillion",
         " duovigintillion",
+        " trevigintillion",
         " quattuorvigintillion",
         " quinvigintillion",
         " sexvigintillion",
@@ -182,7 +339,17 @@ def shorten(n):  # shortens numbers so that they are readable
         " octovigintillion",
         " novemvigintillion",
         " trigintillion",
-    ]
+        " untrigintillion",
+        " duotrigintillion",
+        " tretrigintillion",
+        " quattuortrigintillion",
+        " quintrigintillion",
+        " sestrigintillion",
+        " septentrigintillion",
+        " octotrigintillion",
+        " noventrigintillion",
+        " quadragintillion",
+    ]  # add quinquagintillions, sexagintillions, septuagintillions, octogintillions, nonagintillions, centillions, decicentillions, viginticentillions, trigintacentillions, quadragintacentillions, quinquagintacentillion, sexagintacentillion, septuagintacentillion, octogintacentillion, nonaginticentillion etc.
     if n == 0:
         return "0"
     magnitude = int(math.log10(abs(n)) // 3)
@@ -206,7 +373,7 @@ def load():
 
     print("---------------------------------------------------------------------------")
 
-    print("\n\n")
+    print("\n\n\n")
 
     print("---------------------------------------------------------------------------")
 
@@ -224,44 +391,58 @@ def update():
     sys.stdout.flush()
 
     print("\033[2K", end="")
+    t1 = "Main"
+    t2 = "Upgrades"
+    t3 = "Prestige"
+    t4 = "Minigames"
     if select == -1:
         match selectcol:
             case 0:
-                print(f"{"Main <":<30}{"Upgrades":<30}{"Minigames"}")
+                print(f"{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
             case 1:
-                print(f"{"Main":<30}{"Upgrades <":<30}{"Minigames"}")
+                print(f"{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
             case 2:
-                print(f"{"Main":<30}{"Upgrades":<30}{"Minigames <"}")
+                print(f"{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
+            case 3:
+                print(f"{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
     else:
-        print(f"{"Main":<30}{"Upgrades":<30}{"Minigames"}")
+        print(f"{t1:<20}{t2:<20}{t3:<20}{t4}")
 
     sys.stdout.write(f"\033[{7};{0}H")
     sys.stdout.flush()
 
     dc = "Current Day: " + str(day)
     mn = "Money: $" + shorten(money)
+    sn = "Sanity: " + str(math.ceil(sanity))
+    mp = "($" + str(tmps) + "/s)"
     print("\033[2K", end="")
     print(f"{dc:<40}{mn}")
+    if sanity > 0:
+        print(f"{sn:<46}{mp}")
+    else:
+        print("\033[2K", end="")
 
     if page == 0:  # Main page
-        sys.stdout.write(f"\033[{11};{0}H")
+        sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
+
+        left_lines = []
+        right_lines = []
 
         for i in range(len(gn)):
             if select == i and i != -1 and selectcol == 0:
-                print(f"{gnnames[i] + ": " + str(math.floor(gn[i])) + " <     "}")
+                left_lines.append(
+                    f"{gnnames[i] + ": " + str(math.floor(gn[i])) + " <     "}"
+                )
             else:
-                print(f"{gnnames[i] + ": " + str(math.floor(gn[i]))}" + "     ")
+                left_lines.append(
+                    f"{gnnames[i] + ": " + str(math.floor(gn[i]))}" + "      "
+                )
 
-        # for i in range(len(left_lines)):
-        # sys.stdout.write(f"\033[{i + 13};{0}H")
-        # sys.stdout.flush()
-        # if i < len(right_lines):
-        # print(f"{left_lines[i]:<40}{right_lines[i]}", flush=True)
-        # else:
-        # print(left_lines[i])
-        # print("Select: " + str(select) + ", Selectcol: " + str(selectcol))
-        sys.stdout.write(f"\033[{25};{0}H")
+        for i in range(len(left_lines)):
+            print(f"{left_lines[i]:<38}{gnart[select][i]}")
+
+        sys.stdout.write(f"\033[{26};{0}H")
         sys.stdout.flush()
         print("\033[2K", end="")
         if selected == False:
@@ -273,7 +454,9 @@ def update():
                     + str(math.floor(gn[select]))
                     + " (Producing $"
                     + shorten(mps[select] * gn[select])
-                    + " per second)"
+                    + " per second - "
+                    + str(round(((mps[select] * gn[select]) / tmps) * 100, 2))
+                    + "%)"
                 )
                 print("\033[2K", end="")
                 print(
@@ -294,15 +477,21 @@ def update():
                 )
             else:
                 print(
-                    "Buy one for $"
+                    "You aren't rich enough to buy this for $"
                     + shorten(cost[select] * (ramping ** gn[select]))
-                    + "? (Just kidding you're way too poor to afford that loser)"
+                    + "."
+                )
+                print("\033[2K", end="")
+                print(
+                    "You are missing $"
+                    + shorten((cost[select] * (ramping ** gn[select])) - money)
+                    + ". Lock in."
                 )
             print("\033[2K")
             print("\033[2K")
 
     if page == 1:  # Upgrades page
-        sys.stdout.write(f"\033[{11};{0}H")
+        sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
         for i in range(11):
             print("\033[2K", end="")
@@ -312,7 +501,7 @@ def update():
                 else:
                     print(upg[i] + " ($" + shorten(upgcost[i]) + ")")
 
-        sys.stdout.write(f"\033[{25};{0}H")
+        sys.stdout.write(f"\033[{26};{0}H")
         sys.stdout.flush()
         print("\033[2K", end="")
 
@@ -324,19 +513,23 @@ def update():
                 print(gnnames[int(up[0])] + " - x" + up[1] + " production")
             else:
                 print("All generators - x" + up[1] + " production")
-            print(len(bought))
-            print(str(select) + " " + str(selectcol))
+            # print(len(bought))
+            # print(str(select) + " " + str(selectcol))
 
         print("\033[2K")
         print("\033[2K")
 
     if (
-        page == 2
+        page == 3
     ):  # Minigames (ZAC) hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-        sys.stdout.write(f"\033[{11};{0}H")
+        sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
-        for yap in minigames:
-            print(yap)
+        for i in range(len(minigames)):
+            print("\033[2K", end="")
+            if i == select:
+                print(minigames[i] + " <")
+            else:
+                print(minigames[i])
 
 
 # where the running actually starts
@@ -386,6 +579,25 @@ while True:
                         upgcost.remove(upgcost[select])
                         upgdesc.remove(upgdesc[select])
                         upgab.remove(upgab[select])
+                if (
+                    page == 3 and select != -1
+                ):  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+                    page = 4
+                    clear()
+                    match select:
+                        case 1:
+                            skills_gamblingtime.gambling(1)
+                        case 3:
+                            snakes_ladders.snekandeladr(5)
+                        case 2:
+                            ROSHAMBO.ROSHAMBO(2)
+                        case 4:
+                            blackjack.blackjack(4)
+                        case 5:
+                            hangman.hangthatman(3)
+                        case 6:
+                            yap("cameron is short")
+                            # battleshipsadv.batlshit()
                 if select == -1:
                     load()
                     match selectcol:
@@ -395,6 +607,8 @@ while True:
                             page = 1
                         case 2:
                             page = 2
+                        case 3:
+                            page = 3
             case "x":
                 if selected == True:
                     selected = False
@@ -408,12 +622,16 @@ while True:
                     select = max(-1, min(select, len(upg) - 1))
                 else:
                     select = max(-1, min(select, 10))
+            if page == 3:
+                select = max(-1, min(select, len(minigames) - 1))
         if select == -1:
-            selectcol = max(0, min(selectcol, 2))
+            selectcol = max(0, min(selectcol, 3))
         else:
             selectcol = max(0, min(selectcol, 0))
     update()
-    time.sleep(1 / 50)
+    time.sleep(0.02)
+
+    tmps = 0
 
     for i in range(len(gn)):
         mult = 1
@@ -425,5 +643,7 @@ while True:
                 elif i == int(index1[0]):
                     mult *= int(index1[1])
                 mps[i] = bmps[i] * mult
+        tmps += mps[i] * gn[i]
 
         money += mps[i] * gn[i] * 0.02
+    sanity -= sanmult * 0.02 * (1 / 60)
