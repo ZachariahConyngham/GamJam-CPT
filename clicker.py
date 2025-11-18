@@ -15,17 +15,17 @@ opndialogue = [
     "(You haven't bothered to add any dialogue intro yet.)",
     "(Very smart.)",
 ]
-select = 0
-selectcol = 0
+select = 0  # y pos of cursor
+selectcol = 0  # x pos of cursor
 location = "???"
 
 
-gnnames = [
+gnnames = [  # generator names
     "Market Stand",
     "Green Grocer",
     "Car Wash",
     "McDolands",
-    "Restaurant",
+    "Mine",
     "Marketplace",
     "Warehouse",
     "Hotel",
@@ -33,12 +33,12 @@ gnnames = [
     "Casino",
     "Power Plant",
 ]
-gndesc = [
+gndesc = [  # generator descriptions
     "A small market stand that will earn you some cash.",
     "A store that sells vegetables for a modest price.",
     "A new brand of Crystal Car Wash that will earn you some bucks.",
     "A factory of minimum wage workers doing the least amount of work possible.",
-    "A pristine Italian restaurant that serves only the finest spaghetti.",
+    "A cave full of high-value ores that can easily be extracted.",
     "A large marketplace center that acts as the hub of shopping.",
     "A production warehouse that makes the latest line of toys, games, and everything in between.",
     "A manky has-been hotel that somehow still attracts visitors.",
@@ -46,7 +46,86 @@ gndesc = [
     "An illegal gambling facility, only for the elite.",
     "A nuclear power plant. Makes money one way or another.",
 ]
-gnart = [ # Depending on how many buildings, they buy, there will be a small animation that plays (like candybox2)
+
+upg = [  # upgrade names
+    "More Cash",
+    "Marketing Increase",
+    "Better Fruits",
+    "Exquisite Soap",
+    "16 Hour Shifts",
+    "Powerful Picks",
+    "Trading Hub",
+    "Child Labour",
+    "Red House Monopoly",
+    "Thousand Dollar Bills",
+    "Weighty Dice",
+    "Radioactive Waste",
+    "Increased Profits",
+]
+upgdesc = [  # upgrade descriptions
+    "Produce a little more money.",
+    "The better your marketing is, the more you'll make.",
+    "Finer fruits sell for more profits.",
+    "These cars are gonna be eaten off when you're done with them.",
+    "There's no way this is legal.",
+    "Excavate through the stone even faster.",
+    "The hub of all trade - one might call it a trading hub.",
+    "Who doesn't love a pinch of child labour?",
+    "You already know that landing here is going to charge $2000 at best.",
+    "Condensed bills will make your stacks worth more.",
+    "It's almost as if these die always roll a six.",
+    "The more radioactive it is, the more it sells for.",
+    "Cash moneys.",
+]
+upgcost = [  # upgrade costs
+    500,
+    2000,
+    8000,
+    30000,
+    160000,
+    1300000,
+    24000000,
+    144000000,
+    750000000,
+    9000000000,
+    85000000000,
+    240000000000,
+    6500000000000,
+]
+upgab = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amount - e.g 0-2 is market stand x2)
+    "a-2",
+    "0-2",
+    "1-2",
+    "2-2",
+    "3-2",
+    "4-2",
+    "5-2",
+    "6-2",
+    "7-2",
+    "8-2",
+    "9-2",
+    "10-2",
+    "a-3",
+]
+bought = []
+
+prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+prnames = [  # displays as Marketing I, Fresh Fruit I etc.
+    "Marketing",
+    "Fresh Fruit",
+    "Soap",
+    "Minimum Wage",
+    "Efficiency",
+    "Shop Center",
+    "Hard Work",
+    "Housing",
+    "Money Printing",
+    "Gambling",
+    "Radiation",
+]
+
+
+gnart = [  # Depending on how many buildings, they buy, there will be a small animation that plays (like candybox2)
     [
         "-------------------------------------",
         "|                                   |",
@@ -69,19 +148,19 @@ gnart = [ # Depending on how many buildings, they buy, there will be a small ani
         "|    | |      ╒════╦════╕      |    |",
         "|    | |      |    ║    |      |    |",
         "|    | |      |    ║    |      |    |",
-        "|    | |      |    ║    |      |    |",
+        "|____| |      |    ║    |      |____|",
         "|     \[►─────┴────╨────┴─────◄]    |",
         "-------------------------------------",
     ],
     [
         "-------------------------------------",
-        "|          ┌───CARS─WASH───┐        |",
+        "|          ┌───CAR──WASH───┐        |",
         "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
         "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
         "|    |Clean|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
         "|    |Cars!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
         "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-        "|        | |▒▒ []     [] ▒▒╞╬╬╬╡    |",
+        "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
         "|         \|▒▒           ▒▒└╨╨╨┘    |",
         "|                                   |",
         "-------------------------------------",
@@ -93,9 +172,35 @@ gnart = [ # Depending on how many buildings, they buy, there will be a small ani
         "| └~─~─╦╦-~─~┘\| WOW /#/\/\#\ WOW | |",
         "|      ╟╢    | ├─────\/────\/─────┤ |",
         "|      ╟╢    | | Bun  ╒════╕  Fry | |",
-        "|      ╟╢    | | Ham  |   ·|  Fry | |",
+        "|______╟╢____| | Ham  |   ·|  Fry |_|",
         "|      ╟╢     \| Bun  |    | Frys | |",
         "|      ╟╢      └──────┴────┴──────┘ |",
+        "|                     \     \       |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "-------------------------------------",
+    ],
+    [
+        "-------------------------------------",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
+        "|                                   |",
         "|                                   |",
         "-------------------------------------",
     ],
@@ -122,17 +227,6 @@ gnart = [ # Depending on how many buildings, they buy, there will be a small ani
         "|                                   |",
         "|                                   |",
         "|                                   |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
         "|                                   |",
         "-------------------------------------",
     ],
@@ -146,22 +240,12 @@ gnart = [ # Depending on how many buildings, they buy, there will be a small ani
         "|                                   |",
         "|                                   |",
         "|                                   |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
         "|                                   |",
         "-------------------------------------",
     ],
     [
         "-------------------------------------",
+        "|                                   |",
         "|                                   |",
         "|                                   |",
         "|                                   |",
@@ -186,22 +270,35 @@ gnart = [ # Depending on how many buildings, they buy, there will be a small ani
         "-------------------------------------",
     ],
 ]
-print("------------------------------------------")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("|                                        |")
-print("------------------------------------------")
-gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-bmps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]
-mps = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000] # Money Per Second
-tmps = 0.5
-cost = [ # Starting Cost of Every Building
+gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator
+bmps = [
+    0.5,
+    6,
+    24,
+    60,
+    200,
+    750,
+    1400,
+    5500,
+    18000,
+    40000,
+    125000,
+]  # base money per second
+mps = [
+    0.5,
+    6,
+    24,
+    60,
+    200,
+    750,
+    1400,
+    5500,
+    18000,
+    40000,
+    125000,
+]  # actual money per second
+tmps = 0.5  # total money per second
+cost = [  # Starting Cost of Every Building
     2,
     60,
     900,
@@ -226,74 +323,12 @@ minigames = [
     "Battleships",
 ]
 
-upg = [
-    "More Cash",
-    "Marketing Increase",
-    "Better Fruits",
-    "Exquisite Soap",
-    "16 Hour Shifts",
-    "More Cooks",
-    "Trading Hub",
-    "Child Labour",
-    "Red House Monopoly",
-    "Thousand Dollar Bills",
-    "Weighty Dice",
-    "Radioactive Waste",
-    "Increased Profits",
-]
-upgdesc = [
-    "Produce a little more money.",
-    "The better your marketing is, the more you'll make.",
-    "Finer fruits sell for more profits.",
-    "These cars are gonna be eaten off when you're done with them.",
-    "There's no way this is legal.",
-    "If there's one thing we all hate, it's waiting for fo.",
-    "The hub of all trade - one might call it a trading hub.",
-    "Who doesn't love a pinch of child labour?",
-    "You already know that landing here is going to charge $2000 at best.",
-    "Condensed bills will make your stacks worth more.",
-    "It's almost as if these die always roll a six.",
-    "The more radioactive it is, the more it sells for.",
-    "Cash moneys.",
-]
-upgcost = [
-    500,
-    2000,
-    8000,
-    30000,
-    160000,
-    1300000,
-    24000000,
-    144000000,
-    750000000,
-    9000000000,
-    85000000000,
-    240000000000,
-    6500000000000,
-]
-upgab = [
-    "a-2",
-    "0-2",
-    "1-2",
-    "2-2",
-    "3-2",
-    "4-2",
-    "5-2",
-    "6-2",
-    "7-2",
-    "8-2",
-    "9-2",
-    "10-2",
-    "a-3",
-]
-bought = []
-
 
 money = 0
 day = 0
 page = 0
 sanity = 100
-sanmult = 1
+sanmult = 1  # sanity decrease multiplier
 warp = 0
 
 
@@ -369,7 +404,31 @@ def shorten(n):  # shortens numbers so that they are readable
     return f"{short_str}{suffixes[magnitude]}"
 
 
-def load():
+def to_roman(num):  # roman numeral converter (literally just for prestiges)
+    roman_map = {
+        1000: "M",
+        900: "CM",
+        500: "D",
+        400: "CD",
+        100: "C",
+        90: "XC",
+        50: "L",
+        40: "XL",
+        10: "X",
+        9: "IX",
+        5: "V",
+        4: "IV",
+        1: "I",
+    }
+    roman_numeral = ""
+    for value, symbol in sorted(roman_map.items(), reverse=True):
+        while num >= value:
+            roman_numeral += symbol
+            num -= value
+    return roman_numeral
+
+
+def load():  # loads the base page
     clear()
 
     print("---------------------------------------------------------------------------")
@@ -391,7 +450,7 @@ def load():
     print("---------------------------------------------------------------------------")
 
 
-def update():
+def update():  # updates certain lines every frame
     sys.stdout.write(f"\033[{3};{0}H")
     sys.stdout.flush()
 
@@ -432,7 +491,6 @@ def update():
         sys.stdout.flush()
 
         left_lines = []
-        right_lines = []
 
         for i in range(len(gn)):
             if select == i and i != -1 and selectcol == 0:
@@ -445,7 +503,11 @@ def update():
                 )
 
         for i in range(len(left_lines)):
-            print(f"{left_lines[i]:<38}{gnart[select][i]}")
+            if select != -1:
+                print(f"{left_lines[i]:<38}{gnart[select][i]}")
+            else:
+                print("\033[2K", end="")
+                print(left_lines[i])
 
         sys.stdout.write(f"\033[{26};{0}H")
         sys.stdout.flush()
@@ -524,6 +586,17 @@ def update():
         print("\033[2K")
         print("\033[2K")
 
+    if page == 2:  # prestige upgrades page
+        sys.stdout.write(f"\033[{12};{0}H")
+        sys.stdout.flush()
+
+        for i in range(len(prestige)):
+            print("\033[2K", end="")
+            if select != -1 and i == select:
+                print(prnames[i] + " " + to_roman(prestige[i]) + " <")
+            else:
+                print(prnames[i] + " " + to_roman(prestige[i]))
+
     if (
         page == 3
     ):  # Minigames (ZAC) hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -539,7 +612,7 @@ def update():
 
 # where the running actually starts
 
-
+clear()
 skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
 if skip != "Y":
     clear()
@@ -627,6 +700,8 @@ while True:
                     select = max(-1, min(select, len(upg) - 1))
                 else:
                     select = max(-1, min(select, 10))
+            if page == 2:
+                select = max(-1, select(min, len(prestige) - 1))
             if page == 3:
                 select = max(-1, min(select, len(minigames) - 1))
         if select == -1:
@@ -638,7 +713,7 @@ while True:
 
     tmps = 0
 
-    for i in range(len(gn)):
+    for i in range(len(gn)):  # calculating money increase and sanity loss
         mult = 1
         if i < len(bought):
             for index in bought:
