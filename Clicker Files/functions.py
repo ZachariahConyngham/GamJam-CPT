@@ -1,0 +1,316 @@
+import sys, os, time, math
+import variables as var
+
+
+def clear():  # Clears the terminal
+    if os.name == "nt":
+        _ = os.system("cls")
+    else:
+        _ = os.system("clear")
+
+
+def yap(line):  # yappin
+    for letter in line:
+        print(letter, end="", flush=True)
+        time.sleep(0.05)
+
+
+def shorten(n):  # shortens numbers so that they are readable
+    suffixes = [
+        "",
+        "k",
+        " million",
+        " billion",
+        " trillion",
+        " quadrillion",
+        " quintillion",
+        " sextillion",
+        " septillion",
+        " octillion",
+        " nonillion",
+        " decillion",
+        " undecillion",
+        " duodecillion",
+        " tredecillion",
+        " quattuordecillion",
+        " quindecillion",
+        " sexdecillion",
+        " septendecillion",
+        " octodecillion",
+        " novemdecillion",
+        " vigintillion",
+        " unvigintillion",
+        " duovigintillion",
+        " trevigintillion",
+        " quattuorvigintillion",
+        " quinvigintillion",
+        " sexvigintillion",
+        " septvigintillion",
+        " octovigintillion",
+        " novemvigintillion",
+        " trigintillion",
+        " untrigintillion",
+        " duotrigintillion",
+        " tretrigintillion",
+        " quattuortrigintillion",
+        " quintrigintillion",
+        " sestrigintillion",
+        " septentrigintillion",
+        " octotrigintillion",
+        " noventrigintillion",
+        " quadragintillion",
+    ]  # add quinquagintillions, sexagintillions, septuagintillions, octogintillions, nonagintillions, centillions, decicentillions, viginticentillions, trigintacentillions, quadragintacentillions, quinquagintacentillion, sexagintacentillion, septuagintacentillion, octogintacentillion, nonaginticentillion etc.
+    if n == 0:
+        return "0"
+    magnitude = int(math.log10(abs(n)) // 3)
+    magnitude = max(0, min(magnitude, len(suffixes) - 1))
+    short = n / (10 ** (3 * magnitude))
+
+    if short.is_integer():
+        short_str = str(int(short))
+    else:
+        short_str = f"{short:.2f}".rstrip("0").rstrip(".")
+
+    return f"{short_str}{suffixes[magnitude]}"
+
+
+def to_roman(num):  # roman numeral converter (literally just for prestiges)
+    roman_map = {
+        1000: "M",
+        900: "CM",
+        500: "D",
+        400: "CD",
+        100: "C",
+        90: "XC",
+        50: "L",
+        40: "XL",
+        10: "X",
+        9: "IX",
+        5: "V",
+        4: "IV",
+        1: "I",
+    }
+    roman_numeral = ""
+    for value, symbol in sorted(roman_map.items(), reverse=True):
+        while num >= value:
+            roman_numeral += symbol
+            num -= value
+    return roman_numeral
+
+
+def load():  # loads the base page
+    clear()
+
+    print("---------------------------------------------------------------------------")
+
+    print("\n\n")
+
+    print("---------------------------------------------------------------------------")
+
+    print("\n\n\n")
+
+    print("---------------------------------------------------------------------------")
+
+    print("\n\n\n\n\n\n\n\n\n\n\n\n")
+
+    print("---------------------------------------------------------------------------")
+
+    print("\n\n\n\n")
+
+    print("---------------------------------------------------------------------------")
+
+
+def update():  # updates certain lines every frame
+    sys.stdout.write(f"\033[{3};{0}H")
+    sys.stdout.flush()
+
+    print("\033[2K", end="")
+    t1 = "Main"
+    t2 = "Upgrades"
+    t3 = "(Unused)"
+    t4 = "Minigames"
+    if var.select == -1:
+        match var.selectcol:
+            case 0:
+                print(f"{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
+            case 1:
+                print(f"{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
+            case 2:
+                print(f"{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
+            case 3:
+                print(f"{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
+    else:
+        print(f"{t1:<20}{t2:<20}{t3:<20}{t4}")
+
+    sys.stdout.write(f"\033[{7};{0}H")
+    sys.stdout.flush()
+
+    dc = "Current Day: " + str(var.day)
+    mn = "Money: $" + shorten(var.money)
+    sn = "Sanity: " + str(math.ceil(var.sanity))
+    mp = "($" + str(var.tmps) + "/s)"
+    print("\033[2K", end="")
+    print(f"{dc:<40}{mn}")
+    if var.sanity > 0:
+        print(f"{sn:<46}{mp}")
+    else:
+        print("\033[2K", end="")
+
+    if var.page == 0:  # Main page
+        sys.stdout.write(f"\033[{12};{0}H")
+        sys.stdout.flush()
+
+        left_lines = []
+
+        for i in range(len(var.gn)):
+            if var.select == i and i != -1 and var.selectcol == 0:
+                left_lines.append(
+                    f"{var.gnnames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}"
+                )
+            else:
+                left_lines.append(
+                    f"{var.gnnames[i] + ": " + str(math.floor(var.gn[i]))}" + "      "
+                )
+
+        for i in range(len(left_lines)):
+            if var.select != -1:
+                print(f"{left_lines[i]:<38}{var.gnart[var.select][i]}")
+            else:
+                print("\033[2K", end="")
+                print(left_lines[i])
+
+        sys.stdout.write(f"\033[{26};{0}H")
+        sys.stdout.flush()
+        print("\033[2K", end="")
+        if var.selected == False:
+            if var.select != -1:
+                print(var.gndesc[var.select])
+                print("\033[2K", end="")
+                print(
+                    "You currently own: "
+                    + str(math.floor(var.gn[var.select]))
+                    + " (Producing $"
+                    + shorten(var.mps[var.select] * var.gn[var.select])
+                    + " per second - "
+                    + str(
+                        round(
+                            ((var.mps[var.select] * var.gn[var.select]) / var.tmps)
+                            * 100,
+                            2,
+                        )
+                    )
+                    + "%)"
+                )
+                print("\033[2K", end="")
+                print(
+                    "(Next one costs $"
+                    + shorten(
+                        var.cost[var.select] * (var.ramping ** var.gn[var.select])
+                    )
+                    + ")"
+                )
+            else:
+                print("\033[2K")
+                print("\033[2K")
+                print("\033[2K")
+        else:
+            if var.money >= var.cost[var.select] * (var.ramping ** var.gn[var.select]):
+                print(
+                    "Buy one for $"
+                    + shorten(
+                        var.cost[var.select] * (var.ramping ** var.gn[var.select])
+                    )
+                    + "? (SPACE to confirm, X to cancel)"
+                )
+            else:
+                print(
+                    "You aren't rich enough to buy this for $"
+                    + shorten(
+                        var.cost[var.select] * (var.ramping ** var.gn[var.select])
+                    )
+                    + "."
+                )
+                print("\033[2K", end="")
+                print(
+                    "You are missing $"
+                    + shorten(
+                        (var.cost[var.select] * (var.ramping ** var.gn[var.select]))
+                        - var.money
+                    )
+                    + ". Lock in."
+                )
+            print("\033[2K")
+            print("\033[2K")
+
+    if var.page == 1:  # Upgrades page
+        sys.stdout.write(f"\033[{12};{0}H")
+        sys.stdout.flush()
+
+        left_lines = []
+        right_lines = []
+
+        for i in range(11):
+            print("\033[2K", end="")
+            if i < len(var.upg):
+                if var.selectcol == 0 and i == var.select:
+                    left_lines.append(
+                        var.upg[i][0] + " ($" + shorten(var.upgcost[i][0]) + ") <"
+                    )
+                else:
+                    left_lines.append(
+                        var.upg[i][0] + " ($" + shorten(var.upgcost[i][0]) + ")"
+                    )
+            if var.selectcol == 1 and i == var.select:
+                right_lines.append(
+                    var.prnames[i] + " " + to_roman(var.prestige[i]) + " <"
+                )
+            else:
+                right_lines.append(var.prnames[i] + " " + to_roman(var.prestige[i]))
+
+        for i in range(len(right_lines)):
+            print("\033[2K", end="")
+            if len(left_lines) > i:
+                print(f"{left_lines[i]:<40}{right_lines[i]}")
+            else:
+                print(f"{"":<40}{right_lines[i]}")
+
+        sys.stdout.write(f"\033[{26};{0}H")
+        sys.stdout.flush()
+        print("\033[2K", end="")
+
+        if var.select != -1:
+            print(var.upgdesc[var.select][0])
+            print("\033[2K", end="")
+            up = var.upgab[var.select].split("-")
+            if up[0] != "a" and up[0] is not None:
+                print(var.gnnames[int(up[0])] + " - x" + up[1] + " production")
+            else:
+                print("All generators - x" + up[1] + " production")
+            # print(len(bought))
+            # print(str(select) + " " + str(selectcol))
+
+        print("\033[2K")
+        print("\033[2K")
+
+    if var.page == 2:  # prestige upgrades page
+        sys.stdout.write(f"\033[{12};{0}H")
+        sys.stdout.flush()
+
+        for i in range(len(var.prestige)):
+            print("\033[2K", end="")
+            if var.select != -1 and i == var.select:
+                print(var.prnames[i] + " " + to_roman(var.prestige[i]) + " <")
+            else:
+                print(var.prnames[i] + " " + to_roman(var.prestige[i]))
+
+    if (
+        var.page == 3
+    ):  # Minigames (ZAC) hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+        sys.stdout.write(f"\033[{12};{0}H")
+        sys.stdout.flush()
+        for i in range(len(map)):
+            print("\033[2K", end="")
+            print(var.mapart[0][i])
+
+        sys.stdout.write(f"\033[{26};{0}H")
+        sys.stdout.flush()
