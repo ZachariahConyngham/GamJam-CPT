@@ -47,9 +47,9 @@ gndesc = [  # generator descriptions
     "A nuclear power plant. Makes money one way or another.",
 ]
 
-upg = [  # upgrade names
-    "More Cash",
-    "Marketing Increase",
+upg = [  # upgrade names for each generatorc
+    ["Fresh Fruit", "Pesticides", "Selective Cultivar", "GMF", "Peak Hours"],
+    ["Marketing Increase", ""],
     "Better Fruits",
     "Exquisite Soap",
     "16 Hour Shifts",
@@ -127,17 +127,20 @@ prnames = [  # displays as Marketing I, Fresh Fruit I etc.
 
 gnart = [  # Depending on how many buildings, they buy, there will be a small animation that plays (like candybox2)
     [
-        "-------------------------------------",
-        "|                                   |",
-        "|          _┌┬┬┬┬┬┬┬┬┬┬┬┬┬┐         |",
-        "|         |\|    Market   |         |",
-        "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-        "|         | |     (ö)     |         |",
-        "|         |\|     {█}     |         |",
-        "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-        "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-        "|                                   |",
-        "-------------------------------------",
+        [
+            "-------------------------------------",
+            "|                                   |",
+            "|          _┌┬┬┬┬┬┬┬┬┬┬┬┬┬┐         |",
+            "|         |\|    Fruit    |         |",
+            "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
+            "|         | |     (ö)     |         |",
+            "|         |\|     {█}     |         |",
+            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
+            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
+            "|                                   |",
+            "-------------------------------------",
+        ],
+        [],
     ],
     [
         "-------------------------------------",
@@ -180,28 +183,28 @@ gnart = [  # Depending on how many buildings, they buy, there will be a small an
     ],
     [
         "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                  |",
-        "|                                  |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
+        "|    \_/       \__                  |",
+        "|                 \_                |",
+        "|    ──} THE      __\               |",  # upgrade gives Ω hat to the guy
+        "|       MINES{──  |      (ö)        |",
+        "|       +---+     |      {█}        |",
+        "|       |   |      \   ┌──────┐     |",
+        "|      _|___|_______\  | coal | /ø\ |",
+        "|    _/                └──────┘/øøø\|",
+        "|___/                {── {──        |",
         "-------------------------------------",
     ],
     [
         "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
+        "|                ___                |",
+        "|               [MON]               |",
+        "|  ┌───────────[01:01]───────────┐  |",
+        "|  |       (_Shop Centre_)       |  |",  # add stalls
+        "|  | [FoolForths]        [Koles] |  |",
+        "|  |                             |  |",
+        "|  |            ╒═╦═╕            |  |",
+        "|  |            | ║ |            |  |",
+        "|  └─────±±±±±──┴─╨─┴──±±±±±─────┘  |",
         "-------------------------------------",
     ],
     [
@@ -271,6 +274,60 @@ gnart = [  # Depending on how many buildings, they buy, there will be a small an
     ],
 ]
 
+
+mapart = [
+    [  # Starter map
+        "-------------------------------------------------------------",
+        "|    (F)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
+        "-------------------------------------------------------------",
+    ],
+    [  # Completed map
+        "-------------------------------------------------------------",
+        "|    (F)   (M)   (S)   (M)   (M)   (S)   (C)   (D)   (B)    |",
+        "|    (S)   (C)   (C)   (S)   (S)   (M)   (C)   (C)   (M)    |",
+        "|    (M)   (D)   (S)   (S)   (M)   (C)   (S)   (S)   (M)    |",
+        "|    (C)   (S)   (M)   (C)   (C)   (M)   (C)   (M)   (S)    |",
+        "|    (S)   (C)   (S)   (M)   (S)   (D)   (S)   (S)   (C)    |",
+        "|    (D)   (S)   (M)   (C)   (M)   (S)   (M)   (C)   (D)    |",
+        "|    (M)   (M)   (M)   (D)   (S)   (C)   (M)   (S)   (C)    |",
+        "|    (C)   (M)   (C)   (C)   (S)   (M)   (S)   (C)   (S)    |",
+        "|    (G)   (S)   (C)   (C)   (C)   (S)   (M)   (D)   (H)    |",
+        "-------------------------------------------------------------",
+    ],
+]
+
+map = {
+    "0": ["F", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "1": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "2": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "3": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "4": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "5": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "6": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "7": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    "8": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+}
+
+
+mapdesc = [
+    "The universe you first found yourself in after the accident.",  # F
+    "Your home universe, you can finally return.",  # H
+    "You haven't been to this universe yet, you have no idea what could be there.",  # ?
+    "This universe gives you money money per second",  # m
+    "This universe reduces your sanity depreciation rate",  # s
+    "This universe reduces the cost of generators and upgrades",  # c
+    "This universe is full of minigames",  # G
+    "This universe debuffs cost, sanity and money per second",  # D
+    "This universe buffs cost, sanity and money per second",  # B
+]
 
 gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator
 bmps = [
@@ -330,6 +387,7 @@ money = 0
 day = 0
 page = 0
 sanity = 100
+costmult = 1
 sanmult = 1  # sanity decrease multiplier
 warp = 0
 
@@ -459,7 +517,7 @@ def update():  # updates certain lines every frame
     print("\033[2K", end="")
     t1 = "Main"
     t2 = "Upgrades"
-    t3 = "Prestige"
+    t3 = "(Unused)"
     t4 = "Minigames"
     if select == -1:
         match selectcol:
@@ -619,18 +677,18 @@ def update():  # updates certain lines every frame
     ):  # Minigames (ZAC) hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
-        for i in range(len(minigames)):
+        for i in range(len(map)):
             print("\033[2K", end="")
-            if i == select:
-                print(minigames[i] + " <")
-            else:
-                print(minigames[i])
+            print(mapart[0][i])
+
+        sys.stdout.write(f"\033[{26};{0}H")
+        sys.stdout.flush()
 
 
 # where the running actually starts
 
 clear()
-skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
+skip = input("Those who know (Y/N) ").upper()
 if skip != "Y":
     clear()
     for line in opndialogue:
@@ -709,24 +767,24 @@ while True:
                     selected = False
             case "r":
                 load()
-        if selectcol == 0:
-            if page == 0:
+        match page:
+            case 0:
                 select = max(-1, min(select, len(gn) - 1))
-            if page == 1:
+            case 1:
                 if len(upg) < 11:
                     select = max(-1, min(select, len(upg) - 1))
                 else:
                     select = max(-1, min(select, 10))
-            if page == 2:
-                select = max(-1, min(select, len(prestige) - 1))
-            if page == 3:
+            case 3:
                 select = max(-1, min(select, len(minigames) - 1))
+
         if select == -1:
             selectcol = max(0, min(selectcol, 3))
         elif page == 1:
             selectcol = max(0, min(selectcol, 1))
         else:
-            selectcol = max(0, min(selectcol, 0))
+            selectcol = 0
+
     update()
     time.sleep(0.02)
 
@@ -746,20 +804,3 @@ while True:
 
         money += mps[i] * gn[i] * 0.02
     sanity -= sanmult * 0.02 * (1 / 60)
-
-
-mapart = [
-    [
-        "-------------------------------------",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "|                (*)                |",
-        "-------------------------------------",
-    ],
-]
