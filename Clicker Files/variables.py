@@ -17,9 +17,9 @@ class Generator:
         index = gnNames.index(name)
         self.desc = gnDesc[index] # Generator Description
         self.art = gnArt[index] # ASCII Art
-        self.Money = Money(cost, bought, bMpS, MpS)
-        self.Upgrades = Upgrades(upgrades, upgDescription, upgCost, upgAb)
-        self.Prestige = Prestige(prestige, prName)
+        self.Money = Money(baseCost[index], gn[index], bMpS[index], MpS[index])
+        self.Upgrades = Upgrades(upg[index], upgDesc[index], upgCost[index], upgAb[index]) # need to change upgAb[index] because there are some values like a-3 and stuff
+        self.Prestige = Prestige(prestige[index], prName[index])
 
     class Money:
         def __init__(self, cost, bought, bMpS, MpS):
@@ -33,7 +33,7 @@ class Generator:
             self.upg = upgrades
             self.upgDesc = upgDescription
             self.upgCost = upgCost
-            self.upgAb = upgAb
+            self.upgAb = upgAb # Change this because there is a-3????
 
     class Prestige():
         def __init__(self, prestige, prName):
@@ -126,7 +126,7 @@ upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amo
 ]
 
 prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] # what is this?
-prNames = [  # displays as Marketing I, Fresh Fruit I etc.
+prName = [  # displays as Marketing I, Fresh Fruit I etc.
     "Advertising",
     "Variety",
     "Expensive Cars",
@@ -558,8 +558,8 @@ bMpS = [
     125000,
 ]  # base money per second
 MpS = []  # actual money per second
-tmps = 0.5  # total money per second
-cost = [  # Starting Cost of Every Building
+tMpS = 0.5  # total money per second
+baseCost = [  # Starting Cost of Every Building
     2,
     60,
     900,
@@ -572,6 +572,7 @@ cost = [  # Starting Cost of Every Building
     7000000000,
     80000000000,
 ]
+currentCost = copy.deepcopy(baseCost)
 selected = False
 ramping = 1.25  # Base - Increase by 25% per purchase
 
@@ -584,8 +585,17 @@ minigames = [
     "Battleships",
 ]
 #(self, name, description, upgrades, upgDescription, upgCost, upgAb, prestige, prName, art, bMpS, cost):
-market = Generator(gn)
-
+market = Generator("Market Stand")
+grocer = Generator("Green Grocer")
+carWash = Generator("Car Wash")
+mcdolands = Generator("McDolands")
+mine = Generator("Mine")
+shopCentre = Generator("Shopping Centre")
+warehouse = Generator("Warehouse")
+hotel = Generator("Hotel")
+bank = Generator("Bank")
+casino = Generator("Casino")
+powerPlant = Generator("Power Plant")
 
 money = 0
 day = 0
