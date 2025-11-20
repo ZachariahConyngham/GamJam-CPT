@@ -182,8 +182,8 @@ gnart = [  # Depending on how many buildings, they buy, there will be a small an
         "-------------------------------------",
         "|                                   |",
         "|                                   |",
-        "|                                   |",
-        "|                                   |",
+        "|                                  |",
+        "|                                  |",
         "|                                   |",
         "|                                   |",
         "|                                   |",
@@ -270,6 +270,8 @@ gnart = [  # Depending on how many buildings, they buy, there will be a small an
         "-------------------------------------",
     ],
 ]
+
+
 gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator
 bmps = [
     0.5,
@@ -560,13 +562,28 @@ def update():  # updates certain lines every frame
     if page == 1:  # Upgrades page
         sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
+
+        left_lines = []
+        right_lines = []
+
         for i in range(11):
             print("\033[2K", end="")
             if i < len(upg):
                 if selectcol == 0 and i == select:
-                    print(upg[i] + " ($" + shorten(upgcost[i]) + ") <")
+                    left_lines.append(upg[i] + " ($" + shorten(upgcost[i]) + ") <")
                 else:
-                    print(upg[i] + " ($" + shorten(upgcost[i]) + ")")
+                    left_lines.append(upg[i] + " ($" + shorten(upgcost[i]) + ")")
+            if selectcol == 1 and i == select:
+                right_lines.append(prnames[i] + " " + to_roman(prestige[i]) + " <")
+            else:
+                right_lines.append(prnames[i] + " " + to_roman(prestige[i]))
+
+        for i in range(len(right_lines)):
+            print("\033[2K", end="")
+            if len(left_lines) > i:
+                print(f"{left_lines[i]:<40}{right_lines[i]}")
+            else:
+                print(f"{"":<40}{right_lines[i]}")
 
         sys.stdout.write(f"\033[{26};{0}H")
         sys.stdout.flush()
@@ -701,11 +718,13 @@ while True:
                 else:
                     select = max(-1, min(select, 10))
             if page == 2:
-                select = max(-1, select(min, len(prestige) - 1))
+                select = max(-1, min(select, len(prestige) - 1))
             if page == 3:
                 select = max(-1, min(select, len(minigames) - 1))
         if select == -1:
             selectcol = max(0, min(selectcol, 3))
+        elif page == 1:
+            selectcol = max(0, min(selectcol, 1))
         else:
             selectcol = max(0, min(selectcol, 0))
     update()
@@ -727,3 +746,20 @@ while True:
 
         money += mps[i] * gn[i] * 0.02
     sanity -= sanmult * 0.02 * (1 / 60)
+
+
+mapart = [
+    [
+        "-------------------------------------",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "|                (*)                |",
+        "-------------------------------------",
+    ],
+]
