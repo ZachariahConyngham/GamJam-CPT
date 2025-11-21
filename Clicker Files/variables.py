@@ -15,7 +15,7 @@ location = "???"
 ramping = 1.25
 
 
-class Generator:
+class Generator: # Change this into dictionaries, OOP isn't allowed
     def __init__(self, name):  # What is upgAB???? @campersonguy
         class Money:
             def __init__(self, baseCost, currentCost, bought, bMpS, MpS):
