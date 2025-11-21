@@ -1,5 +1,6 @@
 import os, time, math, sys, copy
 import msvcrt
+from ascii_art import gnArt
 
 
 opnDialogue = [
@@ -14,31 +15,33 @@ location = "???"
 class Generator:
     def __init__(self, name): # What is upgAB???? @campersonguy 
         self.name = name # Generator Name
-        index = gnNames.index(name)
+        index = gnNames.index(name) # Index of generator in all lists
         self.desc = gnDesc[index] # Generator Description
         self.art = gnArt[index] # ASCII Art
-        self.Money = Money(baseCost[index], gn[index], bMpS[index], MpS[index])
+        self.Money = Money(baseCost[index], currentCost[index], gn[index], bMpS[index], MpS[index]) # Money Class
         self.Upgrades = Upgrades(upg[index], upgDesc[index], upgCost[index], upgAb[index]) # need to change upgAb[index] because there are some values like a-3 and stuff
-        self.Prestige = Prestige(prestige[index], prName[index])
+        self.Prestige = Prestige(prName[index]) # Upgrades Class
 
     class Money:
-        def __init__(self, cost, bought, bMpS, MpS):
-            self.baseCost = cost
-            self.bought = bought
-            self.bMpS = bMpS
-            self.MpS = MpS
+        def __init__(self, baseCost, currentCost, bought, bMpS, MpS):
+            self.baseCost = cost # Base Cost of Generator
+            self.ramping = 1.25 # Cost ramping/scaling
+            self.cost = cost * 1.25 ** bought # Current Cost of Generator
+            self.bought = bought # Number of this Generator bought
+            self.bMpS = bMpS # Base MpS/Generator
+            self.MpS = bMpS * bought # Total MpS
     
     class Upgrades:
         def __init__(self, upgrades, upgDescription, upgCost, upgAb):
-            self.upg = upgrades
-            self.upgDesc = upgDescription
-            self.upgCost = upgCost
-            self.upgAb = upgAb # Change this because there is a-3????
+            self.upg = upgrades # List of Upgrades of Generator
+            self.upgDesc = upgDescription # Upgrades Descriptions of Generator
+            self.upgCost = upgCost * baseCost[index] # Base Upgrade Cost of Generator
+            self.upgAb = upgAb # Change this because there is a-3????????????????????_------------------___________-___!!!!!!!!!!!!!!!
 
-    class Prestige():
+    class Prestige:
         def __init__(self, prestige, prName):
-            self.pr = prestige
-            self.prName = prName
+            self.Lvl = 1 # Prestige level of generator
+            self.Name = prName # Prestige name of generator
 
 gnNames = [  # generator names
     "Market Stand",
@@ -86,7 +89,7 @@ upgDesc = {  # upgrade descriptions
     1: ["Leafy Greens instead of Leafy Browns", "A long day", "A longer day and night", "You're never paying this off...", "Unfair deal: Give your soul to the manager"],
     2: ["Foamy Bubbles make for better marketing", "Super-Sonic Scrubbers", "I'm not wearing diamonds!", "Would rather / The multitudinous seas Burnt Umber / Making the green one brown", "Daily dose of Gamma Rays and free neutrons"],
     3: ["No downtime", "Owe downtime", "AAAAAAAAHHHHHHHHHHHH", "At least they said 'please'", "Honest marketing"],
-    4: ["Cuts through the rock like butter", "Mining Inc", "The rocks won't see it coming", "Unnecessarily large", "SCP-████: Explodes when slept on by sentient humans. The average village does not apply"],
+    4: ["Cuts through the rock like butter", "Mining Inc", "The rocks won't see it coming", "Unnecessarily large", "SCP-████: Explodes when slept on by sentient humans. The average villager does not apply"],
     5: ["Excavate through the stone even faster."],
     6: ["The hub of all trade - one might call it a trading hub."],
     7: ["Who doesn't love a pinch of child labour?"],
@@ -95,7 +98,7 @@ upgDesc = {  # upgrade descriptions
     10: ["It's almost as if these die always roll a six."],
     11: ["The more radioactive it is, the more it sells for."],
 }
-upgCost = {  # upgrade costs
+upgCost = {  # upgrade costs # is this a template for cost? like upgCost[0] * self.baseCost
     0: [500],
     1: [2000],
     2: [8000],
@@ -109,7 +112,7 @@ upgCost = {  # upgrade costs
     10: [85000000000],
     11: [500, 240000000000],
 }
-upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amount - e.g 0-2 is market stand x2)
+upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amount - e.g 0-2 is market stand x2) !!!Maybe make this a dictionary!!!!!!!!!!!!!!!!!!!!
     "a-2",
     "0-2",
     "1-2",
@@ -125,7 +128,7 @@ upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amo
     "a-3",
 ]
 
-prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] # what is this?
+# I moved prestige level to Generator class
 prName = [  # displays as Marketing I, Fresh Fruit I etc.
     "Advertising",
     "Variety",
@@ -138,384 +141,6 @@ prName = [  # displays as Marketing I, Fresh Fruit I etc.
     "Money Printing",
     "Gambling",
     "Radiation",
-]
-
-
-gnArt = [  # Depending on how many buildings, they buy, there will be a small animation that plays (like candybox2)
-    [
-        [
-            "-------------------------------------",
-            "|                                   |",
-            "|          _┌┬┬┬┬┬┬┬┬┬┬┬┬┬┐         |",
-            "|         |\|    Fruit    |         |",
-            "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-            "|         | |     (ö)     |         |",
-            "|         |\|     {█}     |         |",
-            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-            "|                                   |",
-            "-------------------------------------",
-
-        ],
-        [
-            "-------------------------------------",
-            "|                                   |",
-            "|          _┌┬┬┬┬┬┬┬┬┬┬┬┬┬┐         |",
-            "|         |\| Fresh Fruit |         |",
-            "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-            "|         | |     (ö)     |         |",
-            "|         |\|     {█}     |         |",
-            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|           ┌┬┬┬┬┬┬┬┬┬┬┬┬┬┐         |",
-            "|          _|  Pest-Free  |         |",
-            "|         |\| Fresh Fruit |         |",
-            "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-            "|         | |     (ö)     |         |",
-            "|         |\|     {█}     |         |",
-            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|           ┌┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┐   |",
-            "|          _|  Pest-Free Better |   |",
-            "|         |\| Fresh Fruit ├┴┴┴┴┴┘   |",
-            "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-            "|         | |     (ö)     |         |",
-            "|         |\|     {█}     |         |",
-            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|           ┌┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┐   |",
-            "|          _|  Pest-Free Better |   |",
-            "|         |\| Fresh Fruit ├┴┴┴┴┴┘   |",
-            "|         | ╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-            "|         | |     (ö) [Tomaccos]    |",
-            "|         |\|     {█}     |         |",
-            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|           ┌┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┐   |",
-            "|   ┌┬┬┬┬┬┬┬|  Pest-Free Better |   |",
-            "|   |Healthy| Fresh Fruit ├┴┴┴┴┴┘   |",
-            "|   └┴┴┴┴┴┴┴╞╧╧╧╧╧╧╧╧╧╧╧╧╧╡         |",
-            "|         | |     (ö) [Tomaccos]    |",
-            "|         |\|     {█}     |         |",
-            "|_________| ╞‡‡‡‡‡‡‡‡‡‡‡‡‡╡_________|",
-            "|          \[▓▓▓▓▓▓▓▓▓▓▓▓▓]         |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-    ],
-    [
-        [
-            "-------------------------------------",
-            "|                ┬─^─┬              |",
-            "|           ┌────┘ ⌂ └────┐         |",
-            "|     __↑___|Green Grocery|___↑     |",
-            "|    |\╒╪═══╧═════════════╧═══╪╕    |",
-            "|    | |      ╒════╦════╕      |    |",
-            "|    | |      |    ║    |      |    |",
-            "|    | |      |    ║    |      |    |",
-            "|____| |      |    ║    |      |____|",
-            "|     \[►─────┴────╨────┴─────◄]    |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|                ┬─^─┬              |",
-            "|           ┌────┘ ⌂ └────┐         |",
-            "|     __↑___|Green Grocery|___↑     |",
-            "|    |\╒╪═══╧═════════════╧═══╪╕    |",
-            "|    | |      ╒════╦════╕FRESH |    |",
-            "|    | |      |    ║    | FRESH|    |",
-            "|    | |      |    ║    |FRESH |    |",
-            "|____| |      |    ║    | FRESH|____|",
-            "|     \[►─────┴────╨────┴─────◄]    |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|                ┬─^─┬              |",
-            "|           ┌────┘ ⌂ └────┐         |",
-            "|     __↑___|Green Grocery|___↑     |",
-            "|    |\╒╪═══╧═════════════╧═══╪╕    |",
-            "|    | | OPEN ╒════╦════╕FRESH |    |",
-            "|    | | 12/7 |    ║    | FRESH|    |",
-            "|    | |      |    ║    |FRESH |    |",
-            "|____| |      |    ║    | FRESH|____|",
-            "|     \[►─────┴────╨────┴─────◄]    |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|                ┬─^─┬              |",
-            "|           ┌────┘ ⌂ └────┐         |",
-            "|     __↑___|Green Grocery|___↑     |",
-            "|    |\╒╪═══╧═════════════╧═══╪╕    |",
-            "|    | | OPEN ╒════╦════╕FRESH |    |",
-            "|    | | 24/7 |    ║    | FRESH|    |",
-            "|    | |      |    ║    |FRESH |    |",
-            "|____| |      |    ║    | FRESH|____|",
-            "|     \[►─────┴────╨────┴─────◄]    |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|                ┬─^─┬              |",
-            "|           ┌────┘ ⌂ └────┐         |",
-            "|     __↑___|Green Grocery|___↑     |",
-            "|    |\╒╪═══╧═════════════╧═══╪╕    |",
-            "|    | | OPEN ╒════╦════╕FRESH |    |",
-            "|    | | Life |    ║    | FRESH|    |",
-            "|    | | Long |    ║    |FRESH |    |",
-            "|____| |      |    ║    | FRESH|____|",
-            "|     \[►─────┴────╨────┴─────◄]    |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|                ┬─^─┬              |",
-            "|           ┌────┘ ⌂ └────┐         |",
-            "|     __↑___|Green Grocery|___↑     |",
-            "|    |\╒╪═══╧═════════════╧═══╪╕    |",
-            "|    | | OPEN ╒════╦════╕FRESH |    |",
-            "|    | | For- |    ║    | FRESH|    |",
-            "|    | | ever |    ║    |FRESH |    |",
-            "|____| |      |    ║    | FRESH|____|",
-            "|     \[►─────┴────╨────┴─────◄]    |",
-            "-------------------------------------",
-        ],
-    ],
-    [
-        [
-            "-------------------------------------",
-            "|          ┌───CAR──WASH───┐        |",
-            "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
-            "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
-            "|    |Clean|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
-            "|    |Cars!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
-            "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-            "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
-            "|         \|▒▒           ▒▒└╨╨╨┘    |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|          ┌───CAR──WASH───┐        |",
-            "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
-            "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
-            "|    |Super|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
-            "|    |Soap!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
-            "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-            "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
-            "|         \|▒▒           ▒▒└╨╨╨┘    |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|          ┌───CAR──WASH───┐        |",
-            "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
-            "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
-            "|    |Super|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
-            "|    |Fast!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
-            "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-            "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
-            "|         \|▒▒           ▒▒└╨╨╨┘    |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|          ┌───CAR──WASH───┐        |",
-            "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
-            "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
-            "|    |Super|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
-            "|    |Pure!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
-            "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-            "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
-            "|         \|▒▒           ▒▒└╨╨╨┘    |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|          ┌───CAR──WASH───┐        |",
-            "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
-            "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
-            "|    |Super|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
-            "|    |Neat!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
-            "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-            "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
-            "|         \|▒▒           ▒▒└╨╨╨┘    |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-        [
-            "-------------------------------------",
-            "|          ┌───CAR──WASH───┐        |",
-            "|        |\|±±{▒▒▒▒▒▒▒▒▒}±±├┬┬┬┐    |",
-            "|    ┌───┴─┤▒▒    ___    ▒▒|$$$|    |",
-            "|    |Super|▒▒ ┌─┴ΩΩΩ┴─┐ ▒▒╞╧╧╧╡    |",
-            "|    | Dry!|▒▒ [_Ü_____] ▒▒|(ö)|    |",
-            "|    └───┬─┤▒▒ |░░░░░░░| ▒▒|{█}|    |",
-            "|________| |▒▒ []     [] ▒▒╞╬╬╬╡____|",
-            "|         \|▒▒           ▒▒└╨╨╨┘    |",
-            "|                                   |",
-            "-------------------------------------",
-        ],
-    ],
-    [
-        "-------------------------------------",
-        "| ┌~─~─~~─~─~┐┌──────────────────┐  |",
-        "| ‡MacDolands‡\┌──────/#\/#\──────┐ |",
-        "| └~─~─╦╦-~─~┘\| WOW /#/\/\#\ WOW | |",
-        "|      ╟╢    | ├─────\/────\/─────┤ |",
-        "|      ╟╢    | | Bun  ╒════╕  Fry | |",
-        "|______╟╢____| | Ham  |   ·|  Fry |_|",
-        "|      ╟╢     \| Bun  |    | Frys | |",
-        "|      ╟╢      └──────┴────┴──────┘ |",
-        "|                     \     \       |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|    \_/       \__                  |",
-        "|                 \_                |",
-        "|    ──} THE      __\               |",  # upgrade gives Ω hat to the guy (tuff idea kai)
-        "|       MINES{──  |      (ö)        |",
-        "|       +---+     |      {█}        |",
-        "|       |   |      \   ┌──────┐     |",
-        "|      _|___|_______\  | coal | /ø\ |",
-        "|    _/                └──────┘/øøø\|",
-        "|___/                {── {──        |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                ___                |",
-        "|               [MON]               |",
-        "|  ┌───────────[01:01]───────────┐  |",
-        "|  |       (_Shop Centre_)       |  |",  # add stalls, (idk how to because it's a shop centre. But i plan to like make billboards that show after upgrades)
-        "|  | [FoolForths]        [Koles] |  |",
-        "|  |                             |  |",
-        "|  |            ╒═╦═╕            |  |",
-        "|  |            | ║ |            |  |",
-        "|  └─────±±±±±──┴─╨─┴──±±±±±─────┘  |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "-------------------------------------",
-    ],
-    [
-        "-------------------------------------",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "|                                   |",
-        "-------------------------------------",
-    ],
-]
-
-mapArt = [
-    [  # Starter map
-        "-------------------------------------------------------------",
-        "|    (F)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "|    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    |",
-        "-------------------------------------------------------------",
-    ],
-    [  # Completed map
-        "-------------------------------------------------------------",
-        "|    (F)   (M)   (S)   (M)   (M)   (S)   (C)   (D)   (B)    |",
-        "|    (S)   (C)   (C)   (S)   (S)   (M)   (C)   (C)   (M)    |",
-        "|    (M)   (D)   (S)   (S)   (M)   (C)   (S)   (S)   (M)    |",
-        "|    (C)   (S)   (M)   (C)   (C)   (M)   (C)   (M)   (S)    |",
-        "|    (S)   (C)   (S)   (M)   (S)   (D)   (S)   (S)   (C)    |",
-        "|    (D)   (S)   (M)   (C)   (M)   (S)   (M)   (C)   (D)    |",
-        "|    (M)   (M)   (M)   (D)   (S)   (C)   (M)   (S)   (C)    |",
-        "|    (C)   (M)   (C)   (C)   (S)   (M)   (S)   (C)   (S)    |",
-        "|    (G)   (S)   (C)   (C)   (C)   (S)   (M)   (D)   (H)    |",
-        "-------------------------------------------------------------",
-    ],
 ]
 
 map = {
@@ -574,7 +199,7 @@ baseCost = [  # Starting Cost of Every Building
 ]
 currentCost = copy.deepcopy(baseCost)
 selected = False
-ramping = 1.25  # Base - Increase by 25% per purchase
+# I put ramping in Generator class
 
 minigames = [
     "Guess the Number",
