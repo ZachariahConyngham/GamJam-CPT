@@ -12,36 +12,46 @@ select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 location = "???"
 
-class Generator:
-    def __init__(self, name): # What is upgAB???? @campersonguy 
-        self.name = name # Generator Name
-        index = gnNames.index(name) # Index of generator in all lists
-        self.desc = gnDesc[index] # Generator Description
-        self.art = gnArt[index] # ASCII Art
-        self.Money = Money(baseCost[index], currentCost[index], gn[index], bMpS[index], MpS[index]) # Money Class
-        self.Upgrades = Upgrades(upg[index], upgDesc[index], upgCost[index], upgAb[index]) # need to change upgAb[index] because there are some values like a-3 and stuff
-        self.Prestige = Prestige(prName[index]) # Upgrades Class
+ramping = 1.25
 
-    class Money:
-        def __init__(self, baseCost, currentCost, bought, bMpS, MpS):
-            self.baseCost = cost # Base Cost of Generator
-            self.ramping = 1.25 # Cost ramping/scaling
-            self.cost = cost * 1.25 ** bought # Current Cost of Generator
-            self.bought = bought # Number of this Generator bought
-            self.bMpS = bMpS # Base MpS/Generator
-            self.MpS = bMpS * bought # Total MpS
-    
-    class Upgrades:
-        def __init__(self, upgrades, upgDescription, upgCost, upgAb):
-            self.upg = upgrades # List of Upgrades of Generator
-            self.upgDesc = upgDescription # Upgrades Descriptions of Generator
-            self.upgCost = upgCost * baseCost[index] # Base Upgrade Cost of Generator
-            self.upgAb = upgAb # Change this because there is a-3????????????????????_------------------___________-___!!!!!!!!!!!!!!!
 
-    class Prestige:
-        def __init__(self, prestige, prName):
-            self.Lvl = 1 # Prestige level of generator
-            self.Name = prName # Prestige name of generator
+class Generator: # Change this into dictionaries, OOP isn't allowed
+    def __init__(self, name):  # What is upgAB???? @campersonguy
+        class Money:
+            def __init__(self, baseCost, currentCost, bought, bMpS, MpS):
+                self.baseCost = baseCost  # Base Cost of Generator
+                self.ramping = 1.25  # Cost ramping/scaling
+                self.cost = currentCost * 1.25**bought  # Current Cost of Generator
+                self.bought = bought  # Number of this Generator bought
+                self.bMpS = bMpS  # Base MpS/Generator
+                self.MpS = bMpS * bought  # Total MpS
+
+        class Upgrades:
+            def __init__(self, upgrades, upgDescription, upgCost, upgAb):
+                self.upg = upgrades  # List of Upgrades of Generator
+                self.upgDesc = upgDescription  # Upgrades Descriptions of Generator
+                self.upgCost = (
+                    gn[index] * baseCost[index]
+                )  # Base Upgrade Cost of Generator
+                self.upgAb = upgAb  # Change this because there is a-3????????????????????_------------------___________-___!!!!!!!!!!!!!!!
+
+        class Prestige:
+            def __init__(self, prName):
+                self.Lvl = 1  # Prestige level of generator
+                self.Name = prName  # Prestige name of generator
+
+        self.name = name  # Generator Name
+        index = gnNames.index(name)  # Index of generator in all lists
+        self.desc = gnDesc[index]  # Generator Description
+        self.art = gnArt[index]  # ASCII Art
+        self.Money = Money(
+            baseCost[index], currentCost[index], gn[index], bMpS[index], MpS[index]
+        )  # Money Class
+        self.Upgrades = Upgrades(
+            upg[index], upgDesc[index], upgCost[index], upgAb[index]
+        )  # need to change upgAb[index] because there are some values like a-3 and stuff
+        self.Prestige = Prestige(prName[index])  # Upgrades Class
+
 
 gnNames = [  # generator names
     "Market Stand",
@@ -72,10 +82,34 @@ gnDesc = [  # generator descriptions
 
 upg = {  # upgrade names for each generator
     0: ["Fresh Fruit", "Pesticides", "Selective Cultivar", "Tomacco", "GMF"],
-    1: ["Leafy Greens", "12hr Shifts", "24hr Shifts", "Life Debt Contract", "Deal With The Manager"],
-    2: ["Exquisite Soap", "SSS", "Diamond-Cutting-Water-Pressure-Jets", "Great Neptune's Ocean Wash This Dirt From My Car", "Nuclear Explosion Dried Cars"],
-    3: ["Open 24/7", "Open 25/7", "Can I have 36 Burgers, 24 Large Cokes, ...", "1,000,000 Water Cups Please", "Roland McDoland's Obesity House"],
-    4: ["Powerful Picks", "Drilling Machines", "Galindo Drill", "Mammoth Drill", "Explosive Beds"],
+    1: [
+        "Leafy Greens",
+        "12hr Shifts",
+        "24hr Shifts",
+        "Life Debt Contract",
+        "Deal With The Manager",
+    ],
+    2: [
+        "Exquisite Soap",
+        "SSS",
+        "Diamond-Cutting-Water-Pressure-Jets",
+        "Great Neptune's Ocean Wash This Dirt From My Car",
+        "Nuclear Explosion Dried Cars",
+    ],
+    3: [
+        "Open 24/7",
+        "Open 25/7",
+        "Can I have 36 Burgers, 24 Large Cokes, ...",
+        "1,000,000 Water Cups Please",
+        "Roland McDoland's Obesity House",
+    ],
+    4: [
+        "Powerful Picks",
+        "Drilling Machines",
+        "Galindo Drill",
+        "Mammoth Drill",
+        "Explosive Beds",
+    ],
     5: ["Trading Hub", ""],
     6: ["Child Labour", ""],
     7: ["Room Service", ""],
@@ -85,11 +119,41 @@ upg = {  # upgrade names for each generator
     11: ["More Cash", "Increased Profits"],
 }
 upgDesc = {  # upgrade descriptions
-    0: ["Fresher Fruit = More Money", "Pesticides are the Besticides", "Only the best", "It's smooth and mild, and refreshingly addictive!", "Genetically Modified Fruit: Now with toys inside!"],
-    1: ["Leafy Greens instead of Leafy Browns", "A long day", "A longer day and night", "You're never paying this off...", "Unfair deal: Give your soul to the manager"],
-    2: ["Foamy Bubbles make for better marketing", "Super-Sonic Scrubbers", "I'm not wearing diamonds!", "Would rather / The multitudinous seas Burnt Umber / Making the green one brown", "Daily dose of Gamma Rays and free neutrons"],
-    3: ["No downtime", "Owe downtime", "AAAAAAAAHHHHHHHHHHHH", "At least they said 'please'", "Honest marketing"],
-    4: ["Cuts through the rock like butter", "Mining Inc", "The rocks won't see it coming", "Unnecessarily large", "SCP-████: Explodes when slept on by sentient humans. The average villager does not apply"],
+    0: [
+        "Fresher Fruit = More Money",
+        "Pesticides are the Besticides",
+        "Only the best",
+        "It's smooth and mild, and refreshingly addictive!",
+        "Genetically Modified Fruit: Now with toys inside!",
+    ],
+    1: [
+        "Leafy Greens instead of Leafy Browns",
+        "A long day",
+        "A longer day and night",
+        "You're never paying this off...",
+        "Unfair deal: Give your soul to the manager",
+    ],
+    2: [
+        "Foamy Bubbles make for better marketing",
+        "Super-Sonic Scrubbers",
+        "I'm not wearing diamonds!",
+        "Would rather / The multitudinous seas Burnt Umber / Making the green one brown",
+        "Daily dose of Gamma Rays and free neutrons",
+    ],
+    3: [
+        "No downtime",
+        "Owe downtime",
+        "AAAAAAAAHHHHHHHHHHHH",
+        "At least they said 'please'",
+        "Honest marketing",
+    ],
+    4: [
+        "Cuts through the rock like butter",
+        "Mining Inc",
+        "The rocks won't see it coming",
+        "Unnecessarily large",
+        "SCP-████: Explodes when slept on by sentient humans. The average villager does not apply",
+    ],
     5: ["Excavate through the stone even faster."],
     6: ["The hub of all trade - one might call it a trading hub."],
     7: ["Who doesn't love a pinch of child labour?"],
@@ -98,22 +162,24 @@ upgDesc = {  # upgrade descriptions
     10: ["It's almost as if these die always roll a six."],
     11: ["The more radioactive it is, the more it sells for."],
 }
-upgCost = {  # upgrade costs # is this a template for cost? like upgCost[0] * self.baseCost
-    0: [500],
-    1: [2000],
-    2: [8000],
-    3: [30000],
-    4: [160000],
-    5: [1300000],
-    6: [24000000],
-    7: [144000000],
-    8: [750000000],
-    9: [900000000],
-    10: [85000000000],
-    11: [500, 240000000000],
-}
+upgCost = (
+    {  # upgrade costs # is this a template for cost? like upgCost[0] * self.baseCost
+        0: [500],
+        1: [2000],
+        2: [8000],
+        3: [30000],
+        4: [160000],
+        5: [1300000],
+        6: [24000000],
+        7: [144000000],
+        8: [750000000],
+        9: [900000000],
+        10: [85000000000],
+        11: [500, 240000000000],
+    }
+)
 upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amount - e.g 0-2 is market stand x2) !!!Maybe make this a dictionary!!!!!!!!!!!!!!!!!!!!
-    "a-2",
+    "0-2",
     "0-2",
     "1-2",
     "2-2",
@@ -125,7 +191,7 @@ upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amo
     "8-2",
     "9-2",
     "10-2",
-    "a-3",
+    "0-3",
 ]
 
 # I moved prestige level to Generator class
@@ -168,7 +234,19 @@ mapDesc = [
     "A happy universe where everything goes just right. ",  # B (buffs everything)
 ]
 
-gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator, this basically covers bought
+gn = [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+]  # amounts of each generator, this basically covers bought
 bMpS = [
     0.5,
     6,
@@ -182,7 +260,19 @@ bMpS = [
     40000,
     125000,
 ]  # base money per second
-MpS = []  # actual money per second
+MpS = [
+    0.5,
+    6,
+    24,
+    60,
+    200,
+    750,
+    1400,
+    5500,
+    18000,
+    40000,
+    125000,
+]  # actual money per second
 tMpS = 0.5  # total money per second
 baseCost = [  # Starting Cost of Every Building
     2,
@@ -209,7 +299,7 @@ minigames = [
     "Snakes and Ladders",
     "Battleships",
 ]
-#(self, name, description, upgrades, upgDescription, upgCost, upgAb, prestige, prName, art, bMpS, cost):
+# (self, name, description, upgrades, upgDescription, upgCost, upgAb, prestige, prName, art, bMpS, cost):
 market = Generator("Market Stand")
 grocer = Generator("Green Grocer")
 carWash = Generator("Car Wash")

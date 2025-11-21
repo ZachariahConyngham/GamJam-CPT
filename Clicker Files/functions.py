@@ -1,5 +1,6 @@
 import sys, os, time, math
 import variables as var
+from ascii_art import mapArt
 
 
 def clear():  # Clears the terminal
@@ -148,7 +149,7 @@ def update():  # updates certain lines every frame
     dc = "Current Day: " + str(var.day)
     mn = "Money: $" + shorten(var.money)
     sn = "Sanity: " + str(math.ceil(var.sanity))
-    mp = "($" + str(var.tmps) + "/s)"
+    mp = "($" + str(var.tMpS) + "/s)"
     print("\033[2K", end="")
     print(f"{dc:<40}{mn}")
     if var.sanity > 0:
@@ -165,16 +166,16 @@ def update():  # updates certain lines every frame
         for i in range(len(var.gn)):
             if var.select == i and i != -1 and var.selectcol == 0:
                 left_lines.append(
-                    f"{var.gnnames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}"
+                    f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}"
                 )
             else:
                 left_lines.append(
-                    f"{var.gnnames[i] + ": " + str(math.floor(var.gn[i]))}" + "      "
+                    f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      "
                 )
 
         for i in range(len(left_lines)):
             if var.select != -1:
-                print(f"{left_lines[i]:<38}{var.gnart[var.select][i]}")
+                print(f"{left_lines[i]:<38}{var.gnArt[var.select][0][i]}")
             else:
                 print("\033[2K", end="")
                 print(left_lines[i])
@@ -184,17 +185,17 @@ def update():  # updates certain lines every frame
         print("\033[2K", end="")
         if var.selected == False:
             if var.select != -1:
-                print(var.gndesc[var.select])
+                print(var.gnDesc[var.select])
                 print("\033[2K", end="")
                 print(
                     "You currently own: "
                     + str(math.floor(var.gn[var.select]))
                     + " (Producing $"
-                    + shorten(var.mps[var.select] * var.gn[var.select])
+                    + shorten(var.MpS[var.select] * var.gn[var.select])
                     + " per second - "
                     + str(
                         round(
-                            ((var.mps[var.select] * var.gn[var.select]) / var.tmps)
+                            ((var.MpS[var.select] * var.gn[var.select]) / var.tMpS)
                             * 100,
                             2,
                         )
@@ -205,7 +206,8 @@ def update():  # updates certain lines every frame
                 print(
                     "(Next one costs $"
                     + shorten(
-                        var.cost[var.select] * (var.ramping ** var.gn[var.select])
+                        var.Generator(var.gnNames[var.select]).Money.cost
+                        * (var.ramping ** var.gn[var.select])
                     )
                     + ")"
                 )
@@ -214,11 +216,14 @@ def update():  # updates certain lines every frame
                 print("\033[2K")
                 print("\033[2K")
         else:
-            if var.money >= var.cost[var.select] * (var.ramping ** var.gn[var.select]):
+            if var.money >= var.market.Money.cost[var.select] * (
+                var.ramping ** var.gn[var.select]
+            ):
                 print(
                     "Buy one for $"
                     + shorten(
-                        var.cost[var.select] * (var.ramping ** var.gn[var.select])
+                        var.market.Money.cost[var.select]
+                        * (var.ramping ** var.gn[var.select])
                     )
                     + "? (SPACE to confirm, X to cancel)"
                 )
@@ -226,7 +231,8 @@ def update():  # updates certain lines every frame
                 print(
                     "You aren't rich enough to buy this for $"
                     + shorten(
-                        var.cost[var.select] * (var.ramping ** var.gn[var.select])
+                        var.market.Money.cost[var.select]
+                        * (var.ramping ** var.gn[var.select])
                     )
                     + "."
                 )
@@ -234,7 +240,10 @@ def update():  # updates certain lines every frame
                 print(
                     "You are missing $"
                     + shorten(
-                        (var.cost[var.select] * (var.ramping ** var.gn[var.select]))
+                        (
+                            var.market.Money.cost[var.select]
+                            * (var.ramping ** var.gn[var.select])
+                        )
                         - var.money
                     )
                     + ". Lock in."
@@ -252,20 +261,27 @@ def update():  # updates certain lines every frame
         for i in range(11):
             print("\033[2K", end="")
             if i < len(var.upg):
-                if var.selectcol == 0 and i == var.select:
+                if var.selectcol == 1 and i == var.select:
                     left_lines.append(
-                        var.upg[i][0] + " ($" + shorten(var.upgcost[i][0]) + ") <"
+                        var.upg[i][0] + " ($" + shorten(var.upgCost[i][0]) + ") <"
                     )
                 else:
                     left_lines.append(
-                        var.upg[i][0] + " ($" + shorten(var.upgcost[i][0]) + ")"
+                        var.upg[i][0] + " ($" + shorten(var.upgCost[i][0]) + ")"
                     )
-            if var.selectcol == 1 and i == var.select:
+            if var.selectcol == 2 and i == var.select:
                 right_lines.append(
-                    var.prnames[i] + " " + to_roman(var.prestige[i]) + " <"
+                    var.prName[i]
+                    + " "
+                    + to_roman(var.Generator(var.gnNames[i]).Prestige.Lvl)
+                    + " <"
                 )
             else:
-                right_lines.append(var.prnames[i] + " " + to_roman(var.prestige[i]))
+                right_lines.append(
+                    var.prName[i]
+                    + " "
+                    + to_roman(var.Generator(var.gnNames[i]).Prestige.Lvl)
+                )
 
         for i in range(len(right_lines)):
             print("\033[2K", end="")
@@ -279,11 +295,11 @@ def update():  # updates certain lines every frame
         print("\033[2K", end="")
 
         if var.select != -1:
-            print(var.upgdesc[var.select][0])
+            print(var.upgDesc[var.select][0])
             print("\033[2K", end="")
-            up = var.upgab[var.select].split("-")
+            up = var.upgAb[var.select].split("-")
             if up[0] != "a" and up[0] is not None:
-                print(var.gnnames[int(up[0])] + " - x" + up[1] + " production")
+                print(var.gnNames[int(up[0])] + " - x" + up[1] + " production")
             else:
                 print("All generators - x" + up[1] + " production")
             # print(len(bought))
@@ -292,25 +308,16 @@ def update():  # updates certain lines every frame
         print("\033[2K")
         print("\033[2K")
 
-    if var.page == 2:  # prestige upgrades page
+    if var.page == 2:  # idk
         sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
 
-        for i in range(len(var.prestige)):
-            print("\033[2K", end="")
-            if var.select != -1 and i == var.select:
-                print(var.prnames[i] + " " + to_roman(var.prestige[i]) + " <")
-            else:
-                print(var.prnames[i] + " " + to_roman(var.prestige[i]))
-
-    if (
-        var.page == 3
-    ):  # Minigames (ZAC) hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+    if var.page == 3:  # Minigames
         sys.stdout.write(f"\033[{12};{0}H")
         sys.stdout.flush()
-        for i in range(len(map)):
+        for i in range(len(mapArt[0])):
             print("\033[2K", end="")
-            print(var.mapart[0][i])
+            print(mapArt[0][i])
 
         sys.stdout.write(f"\033[{26};{0}H")
         sys.stdout.flush()

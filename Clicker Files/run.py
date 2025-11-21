@@ -109,26 +109,26 @@ while True:
         if var.select == -1:
             var.selectcol = max(0, min(var.selectcol, 3))
         elif var.page == 1:
-            var.selectcol = max(0, min(var.selectcol, 1))
+            var.selectcol = max(1, min(var.selectcol, 2))
         else:
             var.selectcol = 0
 
     func.update()
     time.sleep(0.02)
 
-    var.tmps = 0
+    var.tMpS = 1
 
     for i in range(len(var.gn)):  # calculating money increase and sanity loss
         mult = 1
-        if i < len(var.bought):
-            for index in var.bought:
-                index1 = var.bought[i].split("-")
-                if index1[0] == "a":
-                    mult *= int(index1[1])
-                elif i == int(index1[0]):
-                    mult *= int(index1[1])
-                var.mps[i] = var.bmps[i] * mult
-        var.tmps += var.mps[i] * var.gn[i]
+        # if i < len(var.bought):
+        # for index in var.bought:
+        # index1 = var.bought[i].split("-")
+        # if index1[0] == "a":
+        #     mult *= int(index1[1])
+        # elif i == int(index1[0]):
+        #     mult *= int(index1[1])
+        # var.MpS[i] = var.bMpS[i] * mult
+        # var.tMpS += var.MpS[i] * var.gn[i]
 
-        var.money += var.mps[i] * var.gn[i] * 0.02
+        var.money += var.MpS[i] * var.gn[i] * 0.02
     var.sanity -= var.sanmult * 0.02 * (1 / 60)
