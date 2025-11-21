@@ -1,7 +1,5 @@
-import os, time, math, sys, copy
-import msvcrt
+import copy
 from ascii_art import gnArt
-
 
 opnDialogue = [
     "...",
@@ -11,47 +9,6 @@ opnDialogue = [
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 location = "???"
-
-ramping = 1.25
-
-
-class Generator: # Change this into dictionaries, OOP isn't allowed
-    def __init__(self, name):  # What is upgAB???? @campersonguy
-        class Money:
-            def __init__(self, baseCost, currentCost, bought, bMpS, MpS):
-                self.baseCost = baseCost  # Base Cost of Generator
-                self.ramping = 1.25  # Cost ramping/scaling
-                self.cost = currentCost * 1.25**bought  # Current Cost of Generator
-                self.bought = bought  # Number of this Generator bought
-                self.bMpS = bMpS  # Base MpS/Generator
-                self.MpS = bMpS * bought  # Total MpS
-
-        class Upgrades:
-            def __init__(self, upgrades, upgDescription, upgCost, upgAb):
-                self.upg = upgrades  # List of Upgrades of Generator
-                self.upgDesc = upgDescription  # Upgrades Descriptions of Generator
-                self.upgCost = (
-                    gn[index] * baseCost[index]
-                )  # Base Upgrade Cost of Generator
-                self.upgAb = upgAb  # Change this because there is a-3????????????????????_------------------___________-___!!!!!!!!!!!!!!!
-
-        class Prestige:
-            def __init__(self, prName):
-                self.Lvl = 1  # Prestige level of generator
-                self.Name = prName  # Prestige name of generator
-
-        self.name = name  # Generator Name
-        index = gnNames.index(name)  # Index of generator in all lists
-        self.desc = gnDesc[index]  # Generator Description
-        self.art = gnArt[index]  # ASCII Art
-        self.Money = Money(
-            baseCost[index], currentCost[index], gn[index], bMpS[index], MpS[index]
-        )  # Money Class
-        self.Upgrades = Upgrades(
-            upg[index], upgDesc[index], upgCost[index], upgAb[index]
-        )  # need to change upgAb[index] because there are some values like a-3 and stuff
-        self.Prestige = Prestige(prName[index])  # Upgrades Class
-
 
 gnNames = [  # generator names
     "Market Stand",
@@ -64,8 +21,9 @@ gnNames = [  # generator names
     "Hotel",
     "Bank",
     "Casino",
-    "Power Plant",
+    "Power Plant"
 ]
+
 gnDesc = [  # generator descriptions
     "A small market stand that will earn you some cash.",
     "A store that sells vegetables for a modest price.",
@@ -74,7 +32,7 @@ gnDesc = [  # generator descriptions
     "A cave full of high-value ores that can be extracted.",
     "A large marketplace centre that acts as the hub of shopping.",
     "A production warehouse that makes the latest line of toys, games, and everything in between.",
-    "A manky has-been hotel that somehow still attracts visitors.",
+    "A luxurious hotel fit only for the richest.",
     "A definitely-not-a-scam bank that prints hard cash.",
     "An illegal gambling facility, only for the elite.",
     "A nuclear power plant. Makes money one way or another.",
@@ -118,6 +76,7 @@ upg = {  # upgrade names for each generator
     10: ["Radioactive Waste", ""],
     11: ["More Cash", "Increased Profits"],
 }
+
 upgDesc = {  # upgrade descriptions
     0: [
         "Fresher Fruit = More Money",
@@ -162,23 +121,22 @@ upgDesc = {  # upgrade descriptions
     10: ["It's almost as if these die always roll a six."],
     11: ["The more radioactive it is, the more it sells for."],
 }
-upgCost = (
-    {  # upgrade costs # is this a template for cost? like upgCost[0] * self.baseCost
-        0: [500],
-        1: [2000],
-        2: [8000],
-        3: [30000],
-        4: [160000],
-        5: [1300000],
-        6: [24000000],
-        7: [144000000],
-        8: [750000000],
-        9: [900000000],
-        10: [85000000000],
-        11: [500, 240000000000],
-    }
-)
-upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amount - e.g 0-2 is market stand x2) !!!Maybe make this a dictionary!!!!!!!!!!!!!!!!!!!!
+
+upgCost = [ # Base Upgrade Cost
+    500,
+    2000,
+    8000,
+    30000,
+    160000,
+    1300000,
+    24000000,
+    144000000,
+    750000000,
+    900000000,
+    85000000000,
+    [500, 240000000000]
+]
+upgMult = [  # @Cameron change this bc you said you would
     "0-2",
     "0-2",
     "1-2",
@@ -194,22 +152,21 @@ upgAb = [  # upgrade effects (1st is generator it affects (a is all), 2nd is amo
     "0-3",
 ]
 
-# I moved prestige level to Generator class
 prName = [  # displays as Marketing I, Fresh Fruit I etc.
     "Advertising",
     "Variety",
     "Expensive Cars",
-    "Minimum Wage",
+    "Minerals",
     "Efficiency",
-    "Shop Center",
-    "Hard Work",
-    "Housing",
+    "Marketing",
+    "Machinery",
+    "Customer service",
     "Money Printing",
-    "Gambling",
-    "Radiation",
+    "Fast Dealers",
+    "Nuclear Efficiency",
 ]
 
-map = {
+map = { # What is this for Zach? maybe put this somewhere else like below all of the generator variables
     "0": ["F", "?", "?", "?", "?", "?", "?", "?", "?"],
     "1": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
     "2": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
@@ -235,7 +192,7 @@ mapDesc = [
 ]
 
 gn = [
-    1,
+    0,
     0,
     0,
     0,
@@ -247,6 +204,7 @@ gn = [
     0,
     0,
 ]  # amounts of each generator, this basically covers bought
+
 bMpS = [
     0.5,
     6,
@@ -289,7 +247,7 @@ baseCost = [  # Starting Cost of Every Building
 ]
 currentCost = copy.deepcopy(baseCost)
 selected = False
-# I put ramping in Generator class
+ramping = 1.25 # Base cost ramping
 
 minigames = [
     "Guess the Number",
@@ -299,18 +257,49 @@ minigames = [
     "Snakes and Ladders",
     "Battleships",
 ]
-# (self, name, description, upgrades, upgDescription, upgCost, upgAb, prestige, prName, art, bMpS, cost):
-market = Generator("Market Stand")
-grocer = Generator("Green Grocer")
-carWash = Generator("Car Wash")
-mcdolands = Generator("McDolands")
-mine = Generator("Mine")
-shopCentre = Generator("Shopping Centre")
-warehouse = Generator("Warehouse")
-hotel = Generator("Hotel")
-bank = Generator("Bank")
-casino = Generator("Casino")
-powerPlant = Generator("Power Plant")
+
+def initiate_generators(name, placeholder_name):
+    index = gnNames.index(name)
+    generator_template = {
+        placeholder_name : {
+            "name" : name,
+            "index" : index,
+            "desc" : gnDesc[index],
+            "art" : gnArt[index],
+            "Money" : {
+                "baseCost" : baseCost[index],
+                "ramping" : ramping,
+                "cost" : baseCost[index],
+                "bought" : gn[index],
+                "bMpS" : bMpS[index],
+                "MpS" : MpS[index]
+            },
+            "Upgrades" : {
+                "upg" : upg[index],
+                "desc" : upgDesc[index],
+                "cost" : upgCost[index],
+                "mult" : upgMult[index]
+            },
+            "Prestige" : {
+                "lvl" : 0,
+                "name" : prName[index]
+            }
+        }
+    }
+    return generator_template
+generators = {
+    **initiate_generators("Market Stand", "market"),
+    **initiate_generators("Green Grocer", "grocer"),
+    **initiate_generators("Car Wash", "carWash"),
+    **initiate_generators("McDolands", "mcdolands"),
+    **initiate_generators("Mine", "mine"),
+    **initiate_generators("Shopping Centre", "shopCentre"),
+    **initiate_generators("Warehouse", "warehouse"),
+    **initiate_generators("Hotel", "hotel"),
+    **initiate_generators("Bank", "bank"),
+    **initiate_generators("Casino", "casino"),
+    **initiate_generators("Power Plant", "plant")
+}
 
 money = 0
 day = 0
