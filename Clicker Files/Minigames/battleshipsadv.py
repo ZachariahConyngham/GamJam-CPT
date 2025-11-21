@@ -1,6 +1,6 @@
-import time
-import random
-import copy
+import time, random, copy
+from xml.sax.saxutils import prepare_input_source
+
 def batlshit():
 	def print_board(board):
 		print("   a  b  c  d  e  f  g  h  i  j ")
@@ -33,7 +33,7 @@ def batlshit():
 			print("")
 
 	def generate_board():
-		for piece in remainingpieces:
+		for piece in pieces:
 			placed = False
 			while placed == False:
 				position = [random.randint(0,9), random.randint(0,9)]
@@ -103,6 +103,9 @@ def batlshit():
 							kaiBoard[position[1]][i] = piece[0][0]
 				placed = True
 
+	def kaiGuess():
+		pass #Do thisssss
+
 
 
 
@@ -117,7 +120,7 @@ def batlshit():
 				kaiBoard = copy.deepcopy(board_template)
 				guessBoard = copy.deepcopy(board_template)
 				kaiGuessBoard = copy.deepcopy(board_template)
-				remainingpieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
+				pieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
 				columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 				print("Here is the board:")
 				time.sleep(0.5)
@@ -166,7 +169,7 @@ def batlshit():
 				ready = False
 				while ready == False:
 					board = copy.deepcopy(board_template)
-					for piece in remainingpieces:
+					for piece in pieces:
 						placed = False
 						validationError = ["This is an invalid position. Please choose somewhere else.", "There is already a piece here. Please choose somewhere else.", "You can't place it here. Please choose somewhere else.", "A %s cannot fit in this region. Please choose somewhere else." % (piece[0])]
 						while placed == False: # Start to place
@@ -264,12 +267,13 @@ def batlshit():
 				time.sleep(0.2)
 				print("Now we can start.")
 				time.sleep(1)
+				true_turn = 0
 				turn = [0, "kai"]
 				gamestate = "ongoing"
 				while gamestate == "ongoing":
 					print("--------Turn %s--------" % (turn[0]))
 					print_game_board()
-					if turn[0] == 0:
+					if true_turn == 0:
 						print("This is the first turn.")
 						print("As my guest,")
 						print("I'll let you attack first.")
@@ -281,6 +285,12 @@ def batlshit():
 						print(".", end="")
 						print("That's not happening.")
 						turn[1] = "user"
+					elif turn == 0:
+						if (random.randint(0, 1) == 0):
+							turn[1] = "user"
+						else:
+							turn[1] = "kai"
+						
 					if turn[1] == "user":
 						print("---Your Turn---")
 						target = ""
@@ -288,9 +298,52 @@ def batlshit():
 							target = input("Where would you like to attack?(e.g. a1, d5) ")
 							if len(target) != 2 or not target[0].isalpha() or not target[1].isdigit():
 								target = ""
+								print("That is in the incorrect format.")
 								continue
-							if (target[0] not in columns) or (target[1] not in range(1, 11))
-						if kaiBoard[columns.index(target[0])]
+							if (target[0] not in columns) or (target[1] not in range(1, 11)):
+								target = ""
+								print("That's not a valid position.")
+								continue
+							if guessBoard[columns.index(target[0])][target[1]] != " ":
+								target = ""
+								print("You have already hit that spot.")
+								continue
+						# player shot valid
+						kaiTaunts = [[],[]]
+						if kaiBoard[columns.index(target[0])][target[1]] != " ":
+							guessBoard[columns.index(target[0])][target[1]] = "O"
+							shotShip = kaiBoard[columns.index(target[0])][target[1]]
+							spaces = []
+							for row in kaiBoard:
+								spaces.append([index for index, value in enumerate(row) if value == shotShip])
+							breakFor = False
+							for row in spaces:
+								for column in row:
+									if guessBoard[column][row] != "O":
+										breakFor = True
+										break
+								if breakFor == True:
+									break
+							if breakFor != True:
+								print("You have hit my ship! %s" % (kaiTaunts[0][random.randint(0, len(kaiTaunts[0]))]))
+							else:
+								print("You have sunk my %s!" % (pieces[[index for index, value in enumerate(pieces) if value == shotShip][0]]))
+						else:
+							guessBoard[columns.index(target[0])][target[1]] = "X"
+							print(kaiTaunts[1][random.randint(0, len(kaiTaunts[1]))])
+					else:
+						kaiGuess()
+
+					turn[0] += 1
+					match turn[1]:
+						case "user":
+							turn[1] = "kai"
+						case "kai":
+							turn[1] = "user"
+						case _:
+							print("?????")
+					continue #end iteration
+
 
 					
 
@@ -300,3 +353,5 @@ def batlshit():
 			case _:
 				print("That's not a way of playing Battleships.")
 				gamemode = ""
+
+batlshit()
