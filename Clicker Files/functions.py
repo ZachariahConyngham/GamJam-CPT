@@ -122,6 +122,10 @@ def load():  # loads the base page
 
 
 def update():  # updates certain lines every frame
+
+    selected = var.placeNames[var.select]  # the selected generator
+    cost = var.generators[selected]["Money"]["cost"]
+
     sys.stdout.write(f"\033[{3};{0}H")
     sys.stdout.flush()
 
@@ -205,10 +209,7 @@ def update():  # updates certain lines every frame
                 print("\033[2K", end="")
                 print(
                     "(Next one costs $"
-                    + shorten(
-                        var.Generator(var.gnNames[var.select]).Money.cost
-                        * (var.ramping ** var.gn[var.select])
-                    )
+                    + shorten(cost * (var.ramping ** var.gn[var.select]))
                     + ")"
                 )
             else:
@@ -216,36 +217,24 @@ def update():  # updates certain lines every frame
                 print("\033[2K")
                 print("\033[2K")
         else:
-            if var.money >= var.market.Money.cost[var.select] * (
+            if var.money >= var.generators[selected]["Money"]["cost"] * (
                 var.ramping ** var.gn[var.select]
             ):
                 print(
                     "Buy one for $"
-                    + shorten(
-                        var.market.Money.cost[var.select]
-                        * (var.ramping ** var.gn[var.select])
-                    )
+                    + shorten(cost * (var.ramping ** var.gn[var.select]))
                     + "? (SPACE to confirm, X to cancel)"
                 )
             else:
                 print(
                     "You aren't rich enough to buy this for $"
-                    + shorten(
-                        var.market.Money.cost[var.select]
-                        * (var.ramping ** var.gn[var.select])
-                    )
+                    + shorten(cost * (var.ramping ** var.gn[var.select]))
                     + "."
                 )
                 print("\033[2K", end="")
                 print(
                     "You are missing $"
-                    + shorten(
-                        (
-                            var.market.Money.cost[var.select]
-                            * (var.ramping ** var.gn[var.select])
-                        )
-                        - var.money
-                    )
+                    + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money)
                     + ". Lock in."
                 )
             print("\033[2K")

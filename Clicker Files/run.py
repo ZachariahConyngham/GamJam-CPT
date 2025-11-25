@@ -13,7 +13,7 @@ func.clear()
 skip = input("Those who know (Y/N) ").upper()
 if skip != "Y":
     func.clear()
-    for line in var.opndialogue:
+    for line in var.opnDialogue:
         func.yap(line)
         time.sleep(1)
         print("\n")
@@ -43,11 +43,13 @@ while True:
                         var.selected = True
                     else:
                         var.selected = False
-                        if var.money >= var.cost[var.select] * (
-                            var.ramping ** var.gn[var.select]
-                        ):
+                        if var.money >= var.generators[var.placeNames[var.select]][
+                            "Money"
+                        ]["cost"] * (var.ramping ** var.gn[var.select]):
                             var.money -= round(
-                                var.cost[var.select]
+                                var.generators[var.placeNames[var.select]]["Money"][
+                                    "cost"
+                                ]
                                 * (var.ramping ** var.gn[var.select]),
                                 2,
                             )
@@ -116,19 +118,11 @@ while True:
     func.update()
     time.sleep(0.02)
 
-    var.tMpS = 1
+    var.tMpS = 0
 
     for i in range(len(var.gn)):  # calculating money increase and sanity loss
         mult = 1
-        # if i < len(var.bought):
-        # for index in var.bought:
-        # index1 = var.bought[i].split("-")
-        # if index1[0] == "a":
-        #     mult *= int(index1[1])
-        # elif i == int(index1[0]):
-        #     mult *= int(index1[1])
-        # var.MpS[i] = var.bMpS[i] * mult
-        # var.tMpS += var.MpS[i] * var.gn[i]
+        var.tMpS += var.MpS[i] * var.gn[i]
 
         var.money += var.MpS[i] * var.gn[i] * 0.02
     var.sanity -= var.sanmult * 0.02 * (1 / 60)
