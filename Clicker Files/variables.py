@@ -137,17 +137,17 @@ upgDesc = {  # upgrade descriptions
 }
 
 upgCost = [  # Base Upgrade Cost
-    500,
-    2000,
-    8000,
-    30000,
-    160000,
-    1300000,
-    24000000,
-    144000000,
-    750000000,
-    900000000,
-    85000000000,
+    [500],
+    [2000],
+    [8000],
+    [30000],
+    [160000],
+    [1300000],
+    [24000000],
+    [144000000],
+    [750000000],
+    [9000000000],
+    [85000000000],
     [500, 240000000000],
 ]
 upgMult = [  # on second thought i lowk might leave it
@@ -167,43 +167,49 @@ upgMult = [  # on second thought i lowk might leave it
     "0-3",
 ]
 
-prName = [  # displays as Marketing I, Fresh Fruit I etc.
+prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+prName = [
     "Advertising",
     "Variety",
-    "Expensive Cars",
+    "Shiny Soap",
     "Minerals",
     "Efficiency",
     "Marketing",
     "Machinery",
-    "Customer service",
+    "Customer Service",
     "Money Printing",
-    "Fast Dealers",
+    "Gambling",
     "Nuclear Efficiency",
 ]
 
 map = {  # What is this for Zach? maybe put this somewhere else like below all of the generator variables
-    "0": ["F", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "1": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "2": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "3": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "4": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "5": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "6": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "7": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "8": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    0: [1, 0, 0, 0, 0, 0, 0, 0, 0],
+    1: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    2: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    3: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    4: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    5: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    6: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    7: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    8: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    9: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    10: [0, 0, 0, 0, 0, 0, 0, 0, 8],
 }
+
+mapKeys = ["?", "F", "M", "S", "C", "G", "D", "B", "H"]
 
 
 mapDesc = [
-    "The universe you first found yourself in after the accident. ",  # F
-    "What you presume is your original universe... ",  # H
     "??? ",  # ?
+    "The universe you first found yourself in after the accident. ",  # F
     "A rich smelling universe. ",  # m (more money)
     "A universe that makes you feel more like yourself. ",  # s (reduced sanity)
     "A universe in which inflation never existed. ",  # c (cost reduction)
     "A universe full of funny little games to play. ",  # G (minigames)
     "A strange universe full of chaos and destruction. ",  # D (debuffs everything)
     "A happy universe where everything goes just right. ",  # B (buffs everything)
+    "What you presume is your original universe... ",  # H
 ]
 
 gn = [
@@ -260,6 +266,7 @@ baseCost = [  # Starting Cost of Every Building
     7000000000,
     80000000000,
 ]
+
 currentCost = copy.deepcopy(baseCost)
 selected = False
 ramping = 1.25  # Base cost ramping
@@ -296,7 +303,7 @@ def initiate_generators(name, placeholder_name):
                 "cost": upgCost[index],
                 "mult": upgMult[index],
             },
-            "Prestige": {"lvl": 0, "name": prName[index]},
+            "Prestige": {"lvl": prestige[index], "name": prName[index]},
         }
     }
     return generator_template

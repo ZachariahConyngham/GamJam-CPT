@@ -105,13 +105,17 @@ while True:
                     var.select = max(-1, min(var.select, len(var.upg) - 1))
                 else:
                     var.select = max(-1, min(var.select, 10))
-            case 3:
+            case 2:
                 var.select = max(-1, min(var.select, len(var.minigames) - 1))
+            case 3:
+                var.select = max(-1, min(var.select, 10))
 
         if var.select == -1:
             var.selectcol = max(0, min(var.selectcol, 3))
         elif var.page == 1:
             var.selectcol = max(1, min(var.selectcol, 2))
+        elif var.page == 3 and var.select > -1:
+            var.selectcol = max(0, min(var.selectcol, 8))
         else:
             var.selectcol = 0
 
