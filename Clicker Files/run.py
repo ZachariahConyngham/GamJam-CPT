@@ -10,13 +10,16 @@ from Minigames import (
 )
 
 func.clear()
-skip = input("Those who know (Y/N) ").upper()
+skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
 if skip != "Y":
     func.clear()
-    for line in var.opnDialogue:
-        func.yap(line)
-        time.sleep(1)
-        print("\n")
+    for line in var.dialogue[0]:
+        if line != "clear":
+            func.yap(line)
+            time.sleep(1)
+            print("\n")
+        else:
+            func.clear()
 
 func.load()
 print("\033[?25l", end="")  # Hides the player cursor
@@ -115,7 +118,7 @@ while True:
         elif var.page == 1:
             var.selectcol = max(1, min(var.selectcol, 2))
         elif var.page == 3 and var.select > -1:
-            var.selectcol = max(0, min(var.selectcol, 8))
+            var.selectcol = max(0, min(var.selectcol, 9))
         else:
             var.selectcol = 0
 

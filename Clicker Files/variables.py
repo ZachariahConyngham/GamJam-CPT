@@ -1,15 +1,83 @@
 import copy
 from ascii_art import gnArt
 
-opnDialogue = [
-    "...",
-    "(You haven't bothered to add any dialogue intro yet.)",
-    "(Very smart.)",
-]
+dialogue = {
+    0: [  # opening dialogue
+        "...",
+        "The world is spinning around you... ",
+        "You feel like you are being pulled in every direction... ",
+        "Every part of your body is screaming in agony... ",
+        "...",
+        "...",
+        "...",
+        "You awake to the sound of water running nearby. ",
+        "You find yourself in a place that is vaguely familiar... ",
+        "You decide to explore to find out where you have arrived... ",
+        "clear",
+    ],
+    1: [  # City discovery dialogue
+        "You see the outline of a city in the distance... ",
+        "You realise you remember nothing from before you woke up... ",
+    ],
+    2: [  # Research station built
+        "You have constructed the Research Station... ",
+        "Maybe you can find out how you ended up here...",
+    ],
+    3: [  # satellite dialogue
+        "As you stare upon the earth from your satelite... ",
+        "You realise you can't deny it anymore...",
+        "This world can't be your Earth... ",
+        "Your portal must have worked... ",
+        "",
+    ],
+    4: [  # portal dialogue
+        "",
+    ],
+}
+
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
-location = "???"
 
+unix = 0  # universe coords on map
+uniy = 0
+
+stupidNames = {  # trust US with YOUR naming conventions
+    0: ["Cheezle McZonkponk"],
+    1: ["John Breakfast", "George Lunch", "Jim Dinner"],  # food
+    2: ["John Feast", "Jim Feast"],
+    3: ["John Cologne", "Joel Colon", "Donald Obama"],  # people
+    4: [  # game references
+        "John Mantle",
+        "John Quixote",
+        "Hornet Spaghetti",
+        "Steve",
+        "Madeline Celeste",
+        "John Supercell",
+        "Meger Nite",
+        "Papyrus",
+        "",
+    ],
+    5: ["John Knobe", "Dor Knobe"],
+    6: ["John Placeholder"],
+    7: ["John nhoJ", "Jim miJ"],
+    8: [
+        "John Short",
+        "John Tall",
+        "Jim Short",
+        "John Medium",
+        "John Small",
+        "John Creamer",
+    ],  # size
+    9: [
+        "",
+    ],
+    10: [
+        "John John",
+        "John John John",
+        "John John John John",
+        "John John John John John",
+    ],  # number of johns
+}
 gnNames = [  # generator names
     "Market Stand",
     "Green Grocer",
@@ -278,6 +346,72 @@ minigames = [
     "Blackjack",
     "Snakes and Ladders",
     "Battleships",
+]
+
+suffixes = [  # for shortening numbers
+    "",
+    "k",
+    " million",
+    " billion",
+    " trillion",
+    " quadrillion",
+    " quintillion",
+    " sextillion",
+    " septillion",
+    " octillion",
+    " nonillion",
+    " decillion",
+    " undecillion",
+    " duodecillion",
+    " tredecillion",
+    " quattuordecillion",
+    " quindecillion",
+    " sexdecillion",
+    " septendecillion",
+    " octodecillion",
+    " novemdecillion",
+    " vigintillion",
+    " unvigintillion",
+    " duovigintillion",
+    " trevigintillion",
+    " quattuorvigintillion",
+    " quinvigintillion",
+    " sexvigintillion",
+    " septvigintillion",
+    " octovigintillion",
+    " novemvigintillion",
+    " trigintillion",
+    " untrigintillion",
+    " duotrigintillion",
+    " tretrigintillion",
+    " quattuortrigintillion",
+    " quintrigintillion",
+    " sestrigintillion",
+    " septentrigintillion",
+    " octotrigintillion",
+    " noventrigintillion",
+    " quadragintillion",
+    " unquadragintillion",
+    " duoquadragintillion",
+    " trequadragintillion",
+    " quattuorquadragintillion",
+    " quinquadragintillion",
+    " sesquadragintillion",
+    " septenquadragintillion",
+    " octoquadragintillion",
+    " novemquadragintillion",
+    " quinquagintillion",
+    " unquinquagintillion",
+    " duoquinquagintillion",
+    " trequinquagintillion",
+    " quattuorquinquagintillion",
+    " quinquinquagintillion",
+    " sesquinquagintillion",
+    " septenquinquagintillion",
+    " octoquinquagintillion",
+    " novemquinquagintillion",
+    " sexagintillion",
+    " unsexagintillion",
 ]
 
 

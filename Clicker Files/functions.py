@@ -17,75 +17,10 @@ def yap(line):  # yappin
 
 
 def shorten(n):  # shortens numbers so that they are readable
-    suffixes = [
-        "",
-        "k",
-        " million",
-        " billion",
-        " trillion",
-        " quadrillion",
-        " quintillion",
-        " sextillion",
-        " septillion",
-        " octillion",
-        " nonillion",
-        " decillion",
-        " undecillion",
-        " duodecillion",
-        " tredecillion",
-        " quattuordecillion",
-        " quindecillion",
-        " sexdecillion",
-        " septendecillion",
-        " octodecillion",
-        " novemdecillion",
-        " vigintillion",
-        " unvigintillion",
-        " duovigintillion",
-        " trevigintillion",
-        " quattuorvigintillion",
-        " quinvigintillion",
-        " sexvigintillion",
-        " septvigintillion",
-        " octovigintillion",
-        " novemvigintillion",
-        " trigintillion",
-        " untrigintillion",
-        " duotrigintillion",
-        " tretrigintillion",
-        " quattuortrigintillion",
-        " quintrigintillion",
-        " sestrigintillion",
-        " septentrigintillion",
-        " octotrigintillion",
-        " noventrigintillion",
-        " quadragintillion",
-        " unquadragintillion",
-        " duoquadragintillion",
-        " trequadragintillion",
-        " quattuorquadragintillion",
-        " quinquadragintillion",
-        " sesquadragintillion",
-        " septenquadragintillion",
-        " octoquadragintillion",
-        " novemquadragintillion",
-        " quinquagintillion",
-        " unquinquagintillion",
-        " duoquinquagintillion",
-        " trequinquagintillion",
-        " quattuorquinquagintillion",
-        " quinquinquagintillion",
-        " sesquinquagintillion",
-        " septenquinquagintillion",
-        " octoquinquagintillion",
-        " novemquinquagintillion",
-        " sexagintillion",
-        " unsexagintillion",
-    ]  # add quinquagintillions, sexagintillions, septuagintillions, octogintillions, nonagintillions, centillions, decicentillions, viginticentillions, trigintacentillions, quadragintacentillions, quinquagintacentillion, sexagintacentillion, septuagintacentillion, octogintacentillion, nonaginticentillion etc.
     if n == 0:
         return "0"
     magnitude = int(math.log10(abs(n)) // 3)
-    magnitude = max(0, min(magnitude, len(suffixes) - 1))
+    magnitude = max(0, min(magnitude, len(var.suffixes) - 1))
     short = n / (10 ** (3 * magnitude))
 
     if short.is_integer():
@@ -93,7 +28,7 @@ def shorten(n):  # shortens numbers so that they are readable
     else:
         short_str = f"{short:.2f}".rstrip("0").rstrip(".")
 
-    return f"{short_str}{suffixes[magnitude]}"
+    return f"{short_str}{var.suffixes[magnitude]}"
 
 
 def to_roman(num):  # roman numeral converter (literally just for prestiges)
@@ -155,7 +90,7 @@ def update():  # updates certain lines every frame
     t1 = "Main"  # t = title
     t2 = "Upgrades"
     t3 = "Minigames"
-    t4 = "Worldview"
+    t4 = "Research"
     if var.select == -1:
         match var.selectcol:
             case 0:
@@ -172,16 +107,17 @@ def update():  # updates certain lines every frame
     sys.stdout.write(f"\033[{7};{0}H")
     sys.stdout.flush()
 
-    dc = "Current Day: " + str(var.day)
-    mn = "Money: $" + shorten(var.money)
-    sn = "Sanity: " + str(math.ceil(var.sanity))
-    mp = "($" + str(var.tMpS) + "/s)"
-    print("\033[2K", end="")
-    print(f"{dc:<40}{mn}")
-    if var.sanity > 0:
-        print(f"{sn:<46}{mp}")
-    else:
+    if var.page != 3:
+        dc = "Current Day: " + str(var.day)
+        mn = "Money: $" + shorten(var.money)
+        sn = "Sanity: " + str(math.ceil(var.sanity))
+        mp = "($" + str(var.tMpS) + "/s)"
         print("\033[2K", end="")
+        print(f"{dc:<40}{mn}")
+        if var.sanity > 0:
+            print(f"{sn:<46}{mp}")
+        else:
+            print("\033[2K", end="")
 
     sys.stdout.write(f"\033[{12};{0}H")
     sys.stdout.flush()
@@ -195,6 +131,11 @@ def update():  # updates certain lines every frame
             page2(selected, cost, SMpS)
         case 3:
             page3(selected, cost, SMpS)
+
+    for i in range(40):
+        sys.stdout.write(f"\033[{12};{81}H")
+        sys.stdout.flush()
+        print("|")
 
 
 def page0(selected, cost, SMpS):
@@ -316,8 +257,19 @@ def page1(selected, cost, SMpS):
 def page2(selected, cost, SMpS):
     print("YESYSEY")
 
+    sys.stdout.write(f"\033[{26};{0}H")  # description box
+    sys.stdout.flush()
+
 
 def page3(selected, cost, SMpS):
+    sys.stdout.write(f"\033[{7};{0}H")
+    sys.stdout.flush()
+
+    print(f"{"Research":<40}{"Worldview"}")
+
+    sys.stdout.write(f"\033[{12};{0}H")
+    sys.stdout.flush()
+
     for i in range(len(var.map)):
         print("\033[2K", end="")
         print("|    ", end="")
@@ -336,10 +288,15 @@ def page3(selected, cost, SMpS):
         print(var.mapDesc[var.map[var.select][var.selectcol]])
         print("\033[2K", end="")
         print(
-            "Travel for $"
+            "Travel costs $"
             + shorten(
-                1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 1) * 2)
+                1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 2) * 1.5)
             )
         )
+        print("\033[2K", end="")
+        if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
+            print("You can travel here!")
+        else:
+            print("You can't travel here. You are not close enough.")
     print("\033[2K")
     print("\033[2K")
