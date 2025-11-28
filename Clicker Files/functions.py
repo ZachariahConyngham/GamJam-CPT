@@ -60,6 +60,27 @@ def shorten(n):  # shortens numbers so that they are readable
         " octotrigintillion",
         " noventrigintillion",
         " quadragintillion",
+        " unquadragintillion",
+        " duoquadragintillion",
+        " trequadragintillion",
+        " quattuorquadragintillion",
+        " quinquadragintillion",
+        " sesquadragintillion",
+        " septenquadragintillion",
+        " octoquadragintillion",
+        " novemquadragintillion",
+        " quinquagintillion",
+        " unquinquagintillion",
+        " duoquinquagintillion",
+        " trequinquagintillion",
+        " quattuorquinquagintillion",
+        " quinquinquagintillion",
+        " sesquinquagintillion",
+        " septenquinquagintillion",
+        " octoquinquagintillion",
+        " novemquinquagintillion",
+        " sexagintillion",
+        " unsexagintillion",
     ]  # add quinquagintillions, sexagintillions, septuagintillions, octogintillions, nonagintillions, centillions, decicentillions, viginticentillions, trigintacentillions, quadragintacentillions, quinquagintacentillion, sexagintacentillion, septuagintacentillion, octogintacentillion, nonaginticentillion etc.
     if n == 0:
         return "0"
@@ -121,16 +142,11 @@ def load():  # loads the base page
     print("---------------------------------------------------------------------------")
 
 
-selected = 0
-cost = 0
-SMpS = 0  # selected money per second
-
-
 def update():  # updates certain lines every frame
 
     selected = var.placeNames[var.select]  # the selected generator
     cost = var.generators[selected]["Money"]["cost"]
-    SMpS = var.MpS[var.select] * var.gn[var.select]
+    SMpS = var.bMpS[var.select] * var.gn[var.select]
 
     sys.stdout.write(f"\033[{3};{0}H")
     sys.stdout.flush()
@@ -172,16 +188,16 @@ def update():  # updates certain lines every frame
 
     match var.page:
         case 0:
-            page0()
+            page0(selected, cost, SMpS)
         case 1:
-            page1()
+            page1(selected, cost, SMpS)
         case 2:
-            page2()
+            page2(selected, cost, SMpS)
         case 3:
-            page3()
+            page3(selected, cost, SMpS)
 
 
-def page0():
+def page0(selected, cost, SMpS):
     left_lines = []
 
     for i in range(len(var.gn)):
@@ -227,9 +243,7 @@ def page0():
             print("\033[2K")
             print("\033[2K")
     else:
-        if var.money >= var.generators[selected]["Money"]["cost"] * (
-            var.ramping ** var.gn[var.select]
-        ):
+        if var.money >= cost * (var.ramping ** var.gn[var.select]):
             print(
                 "Buy one for $"
                 + shorten(cost * (var.ramping ** var.gn[var.select]))
@@ -251,7 +265,7 @@ def page0():
         print("\033[2K")
 
 
-def page1():
+def page1(selected, cost, SMpS):
 
     left_lines = []
     right_lines = []
@@ -267,19 +281,11 @@ def page1():
                 left_lines.append(
                     var.upg[i][0] + " ($" + shorten(var.upgCost[i][0]) + ")"
                 )
+
         if var.selectcol == 2 and i == var.select:
-            right_lines.append(
-                var.prName[i]
-                + " "
-                + to_roman(var.generators[selected]["Prestige"]["lvl"])
-                + " <"
-            )
+            right_lines.append(var.prName[i] + " " + to_roman(var.prestige[i]) + " <")
         else:
-            right_lines.append(
-                var.prName[i]
-                + " "
-                + to_roman(var.generators[selected]["Prestige"]["lvl"])
-            )
+            right_lines.append(var.prName[i] + " " + to_roman(var.prestige[i]))
 
     for i in range(len(right_lines)):
         print("\033[2K", end="")
@@ -307,11 +313,11 @@ def page1():
     print("\033[2K")
 
 
-def page2():
+def page2(selected, cost, SMpS):
     print("YESYSEY")
 
 
-def page3():
+def page3(selected, cost, SMpS):
     for i in range(len(var.map)):
         print("\033[2K", end="")
         print("|    ", end="")
@@ -326,4 +332,14 @@ def page3():
     sys.stdout.flush()
 
     print("\033[2K", end="")
-    print(var.mapDesc[var.map[i][i1]])
+    if var.select != -1:
+        print(var.mapDesc[var.map[var.select][var.selectcol]])
+        print("\033[2K", end="")
+        print(
+            "Travel for $"
+            + shorten(
+                1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 1) * 2)
+            )
+        )
+    print("\033[2K")
+    print("\033[2K")
