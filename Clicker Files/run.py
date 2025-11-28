@@ -10,13 +10,16 @@ from Minigames import (
 )
 
 func.clear()
-skip = input("Those who know (Y/N) ").upper()
+skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
 if skip != "Y":
     func.clear()
-    for line in var.opndialogue:
-        func.yap(line)
-        time.sleep(1)
-        print("\n")
+    for line in var.dialogue[0]:
+        if line != "clear":
+            func.yap(line)
+            time.sleep(1)
+            print("\n")
+        else:
+            func.clear()
 
 func.load()
 print("\033[?25l", end="")  # Hides the player cursor
@@ -43,11 +46,13 @@ while True:
                         var.selected = True
                     else:
                         var.selected = False
-                        if var.money >= var.cost[var.select] * (
-                            var.ramping ** var.gn[var.select]
-                        ):
+                        if var.money >= var.generators[var.placeNames[var.select]][
+                            "Money"
+                        ]["cost"] * (var.ramping ** var.gn[var.select]):
                             var.money -= round(
-                                var.cost[var.select]
+                                var.generators[var.placeNames[var.select]]["Money"][
+                                    "cost"
+                                ]
                                 * (var.ramping ** var.gn[var.select]),
                                 2,
                             )
@@ -103,32 +108,28 @@ while True:
                     var.select = max(-1, min(var.select, len(var.upg) - 1))
                 else:
                     var.select = max(-1, min(var.select, 10))
-            case 3:
+            case 2:
                 var.select = max(-1, min(var.select, len(var.minigames) - 1))
+            case 3:
+                var.select = max(-1, min(var.select, 10))
 
         if var.select == -1:
             var.selectcol = max(0, min(var.selectcol, 3))
         elif var.page == 1:
             var.selectcol = max(1, min(var.selectcol, 2))
+        elif var.page == 3 and var.select > -1:
+            var.selectcol = max(0, min(var.selectcol, 9))
         else:
             var.selectcol = 0
 
     func.update()
     time.sleep(0.02)
 
-    var.tMpS = 1
+    var.tMpS = 0
 
     for i in range(len(var.gn)):  # calculating money increase and sanity loss
         mult = 1
-        # if i < len(var.bought):
-        # for index in var.bought:
-        # index1 = var.bought[i].split("-")
-        # if index1[0] == "a":
-        #     mult *= int(index1[1])
-        # elif i == int(index1[0]):
-        #     mult *= int(index1[1])
-        # var.MpS[i] = var.bMpS[i] * mult
-        # var.tMpS += var.MpS[i] * var.gn[i]
+        var.tMpS += var.MpS[i] * var.gn[i]
 
         var.money += var.MpS[i] * var.gn[i] * 0.02
     var.sanity -= var.sanmult * 0.02 * (1 / 60)

@@ -1,15 +1,83 @@
 import copy
 from ascii_art import gnArt
 
-opnDialogue = [
-    "...",
-    "(You haven't bothered to add any dialogue intro yet.)",
-    "(Very smart.)",
-]
+dialogue = {
+    0: [  # opening dialogue
+        "...",
+        "The world is spinning around you... ",
+        "You feel like you are being pulled in every direction... ",
+        "Every part of your body is screaming in agony... ",
+        "...",
+        "...",
+        "...",
+        "You awake to the sound of water running nearby. ",
+        "You find yourself in a place that is vaguely familiar... ",
+        "You decide to explore to find out where you have arrived... ",
+        "clear",
+    ],
+    1: [  # City discovery dialogue
+        "You see the outline of a city in the distance... ",
+        "You realise you remember nothing from before you woke up... ",
+    ],
+    2: [  # Research station built
+        "You have constructed the Research Station... ",
+        "Maybe you can find out how you ended up here...",
+    ],
+    3: [  # satellite dialogue
+        "As you stare upon the earth from your satelite... ",
+        "You realise you can't deny it anymore...",
+        "This world can't be your Earth... ",
+        "Your portal must have worked... ",
+        "",
+    ],
+    4: [  # portal dialogue
+        "",
+    ],
+}
+
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
-location = "???"
 
+unix = 0  # universe coords on map
+uniy = 0
+
+stupidNames = {  # trust US with YOUR naming conventions
+    0: ["Cheezle McZonkponk"],
+    1: ["John Breakfast", "George Lunch", "Jim Dinner"],  # food
+    2: ["John Feast", "Jim Feast"],
+    3: ["John Cologne", "Joel Colon", "Donald Obama"],  # people
+    4: [  # game references
+        "John Mantle",
+        "John Quixote",
+        "Hornet Spaghetti",
+        "Steve",
+        "Madeline Celeste",
+        "John Supercell",
+        "Meger Nite",
+        "Papyrus",
+        "",
+    ],
+    5: ["John Knobe", "Dor Knobe"],
+    6: ["John Placeholder"],
+    7: ["John nhoJ", "Jim miJ"],
+    8: [
+        "John Short",
+        "John Tall",
+        "Jim Short",
+        "John Medium",
+        "John Small",
+        "John Creamer",
+    ],  # size
+    9: [
+        "",
+    ],
+    10: [
+        "John John",
+        "John John John",
+        "John John John John",
+        "John John John John John",
+    ],  # number of johns
+}
 gnNames = [  # generator names
     "Market Stand",
     "Green Grocer",
@@ -21,7 +89,21 @@ gnNames = [  # generator names
     "Hotel",
     "Bank",
     "Casino",
-    "Power Plant"
+    "Power Plant",
+]
+
+placeNames = [  # placeholder names
+    "market",
+    "grocer",
+    "carWash",
+    "mcdolands",
+    "mine",
+    "shopCentre",
+    "warehouse",
+    "hotel",
+    "bank",
+    "casino",
+    "plant",
 ]
 
 gnDesc = [  # generator descriptions
@@ -43,7 +125,7 @@ upg = {  # upgrade names for each generator
     1: [
         "Leafy Greens",
         "12hr Shifts",
-        "24hr Shifts",
+        "The Openestest",
         "Life Debt Contract",
         "Deal With The Manager",
     ],
@@ -55,10 +137,10 @@ upg = {  # upgrade names for each generator
         "Nuclear Explosion Dried Cars",
     ],
     3: [
-        "Open 24/7",
-        "Open 25/7",
-        "Can I have 36 Burgers, 24 Large Cokes, ...",
-        "1,000,000 Water Cups Please",
+        "All Day Open",
+        "Open 25/8",
+        "Fat Load Order",
+        "One Thousand Nuggets",
         "Roland McDoland's Obesity House",
     ],
     4: [
@@ -66,15 +148,15 @@ upg = {  # upgrade names for each generator
         "Drilling Machines",
         "Galindo Drill",
         "Mammoth Drill",
-        "Explosive Beds",
+        "Bed Bombers",
     ],
-    5: ["Trading Hub", ""],
+    5: ["Trading Hub", ""],  # kai add whatever you need in these ones
     6: ["Child Labour", ""],
     7: ["Room Service", ""],
     8: ["Thousand Dollar Bills", "Monopoly Money"],
     9: ["Weighty Dice", ""],
     10: ["Radioactive Waste", ""],
-    11: ["More Cash", "Increased Profits"],
+    11: ["More Cash", "Increased Profits"],  # increases all
 }
 
 upgDesc = {  # upgrade descriptions
@@ -93,25 +175,25 @@ upgDesc = {  # upgrade descriptions
         "Unfair deal: Give your soul to the manager",
     ],
     2: [
-        "Foamy Bubbles make for better marketing",
-        "Super-Sonic Scrubbers",
+        "A bubble bath for cars.",
+        "Super Scrubbers make your car shine brighter than the heavens in the skies above.",
         "I'm not wearing diamonds!",
         "Would rather / The multitudinous seas Burnt Umber / Making the green one brown",
-        "Daily dose of Gamma Rays and free neutrons",
+        "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
-        "No downtime",
-        "Owe downtime",
-        "AAAAAAAAHHHHHHHHHHHH",
-        "At least they said 'please'",
-        "Honest marketing",
+        "No downtime, no weaknesses.",
+        "An extra hour to keep your workers busy.",
+        "Can I have 36 Big Macs, 24 large Cokes...",
+        "At least they said 'please'...",
+        "The most honest marketping campaign in the big two five.",
     ],
     4: [
-        "Cuts through the rock like butter",
-        "Mining Inc",
-        "The rocks won't see it coming",
-        "Unnecessarily large",
-        "SCP-████: Explodes when slept on by sentient humans. The average villager does not apply",
+        "A sharpened pickaxe that cuts through ore like butter.",
+        "A powerful drill designed to cleave through stone.",
+        "The ultimate Mining Incorporated midgame mining machine.",
+        "Unnecessarily large for an excavation of that size.",
+        "Explodes when slept on by sentient humans. The average villager does not apply.",
     ],
     5: ["Excavate through the stone even faster."],
     6: ["The hub of all trade - one might call it a trading hub."],
@@ -122,21 +204,22 @@ upgDesc = {  # upgrade descriptions
     11: ["The more radioactive it is, the more it sells for."],
 }
 
-upgCost = [ # Base Upgrade Cost
-    500,
-    2000,
-    8000,
-    30000,
-    160000,
-    1300000,
-    24000000,
-    144000000,
-    750000000,
-    900000000,
-    85000000000,
-    [500, 240000000000]
+upgCost = [  # Base Upgrade Cost
+    [500],
+    [2000],
+    [8000],
+    [30000],
+    [160000],
+    [1300000],
+    [24000000],
+    [144000000],
+    [750000000],
+    [9000000000],
+    [85000000000],
+    [500, 240000000000],
 ]
-upgMult = [  # @Cameron change this bc you said you would
+upgMult = [  # on second thought i lowk might leave it
+    # also can we STOP PINGING ME IN THE CODE BRO 😭😭😭😭😭 IT DOESN'T EVEN DO ANYTHING
     "0-2",
     "0-2",
     "1-2",
@@ -152,47 +235,53 @@ upgMult = [  # @Cameron change this bc you said you would
     "0-3",
 ]
 
-prName = [  # displays as Marketing I, Fresh Fruit I etc.
+prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+prName = [
     "Advertising",
     "Variety",
-    "Expensive Cars",
+    "Shiny Soap",
     "Minerals",
     "Efficiency",
     "Marketing",
     "Machinery",
-    "Customer service",
+    "Customer Service",
     "Money Printing",
-    "Fast Dealers",
+    "Gambling",
     "Nuclear Efficiency",
 ]
 
-map = { # What is this for Zach? maybe put this somewhere else like below all of the generator variables
-    "0": ["F", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "1": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "2": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "3": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "4": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "5": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "6": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "7": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    "8": ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+map = {  # What is this for Zach? maybe put this somewhere else like below all of the generator variables
+    0: [1, 0, 0, 0, 0, 0, 0, 0, 0],
+    1: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    2: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    3: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    4: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    5: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    6: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    7: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    8: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    9: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    10: [0, 0, 0, 0, 0, 0, 0, 0, 8],
 }
+
+mapKeys = ["?", "F", "M", "S", "C", "G", "D", "B", "H"]
 
 
 mapDesc = [
-    "The universe you first found yourself in after the accident. ",  # F
-    "What you presume is your original universe... ",  # H
     "??? ",  # ?
+    "The universe you first found yourself in after the accident. ",  # F
     "A rich smelling universe. ",  # m (more money)
     "A universe that makes you feel more like yourself. ",  # s (reduced sanity)
     "A universe in which inflation never existed. ",  # c (cost reduction)
     "A universe full of funny little games to play. ",  # G (minigames)
     "A strange universe full of chaos and destruction. ",  # D (debuffs everything)
     "A happy universe where everything goes just right. ",  # B (buffs everything)
+    "What you presume is your original universe... ",  # H
 ]
 
 gn = [
-    0,
+    1,
     0,
     0,
     0,
@@ -245,9 +334,10 @@ baseCost = [  # Starting Cost of Every Building
     7000000000,
     80000000000,
 ]
+
 currentCost = copy.deepcopy(baseCost)
 selected = False
-ramping = 1.25 # Base cost ramping
+ramping = 1.25  # Base cost ramping
 
 minigames = [
     "Guess the Number",
@@ -258,35 +348,101 @@ minigames = [
     "Battleships",
 ]
 
+suffixes = [  # for shortening numbers
+    "",
+    "k",
+    " million",
+    " billion",
+    " trillion",
+    " quadrillion",
+    " quintillion",
+    " sextillion",
+    " septillion",
+    " octillion",
+    " nonillion",
+    " decillion",
+    " undecillion",
+    " duodecillion",
+    " tredecillion",
+    " quattuordecillion",
+    " quindecillion",
+    " sexdecillion",
+    " septendecillion",
+    " octodecillion",
+    " novemdecillion",
+    " vigintillion",
+    " unvigintillion",
+    " duovigintillion",
+    " trevigintillion",
+    " quattuorvigintillion",
+    " quinvigintillion",
+    " sexvigintillion",
+    " septvigintillion",
+    " octovigintillion",
+    " novemvigintillion",
+    " trigintillion",
+    " untrigintillion",
+    " duotrigintillion",
+    " tretrigintillion",
+    " quattuortrigintillion",
+    " quintrigintillion",
+    " sestrigintillion",
+    " septentrigintillion",
+    " octotrigintillion",
+    " noventrigintillion",
+    " quadragintillion",
+    " unquadragintillion",
+    " duoquadragintillion",
+    " trequadragintillion",
+    " quattuorquadragintillion",
+    " quinquadragintillion",
+    " sesquadragintillion",
+    " septenquadragintillion",
+    " octoquadragintillion",
+    " novemquadragintillion",
+    " quinquagintillion",
+    " unquinquagintillion",
+    " duoquinquagintillion",
+    " trequinquagintillion",
+    " quattuorquinquagintillion",
+    " quinquinquagintillion",
+    " sesquinquagintillion",
+    " septenquinquagintillion",
+    " octoquinquagintillion",
+    " novemquinquagintillion",
+    " sexagintillion",
+    " unsexagintillion",
+]
+
+
 def initiate_generators(name, placeholder_name):
     index = gnNames.index(name)
     generator_template = {
-        placeholder_name : {
-            "name" : name,
-            "index" : index,
-            "desc" : gnDesc[index],
-            "art" : gnArt[index],
-            "Money" : {
-                "baseCost" : baseCost[index],
-                "ramping" : ramping,
-                "cost" : baseCost[index],
-                "bought" : gn[index],
-                "bMpS" : bMpS[index],
-                "MpS" : MpS[index]
+        placeholder_name: {
+            "name": name,
+            "index": index,
+            "desc": gnDesc[index],
+            "art": gnArt[index],
+            "Money": {
+                "baseCost": baseCost[index],
+                "ramping": ramping,
+                "cost": baseCost[index],
+                "bought": gn[index],
+                "bMpS": bMpS[index],
+                "MpS": MpS[index],
             },
-            "Upgrades" : {
-                "upg" : upg[index],
-                "desc" : upgDesc[index],
-                "cost" : upgCost[index],
-                "mult" : upgMult[index]
+            "Upgrades": {
+                "upg": upg[index],
+                "desc": upgDesc[index],
+                "cost": upgCost[index],
+                "mult": upgMult[index],
             },
-            "Prestige" : {
-                "lvl" : 0,
-                "name" : prName[index]
-            }
+            "Prestige": {"lvl": prestige[index], "name": prName[index]},
         }
     }
     return generator_template
+
+
 generators = {
     **initiate_generators("Market Stand", "market"),
     **initiate_generators("Green Grocer", "grocer"),
@@ -298,7 +454,7 @@ generators = {
     **initiate_generators("Hotel", "hotel"),
     **initiate_generators("Bank", "bank"),
     **initiate_generators("Casino", "casino"),
-    **initiate_generators("Power Plant", "plant")
+    **initiate_generators("Power Plant", "plant"),
 }
 
 money = 0
@@ -308,6 +464,3 @@ sanity = 100
 costmult = 1
 sanmult = 1  # sanity decrease multiplier
 warp = 0
-
-
-# where the running actually starts
