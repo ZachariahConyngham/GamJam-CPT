@@ -118,7 +118,7 @@ while True:
         elif var.page == 1:
             var.selectcol = max(1, min(var.selectcol, 2))
         elif var.page == 3 and var.select > -1:
-            var.selectcol = max(0, min(var.selectcol, 9))
+            var.selectcol = max(0, min(var.selectcol, 8))
         else:
             var.selectcol = 0
 
