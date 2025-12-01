@@ -1,13 +1,7 @@
 import sys, time, os, math, msvcrt
 import functions as func
 import variables as var
-from Minigames import (
-    hangman,
-    blackjack,
-    ROSHAMBO,
-    snakes_ladders,
-    skills_gamblingtime,
-)
+from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime
 
 func.clear()
 skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
@@ -42,29 +36,15 @@ while True:
                 var.selected = False
             case " ":
                 if var.page == 0 and var.selectcol == 0 and var.select != -1:
-                    if var.selected == False:
-                        var.selected = True
-                    else:
-                        var.selected = False
-                        if var.money >= var.generators[var.placeNames[var.select]][
-                            "Money"
-                        ]["cost"] * (var.ramping ** var.gn[var.select]):
-                            var.money -= round(
-                                var.generators[var.placeNames[var.select]]["Money"][
-                                    "cost"
-                                ]
-                                * (var.ramping ** var.gn[var.select]),
-                                2,
-                            )
-                            var.gn[var.select] += 1
-                if var.page == 1 and var.select != -1:
+                    if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]) and var.selected == True:
+                        var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
+                        var.gn[var.select] += 1
+                if var.page == 1 and var.select != -1 and var.selected == True:
                     if var.selectcol == 1:
                         func.buyupgrade()
                     if var.selectcol == 2:
                         func.buyprestige()
-                if (
-                    var.page == 3 and var.select != -1
-                ):  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+                if var.page == 3 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
                     var.page = 4
                     func.clear()
                     match var.select:
@@ -92,6 +72,7 @@ while True:
                             var.page = 2
                         case 3:
                             var.page = 3
+                var.selected = not var.selected
             case "x":
                 if var.selected == True:
                     var.selected = False
@@ -126,7 +107,9 @@ while True:
 
     for i in range(len(var.gn)):  # calculating money increase and sanity loss
         mult = 1
-        var.tMpS += var.MpS[i] * 0.5 * var.gn[i] * ((var.upgBought[i] + 1) * 2) * ((1.2) ** var.prestige[i])
+        var.tMpS += var.MpS[i] * var.gn[i] * (2 ** (var.upgBought[i])) * (1.2 ** (var.prestige[i] - 1))
 
-        var.money += var.MpS[i] * 0.5 * var.gn[i] * ((var.upgBought[i] + 1) * 2) * ((1.2) ** var.prestige[i] - 1) * 0.02
+        var.money += var.MpS[i] * var.gn[i] * (2 ** (var.upgBought[i])) * (1.2 ** (var.prestige[i] - 1)) * 0.02
+
+        var.cost[i] = var.baseCost[i] * (0.8 ** (var.prestige[i] - 1))
     var.sanity -= var.sanmult * 0.02 * (1 / 60)

@@ -227,19 +227,7 @@ upgCost = [  # Base Upgrade Cost
     [85000000000],
 ]
 
-upgBought = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-]  # Upgrades that have been bought for each tier
+upgBought = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # Upgrades that have been bought for each tier
 
 prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
@@ -286,60 +274,13 @@ mapDesc = [
     "What you presume is your original universe... ",  # H
 ]
 
-gn = [
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-]  # amounts of each generator, this basically covers bought
+gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator, this basically covers bought
 
-bMpS = [
-    0.5,
-    6,
-    24,
-    60,
-    200,
-    750,
-    1400,
-    5500,
-    18000,
-    40000,
-    125000,
-]  # base money per second
-MpS = [
-    0.5,
-    6,
-    24,
-    60,
-    200,
-    750,
-    1400,
-    5500,
-    18000,
-    40000,
-    125000,
-]  # actual money per second
+bMpS = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]  # base money per second
+MpS = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]  # actual money per second
 tMpS = 0.5  # total money per second
-baseCost = [  # Starting Cost of Every Building
-    2,
-    60,
-    900,
-    8500,
-    55000,
-    240000,
-    3500000,
-    50000000,
-    444444444,
-    7000000000,
-    80000000000,
-]
+baseCost = [2, 60, 900, 8500, 55000, 240000, 3500000, 50000000, 444444444, 7000000000, 80000000000] # Starting Cost of Every Building
+cost = [2, 60, 900, 8500, 55000, 240000, 3500000, 50000000, 444444444, 7000000000, 80000000000]
 
 currentCost = copy.deepcopy(baseCost)
 selected = False
