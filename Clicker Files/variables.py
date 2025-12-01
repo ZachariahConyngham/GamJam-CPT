@@ -1,8 +1,25 @@
 import copy
 from ascii_art import gnArt
 
+stupidNames = {  # trust US with YOUR naming conventions
+    10: ["Cheezle McZonkponk"],
+    0: ["John Breakfast", "George Lunch", "Jim Dinner"],  # food
+    1: ["John Feast", "Jim Feast"],
+    2: ["John Cologne", "Joel Colon", "Donald Obama"],  # people
+    3: ["John Mantle", "John Quixote", "Hornet Spaghetti", "Steve", "Vincent Whittman", "John Supercell", "Meger Nite", "Papyrus", ""],
+    4: ["John Knobe", "Dor Knobe"],
+    5: ["John Placeholder"],
+    6: ["John nhoJ", "Jim miJ"],
+    7: ["John Short", "John Tall", "Jim Short", "John Medium", "John Small", "John Creamer"],  # size
+    8: ["", "", ],
+    9: ["John John", "John John John", "John John John John", "John John John John John"],  # number of johns
+}
+
+unix = 0  # universe coords on map
+uniy = 0
+
 dialogue = {
-    0: [  # opening dialogue
+    1: [  # opening dialogue
         "...",
         "The world is spinning around you... ",
         "You feel like you are being pulled in every direction... ",
@@ -10,14 +27,16 @@ dialogue = {
         "...",
         "...",
         "...",
+        "clear",
         "You awake to the sound of water running nearby. ",
         "You find yourself in a place that is vaguely familiar... ",
         "You decide to explore to find out where you have arrived... ",
         "clear",
-    ],
-    1: [  # City discovery dialogue
         "You see the outline of a city in the distance... ",
         "You realise you remember nothing from before you woke up... ",
+        "'Hey there, " + stupidNames[uniy][unix] + "'",
+        "Something about the name you were called seems wrong but you can't figure out what it is...",
+        "By the time you realise this the person who spoke is already walking away...",
     ],
     2: [  # Research station built
         "You have constructed the Research Station... ",
@@ -31,53 +50,43 @@ dialogue = {
         "",
     ],
     4: [  # portal dialogue
-        "",
+        "You have completed a device that should be able to send you to a different reality",
+        "Whether that reality is your reality remains to be seen",
     ],
+    0: [ # Your universe with correct name
+        "As you exit the portal you hear a familiar voice...",
+        "'Is that you ___?'",
+        "You have finally found your home...",
+        "Your journey is over...",
+        "But some part of you doesn't want it to end yet...", # if user hasn't found their true name
+        "That small part enjoyed the adventures you went on...",
+        "The wealth you acquired...",
+        "The friends you made...",
+        "" # input "do you want to return to your previous life or ... Do you want to resume your journey of hopping between realities"
+    ],
+    5: [ # Your universe
+        "As you exit the portal, you find yourself in a white room... ",
+        "As you try to figure out where you are a voice speaks, seemingly from every direction...",
+        "'What is your name?'", #input (what is your name)
+    ],
+    5.1: [
+        "'Incorrect. Go back to your own reality'",
+        "You feel a force pushing you back into the portal...",
+        "You wake to find yourself where you originally woke up..."
+        "Maybe if you found the right name the voice would let you through...",
+    ],
+    6: [ # undecided
+
+    ]
 }
 
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 
-unix = 0  # universe coords on map
-uniy = 0
 
-stupidNames = {  # trust US with YOUR naming conventions
-    0: ["Cheezle McZonkponk"],
-    1: ["John Breakfast", "George Lunch", "Jim Dinner"],  # food
-    2: ["John Feast", "Jim Feast"],
-    3: ["John Cologne", "Joel Colon", "Donald Obama"],  # people
-    4: [  # game references
-        "John Mantle",
-        "John Quixote",
-        "Hornet Spaghetti",
-        "Steve",
-        "Madeline Celeste",
-        "John Supercell",
-        "Meger Nite",
-        "Papyrus",
-        "",
-    ],
-    5: ["John Knobe", "Dor Knobe"],
-    6: ["John Placeholder"],
-    7: ["John nhoJ", "Jim miJ"],
-    8: [
-        "John Short",
-        "John Tall",
-        "Jim Short",
-        "John Medium",
-        "John Small",
-        "John Creamer",
-    ],  # size
-    9: [
-        "",
-    ],
-    10: [
-        "John John",
-        "John John John",
-        "John John John John",
-        "John John John John John",
-    ],  # number of johns
-}
+
+print()
+
 gnNames = [  # generator names
     "Market Stand",
     "Green Grocer",
@@ -161,16 +170,16 @@ upg = {  # upgrade names for each generator
 
 upgDesc = {  # upgrade descriptions
     0: [
-        "Fresher Fruit = More Money",
-        "Pesticides are the Besticides",
-        "Only the best",
+        "Fresher fruit means happier customers means more money.",
+        "Pesticides are the Besticides!",
+        "Only the best cultivar used for your store.",
         "It's smooth and mild, and refreshingly addictive!",
         "Genetically Modified Fruit: Now with toys inside!",
     ],
     1: [
         "Leafy Greens instead of Leafy Browns",
-        "A long day",
-        "A longer day and night",
+        "A long day for the workers.",
+        "The most openiest and unclosiest maybe possibly clopen store.",
         "You're never paying this off...",
         "Unfair deal: Give your soul to the manager",
     ],
@@ -205,13 +214,13 @@ upgDesc = {  # upgrade descriptions
 }
 
 upgCost = [  # Base Upgrade Cost
-    [0.5, 7000],
+    [5500, 7000],
     [2000, 16000],
     [8000, 56000],
     [30000, 112000],
     [160000, 800000],
     [1300000, 9000000],
-    [24000000],
+    [24000000, 172000000],
     [144000000],
     [750000000],
     [9000000000],
@@ -346,69 +355,16 @@ minigames = [
 ]
 
 suffixes = [  # for shortening numbers
-    "",
-    "k",
-    " million",
-    " billion",
-    " trillion",
-    " quadrillion",
-    " quintillion",
-    " sextillion",
-    " septillion",
-    " octillion",
-    " nonillion",
-    " decillion",
-    " undecillion",
-    " duodecillion",
-    " tredecillion",
-    " quattuordecillion",
-    " quindecillion",
-    " sexdecillion",
-    " septendecillion",
-    " octodecillion",
-    " novemdecillion",
-    " vigintillion",
-    " unvigintillion",
-    " duovigintillion",
-    " trevigintillion",
-    " quattuorvigintillion",
-    " quinvigintillion",
-    " sexvigintillion",
-    " septvigintillion",
-    " octovigintillion",
-    " novemvigintillion",
-    " trigintillion",
-    " untrigintillion",
-    " duotrigintillion",
-    " tretrigintillion",
-    " quattuortrigintillion",
-    " quintrigintillion",
-    " sestrigintillion",
-    " septentrigintillion",
-    " octotrigintillion",
-    " noventrigintillion",
-    " quadragintillion",
-    " unquadragintillion",
-    " duoquadragintillion",
-    " trequadragintillion",
-    " quattuorquadragintillion",
-    " quinquadragintillion",
-    " sesquadragintillion",
-    " septenquadragintillion",
-    " octoquadragintillion",
-    " novemquadragintillion",
-    " quinquagintillion",
-    " unquinquagintillion",
-    " duoquinquagintillion",
-    " trequinquagintillion",
-    " quattuorquinquagintillion",
-    " quinquinquagintillion",
-    " sesquinquagintillion",
-    " septenquinquagintillion",
-    " octoquinquagintillion",
-    " novemquinquagintillion",
-    " sexagintillion",
-    " unsexagintillion",
+    "", "k", " million", " billion", " trillion", " quadrillion", " quintillion", " sextillion", " septillion", " octillion", " nonillion", " decillion",
+    " undecillion", " duodecillion", " tredecillion", " quattuordecillion", " quindecillion", " sexdecillion", " septendecillion", " octodecillion", " novemdecillion", " vigintillion",
+    " unvigintillion", " duovigintillion", " trevigintillion", " quattuorvigintillion", " quinvigintillion", " sexvigintillion", " septvigintillion", " octovigintillion", " novemvigintillion", " trigintillion",
+    " untrigintillion", " duotrigintillion", " tretrigintillion", " quattuortrigintillion", " quintrigintillion", " sestrigintillion", " septentrigintillion", " octotrigintillion", " noventrigintillion", " quadragintillion",
+    " unquadragintillion", " duoquadragintillion", " trequadragintillion", " quattuorquadragintillion", " quinquadragintillion", " sesquadragintillion", " septenquadragintillion", " octoquadragintillion", " novemquadragintillion", " quinquagintillion",
+    " unquinquagintillion", " duoquinquagintillion", " trequinquagintillion", " quattuorquinquagintillion", " quinquinquagintillion", " sesquinquagintillion", " septenquinquagintillion", " octoquinquagintillion", " novemquinquagintillion", " sexagintillion",
+    " unsexagintillion", " duosexagintillion", " tresexagintillion", " quattuorsexagintillion", " quinsexgintillion", " sessexagintillion", " septensexagintillion", " octosexagintillion", " novensexagintillion",  " septuagintillion",
+    " unseptuagintillion", " duoseptuagintillion", " treseptuagintillion", " quattuorseptuagintillion", " quinseptuagintillion", " sesseptuagintillion", " octoseptuagintillion", " novenseptuagintillion", " octagintillion",
+    " unoctagintillion", " duooctagintillion", " treoctagintillion", " quattuoroctagintillion", " quinoctagintillion", " sesoctagintillion", " septenoctagintillion", " octooctagintillion", " novenoctagintillion", " nonagintillion",
+    " unnonagintillion", " duononagintillion", " trenonagintillion" , " quattuornonagintillion", " quinnonagintillion", " sesnonagintillion", " septennonagintillion", " octononagintillion", " novennonagintillion", " centillion",
 ]
 
 

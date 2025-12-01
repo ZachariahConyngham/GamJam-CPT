@@ -143,16 +143,12 @@ def page0(selected, cost, SMpS):
 
     for i in range(len(var.gn)):
         if var.select == i and i != -1 and var.selectcol == 0:
-            left_lines.append(
-                f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}"
-            )
+            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}")
         else:
-            left_lines.append(
-                f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      "
-            )
+            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         if var.select != -1:
-            print(f"{left_lines[i]:<38}{var.gnArt[var.select][0][i]}")
+            print(f"{left_lines[i]:<38}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
         else:
             print("\033[2K", end="")
             print(left_lines[i])
@@ -164,44 +160,20 @@ def page0(selected, cost, SMpS):
         if var.select != -1:
             print(var.gnDesc[var.select])
             print("\033[2K", end="")
-            print(
-                "You currently own: "
-                + str(math.floor(var.gn[var.select]))
-                + " (Producing $"
-                + shorten(SMpS)
-                + " per second - "
-                + str(round((SMpS / var.tMpS) * 100, 2))
-                + "%)"
-            )
+            print("You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
             print("\033[2K", end="")
-            print(
-                "(Next one costs $"
-                + shorten(cost * (var.ramping ** var.gn[var.select]))
-                + ")"
-            )
+            print("(Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
         else:
             print("\033[2K")
             print("\033[2K")
             print("\033[2K")
     else:
         if var.money >= cost * (var.ramping ** var.gn[var.select]):
-            print(
-                "Buy one for $"
-                + shorten(cost * (var.ramping ** var.gn[var.select]))
-                + "? (SPACE to confirm, X to cancel)"
-            )
+            print("Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "? (SPACE to confirm, X to cancel)")
         else:
-            print(
-                "You aren't rich enough to buy this for $"
-                + shorten(cost * (var.ramping ** var.gn[var.select]))
-                + "."
-            )
+            print("You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             print("\033[2K", end="")
-            print(
-                "You are missing $"
-                + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money)
-                + ". Lock in."
-            )
+            print("You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ". Lock in.")
         print("\033[2K")
         print("\033[2K")
 
@@ -215,19 +187,9 @@ def page1(selected, cost, SMpS):
         print("\033[2K", end="")
         if i < len(var.upg):
             if var.selectcol == 1 and i == var.select:
-                left_lines.append(
-                    var.upg[i][var.upgBought[i]]
-                    + " ($"
-                    + shorten(var.upgCost[i][var.upgBought[i]])
-                    + ") <"
-                )
+                left_lines.append(var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ") <")
             else:
-                left_lines.append(
-                    var.upg[i][var.upgBought[i]]
-                    + " ($"
-                    + shorten(var.upgCost[i][var.upgBought[i]])
-                    + ")"
-                )
+                left_lines.append(var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ")")
 
         if var.selectcol == 2 and i == var.select:
             right_lines.append(var.prName[i] + " " + to_roman(var.prestige[i]) + " <")
@@ -246,10 +208,14 @@ def page1(selected, cost, SMpS):
     print("\033[2K", end="")
 
     if var.select != -1:
-        print(var.upgDesc[var.select][var.upgBought[var.select]])
-        print("\033[2K", end="")
-        # print(len(bought))
-        # print(str(select) + " " + str(selectcol))
+        if var.selectcol == 1:
+            print(var.upgDesc[var.select][var.upgBought[var.select]])
+            print("\033[2K", end="")
+            # print(len(bought))
+            # print(str(select) + " " + str(selectcol))
+        if var.selectcol == 2:
+            print("Buy for $" + shorten((var.baseCost[var.select] + 30) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
+            print("(Each prestige level increases the generator's stats by 20%.)")
     print("\033[2K")
     print("\033[2K")
 
@@ -287,12 +253,7 @@ def page3(selected, cost, SMpS):
     if var.select != -1:
         print(var.mapDesc[var.map[var.select][var.selectcol]])
         print("\033[2K", end="")
-        print(
-            "Travel costs $"
-            + shorten(
-                1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 2) * 1.5)
-            )
-        )
+        print("Travel costs $" + shorten(1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 2) * 1.5)))
         print("\033[2K", end="")
         if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
             print("You can travel here!")
@@ -306,3 +267,8 @@ def buyupgrade():
     if var.money >= var.upgCost[var.select][var.upgBought[var.select]]:
         var.money -= var.upgCost[var.select][var.upgBought[var.select]]
         var.upgBought[var.select] += 1
+
+def buyprestige():
+    if var.money >= (var.baseCost[var.select] + 30) * (28.3729579 ** ((var.prestige[var.select]) * 2)):
+        var.money -= (var.baseCost[var.select] + 30) * (28.3729579 ** ((var.prestige[var.select]) * 2))
+        var.prestige[var.select] += 1
