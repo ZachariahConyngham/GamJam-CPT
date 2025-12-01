@@ -1,6 +1,16 @@
 import time, copy
-from random import randint
+from random import randint, choice
 from math import floor
+
+"""
+________Simplified List__________
+- pwb()
+- print_board(board)
+- print_game_board()
+- generate_board()
+- first 1/2 of kaiGuess()
+
+"""
 
 def batlshit():
 	kaiTaunts = [[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, idk add more later
@@ -21,226 +31,132 @@ def batlshit():
 		print("          Your Board              |        Your Guessed Board")
 		print("   a  b  c  d  e  f  g  h  i  j   |     a  b  c  d  e  f  g  h  i  j")
 		for row in range(10):
-			for boardid in range(0,2):
-				if row != 9:
-					print(row + 1, end=" ")
-				else:
-					print(row + 1, end="")
-				if boardid == 0:
-					for column in range(10):
-						if kaiGuessBoard[row][column] != " ":
-							if any(ship.startswith(board[row][column]) for ship in sunkShip):
-								pwb("X")
-							else:
-								pwb(kaiGuessBoard[row][column])
-						else:
-							pwb(board[row][column])
-				else:
-					for k in range(10):
-						pwb(guessBoard[i][k])
-				if j == 0:
-					print("  |  ", end="")
+			print(row + 1, end = "" if row == 9 else " ") # prints side numbers
+			for column in range(10): # prints each tile
+				if kaiGuessBoard[row][column] != " ": pwb("X" if any(ship.startswith(board[row][column]) for ship in sunkShip) else kaiGuessBoard[row][column])
+				else: pwb(board[row][column])
+			print("  |  ", end="") # print middle line
+			print(row + 1, end = "" if row == 9 else " ") # prints side numbers
+			for column in range(10): # print guessBoard tiles
+				pwb(guessBoard[row][column])
 			print("")
+	
 	def generate_board(): # ai generate the board
 		for piece in pieces:
-			placed = False
-			while placed == False:
+			while True:
 				position = [randint(0,9), randint(0,9)]
-				if kaiBoard[position[0]][position[1]] != " ":
-					continue
+				if kaiBoard[position[0]][position[1]] != " ": continue
 				
-				global possiblepositions
-				possiblepositions = [[position[0], position[1] + piece[1] - 1], [position[0], position[1] - piece[1] + 1], [position[0] + piece[1] - 1, position[1]], [position[0] - piece[1] + 1, position[1]]]
+				global posspositions
+				posspositions = [[position[0], position[1] + piece[1] - 1], [position[0], position[1] - piece[1] + 1], [position[0] + piece[1] - 1, position[1]], [position[0] - piece[1] + 1, position[1]]]
+				
 				def invalid_coord():
-					global possiblepositions
-					possiblepositions[index] = ""
+					global posspositions
+					posspositions[index] = ""
 					return True
 
-				print(position, piece)
-				for index, coord in enumerate(possiblepositions):
+				for index, coord in enumerate(posspositions):
 					shiplength = 0
 					if (any(number not in range(10) for number in coord)) and invalid_coord(): continue
-					axis = floor(index / 2) ### 1,1 -- 1,0 1,2 0,1 2,1
-					print(coord[1 - axis], position[1 - axis] + (-1 if index % 2 == 0 else 1), -1 if index % 2 == 0 else 1)
-					for space in range(coord[1 - axis], position[1 - axis] + (-1 if index % 2 == 0 else 1), -1 if index % 2 == 0 else 1):
+					axis = floor(index / 2)
+					gradient = -1 if index % 2 == 0 else 1
+					for space in range(coord[1 - axis], position[1 - axis] + gradient, gradient):
 						shiplength += 1
 						if axis == 0 and kaiBoard[coord[0]][space] != " ": break
 						if axis == 1 and kaiBoard[space][coord[1]] != " ": break
 					if shiplength != piece[1] and invalid_coord(): continue
 				
-				posspositions = [coord for coord in possiblepositions if bool(coord)]
+				posspositions = [coord for coord in posspositions if bool(coord)]
 				if not bool(posspositions): continue
-				endcoord = posspositions[randint(0, len(posspositions) - 1)] # work on thisssssssssssssssssssssssssssssssssssssssssssss, simplify this please
-				if position[0] == endcoord[0]:
-					if position[1] > endcoord[1]:
-						for i in range(endcoord[1], position[1] + 1):
-							kaiBoard[i][position[0]] = piece[0][0]
-					else:
-						for i in range(position[1], endcoord[1] + 1):
-							kaiBoard[i][position[0]] = piece[0][0]
-				else:
-					if position[0] > endcoord[0]:
-						for i in range(endcoord[0], position[0] + 1):
-							kaiBoard[position[1]][i] = piece[0][0]
-					else:
-						for i in range(position[0], endcoord[0] + 1):
-							kaiBoard[position[1]][i] = piece[0][0]
-				placed = True
+				endcoord = choice(posspositions)
 
-	def kaiGuess():
-		global kaiSuccessAtk
-		global sunkShips
+				eqAxis = 1 if position[0] == endcoord[0] else 0
+				gradient = -1 if position[eqAxis] > endcoord[eqAxis] else 1
+				for i in range(position[eqAxis], endcoord[eqAxis] + gradient, gradient):
+					kaiBoard[position[0] if eqAxis == 1 else i][i if eqAxis == 1 else position[1]] = piece[0][0]
+				break
+
+	def kaiGuess(): # ai guessing on their turn
+		global kaiSuccessAtk, sunkShips
 		cleared = False
-		remainingLen = [value for value in userPieces if len(value) > 0]
-		tgtLen = userPieces.index(max(remainingLen, key = userPieces.index)) + 2
-		print(tgtLen)
-		atkcoordsall = []
-		atkcoords = []
-		print(kaiSuccessAtk)
+		tgtLen = max([index for index, value in enumerate(userPieces) if len(value) > 0]) + 2
+		atkcoords, atkcoordsall = [], []
+
 		if kaiSuccessAtk == True:
-			for row in range(10):
+			for row in range(10): # find if there are already atkedcoordinates
 				for column in range(10):
-					if kaiGuessBoard[row][column] == "X":
-						atkcoordsall.append(str(row) + str(column))
+					if kaiGuessBoard[row][column] == "X": atkcoordsall.append(str(row) + str(column))
 			atkcoords.append(atkcoordsall[0])
-			for coord1 in atkcoordsall:
-				if coord1 in atkcoords: continue
+
+			for coord1 in set(atkcoordsall) - set(atkcoords): # check which Xs go with each other
 				atkcoords.append(coord1)
-				print(atkcoords)
-				if atkcoords[0][0] == atkcoords[1][0]: # if they are on the same row
-					atkdirection = 0
-				else: # if they are on the same column
-					atkdirection = 1
-				for coord2 in atkcoordsall:
-					if coord2 in atkcoords: continue
-					print(coord2)
-					if coord2[atkdirection] == atkcoords[0][atkdirection]:
-						atkcoords.append(coord2)
+				atkdirection = 0 if atkcoords[0][0] == atkcoords[1][0] else 1
+				atkdirone = atkdirection == 1
+
+				for coord2 in set(atkcoordsall) - set(atkcoords):
+					if coord2[atkdirection] == atkcoords[0][atkdirection]: atkcoords.append(coord2)
+				if tgtLen <= len(atkcoords):
+					atkcoords = [atkcoords[0]]
+					continue
+
 				limitbreak = [False, False] # 144 - 152: check whether the Xs have been blocked and not marked as sunk ship
-				lwrlimit = int(min(atkcoords)[0 if atkdirection == 1 else 1]) - 1
+				lwrlimit = int(min(atkcoords)[1 - atkdirection]) - 1
+				uprlimit = int(max(atkcoords)[1 - atkdirection]) + 1
 				if lwrlimit < 0:
 					limitbreak[0] = True
 					lwrlimit = 0
-				uprlimit = int(max(atkcoords)[0 if atkdirection == 1 else 1]) + 1
 				if uprlimit > 9:
 					limitbreak[1] = True
 					uprlimit = 9
-				print(lwrlimit, uprlimit)
-				if tgtLen <= len(atkcoords): 
-					atkcoords = []
-					atkcoords.append(atkcoordsall[0])
-					continue
-				condition1 = bool(kaiGuessBoard[lwrlimit if atkdirection == 1 else int(atkcoords[0][0])][lwrlimit if atkdirection == 0 else int(atkcoords[0][1])] == "O" or limitbreak[0])
-				condition2 = bool(kaiGuessBoard[uprlimit if atkdirection == 1 else int(atkcoords[0][0])][uprlimit if atkdirection == 0 else int(atkcoords[0][1])] == "O" or limitbreak[1])
+				condition1 = (kaiGuessBoard[lwrlimit if atkdirone else int(atkcoords[0][0])][int(atkcoords[0][1]) if atkdirone else lwrlimit] == "O" or limitbreak[0])
+				condition2 = (kaiGuessBoard[uprlimit if atkdirone else int(atkcoords[0][0])][int(atkcoords[0][1]) if atkdirone else uprlimit] == "O" or limitbreak[1])
 				if condition1 and condition2:
-					atkcoords = []
-					atkcoords.append(atkcoordsall[0])
+					atkcoords = [atkcoords[0]]
 					continue
-				else:
-					break
+				else: break
 
-			print(atkcoordsall, atkcoords)
 			possibleCoords = [[], []]
 			limit = tgtLen - len(atkcoords)
-			if len(atkcoords) > 1:
-				if atkcoords[0][0] == atkcoords[1][0]: # if on the same row
-					lwrlimit = int(min(atkcoords)[1]) - limit
-					if lwrlimit < 0: lwrlimit = 0
-					uprlimit = int(max(atkcoords)[1]) + limit
-					if uprlimit > 9: uprlimit = 9
-					for column in range(lwrlimit, int(min(atkcoords)[1])):
-						if kaiGuessBoard[int(atkcoords[0][0])][column] != " ":
-							continue
-						else:
-							possibleCoords[0].append(atkcoords[0][0] + str(column))
-					for column in range(uprlimit, int(max(atkcoords)[1]), -1):
-						if kaiGuessBoard[int(atkcoords[0][0])][column] != " ":
-							continue
-						else:
-							possibleCoords[1].append(atkcoords[0][0] + str(column))
-					print(possibleCoords)
-					target = str(atkcoords[0][0]) + str(max(possibleCoords[0], possibleCoords[1], key = len)[-1][1])
-				else:
-					lwrlimit = int(min(atkcoords)[0]) - limit
-					if lwrlimit < 0: lwrlimit = 0
-					uprlimit = int(max(atkcoords)[0]) + limit
-					if uprlimit > 9: uprlimit = 9
-					for row in range(lwrlimit, int(min(atkcoords)[0])):
-						if kaiGuessBoard[row][int(atkcoords[0][1])] != " ":
-							continue
-						else:
-							possibleCoords[0].append(str(row) + atkcoords[0][1])
-					for row in range(uprlimit, int(max(atkcoords)[0]), -1):
-						if kaiGuessBoard[row][int(atkcoords[0][1])] != " ":
-							continue
-						else:
-							possibleCoords[1].append(str(row) + atkcoords[0][0])
-					print(possibleCoords)
-					target = [max(possibleCoords[0], possibleCoords[1], key = len)[-1][0], atkcoords[0][1]]
+			if len(atkcoords) > 1: # determine target
+				axis = 1 if atkcoords[0][0] == atkcoords[1][0] else 0
+				lwrlimit = int(min(atkcoords)[axis]) - limit
+				uprlimit = int(max(atkcoords)[axis]) + limit
+				if lwrlimit < 0: lwrlimit = 0
+				if uprlimit > 9: uprlimit = 9
+				for gradient in range(1, -3, -2):
+					for space in range(lwrlimit if gradient == 1 else uprlimit, int(min(atkcoords)[axis]), gradient):
+						print(lwrlimit, uprlimit, int(min(atkcoords)[axis]), gradient, space, axis)
+						if axis == 1 and kaiGuessBoard[int(atkcoords[0][0])][space] == " ": possibleCoords[0 if gradient == 1 else 1].append(atkcoords[0][0] + str(space))
+						if axis == 0 and kaiGuessBoard[space][int(atkcoords[0][1])] == " ": possibleCoords[0 if gradient == 1 else 1].append(str(space) + atkcoords[0][1])
+				print(possibleCoords)
+				temp = [str(atkcoords[0][1 - axis]), str(max(possibleCoords[0], possibleCoords[1], key = len)[-1][axis])]
+				target = temp[1 - axis] + temp[axis]
 			else:
-				print(atkcoords)
 				spaces = [[], [], [], []]
-				print_board(kaiGuessBoard)
 				for axis in range(2):
 					for gradient in range(-1, 3, 2):
 						for space in range(int(atkcoords[0][axis]), -1 if gradient == -1 else 10, gradient):
-							print(axis, gradient, space)
-							if axis == 0:
-								print(space, atkcoords[0][1])
-								if not (kaiGuessBoard[space][int(atkcoords[0][1])] == " " or kaiGuessBoard[space][int(atkcoords[0][1])] == "X" and (str(space) + atkcoords[0][1]) in atkcoords): break
-							else:
-								print(atkcoords[0][0], space)
-								print(kaiGuessBoard[int(atkcoords[0][0])][space] == "X", (atkcoords[0][0] + str(space)) in atkcoords)
-								if not (kaiGuessBoard[int(atkcoords[0][0])][space] == " " or kaiGuessBoard[int(atkcoords[0][0])][space] == "X" and (atkcoords[0][0] + str(space)) in atkcoords): break
+							if axis == 0 and not (kaiGuessBoard[space][int(atkcoords[0][1])] == " " or kaiGuessBoard[space][int(atkcoords[0][1])] == "X" and (str(space) + atkcoords[0][1]) in atkcoords): break
+							if axis == 1 and not (kaiGuessBoard[int(atkcoords[0][0])][space] == " " or kaiGuessBoard[int(atkcoords[0][0])][space] == "X" and (atkcoords[0][0] + str(space)) in atkcoords): break
 							spaces[(0 if gradient == -1 else 2) + axis].append(str(atkcoords[0][0] if axis == 1 else space) + str(atkcoords[0][1] if axis == 0 else space))
 				len1 = len(spaces[0]) + len(spaces[2])
 				len2 = len(spaces[1]) + len(spaces[3])
-				print(spaces)
-				if len1 == len2:
-					direction = randint(0, 1)
-					if len(spaces[direction]) == spaces[direction + 2]:
-						target = spaces[randint(0, 1) * 2 + direction][1]
-					else:
-						target = max(spaces[direction], spaces[direction + 2], key = len)[1]
-				else:
-					if len1 > len2:
-						if len(spaces[0]) == len(spaces[2]):
-							target = spaces[randint(0, 1) * 2][1]
-						else:
-							target = max(spaces[0], spaces[2], key = len)[1]
-					else:
-						if len(spaces[1]) == len(spaces[3]):
-							target = spaces[randint(0, 1) * 2 + 1][1]
-						else:
-							target = max(spaces[1], spaces[3], key = len)[1]
+				direction = randint(0, 1) if len1 == len2 else (0 if len1 > len2 else 1)
+				target = spaces[randint(0, 1) * 2 + direction][1] if len(spaces[direction]) == len(spaces[direction + 2]) else max(spaces[direction], spaces[direction + 2], key = len)[1]
+			
 			# Detect if cleared ship
-			pieceList = []
-			for length in userPieces:
-				for ship in length:
-					pieceList.append(ship)
-			atkedPiece = [piece for piece in pieceList if piece[0] == board[int(atkcoords[0][0])][int(atkcoords[0][1])]]
-			print(board[int(atkcoords[0][0])][int(atkcoords[0][1])])
-			spaces = []
-			print(atkcoords, possibleCoords, limit, target, atkedPiece, pieceList)
-			print_board(board)
-			for row in board:
-				for i in range(0, len(row)):
-					if row[i] == atkedPiece[0][0]: # Error: multiple ships adjacent are being hit, therefore it thinks it's one ship; if same amount of tiles are hit as the length of first hit tile, it clears it and thinks ship is dead
-						spaces.append(str(board.index(row)) + str(i))
-			print(spaces)
-			if len(spaces) == len(atkcoords) + 1:
-				cleared = True
-				for coord in atkcoords:
-					if board[int(coord[0])][int(coord[1])] != atkedPiece[0][0]:
-						cleared = False
-						break
-				if board[int(target[0])][int(target[1])] != atkedPiece[0][0]:
-					cleared = False
-				if cleared:
-					print("I sunk your %s! HAHAHAHA." % (atkedPiece[0]))
-					userPieces[len(spaces) - 2].remove(atkedPiece[0])
-					sunkShip.append(atkedPiece[0])
-		else:
+			spaces = dict.fromkeys(sum(userPieces, []), [])
+			for ship in spaces:
+				for row in range(len(board)):
+					for column in range(len(board[row])):
+						if row[column] == ship[0]: spaces[ship].append(str(row) + str(column))
+				if all((value in set(atkcoords + atkcoordsall + [target])) for value in spaces[ship]):
+					cleared = True
+					print("I sunk your %s! HAHAHAHA." % (ship))
+					print(kaiTaunts[2][randint(0, len(kaiTaunts[2]))])
+					userPieces[len(spaces[ship]) - 2].remove(ship)
+					sunkShip.append(ship)
+		else: # simpliffyf thisss sa fd slfjasdj fkafj las;d asdj fkasf
 			lwstScore = [100, []]
 			for row, rowvalue in enumerate(kaiGuessBoard): # count amount of spaces between target and end of the board
 				for column, columnvalue in enumerate(rowvalue):
@@ -286,10 +202,12 @@ def batlshit():
 		if board[int(target[0])][int(target[1])] == " ":
 			kaiGuessBoard[int(target[0])][int(target[1])] = "O"
 		else:
+			print(kaiGuessBoard)
 			if cleared == True:
+				print(cleared, len(atkcoords), len(atkcoordsall), kaiSuccessAtk, spaces[sunkShip[-1]])
 				if len(atkcoordsall) <= len(atkcoords):
 					kaiSuccessAtk = False
-				for coord in atkcoords:
+				for coord in spaces[sunkShip[-1]]:
 					kaiGuessBoard[int(coord[0])][int(coord[1])] = "O"
 				kaiGuessBoard[int(target[0])][int(target[1])] = "O"
 				cleared = False
@@ -498,7 +416,7 @@ def batlshit():
 					if turn[1] == "user":
 						print("---Your Turn---")
 						target = ""
-						print_board(kaiBoard)
+						#print_board(kaiBoard)
 						while target == "":
 							target = input("Where would you like to attack?(e.g. a1, d5) ")
 							if not (len(target) == 2 or len(target) == 3 and target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
