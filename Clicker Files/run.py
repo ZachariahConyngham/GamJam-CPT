@@ -13,7 +13,7 @@ func.clear()
 skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
 if skip != "Y":
     func.clear()
-    for line in var.dialogue[0]:
+    for line in var.dialogue[1]:
         if line != "clear":
             func.yap(line)
             time.sleep(1)
@@ -57,14 +57,11 @@ while True:
                                 2,
                             )
                             var.gn[var.select] += 1
-                if var.page == 1 and var.selectcol == 0 and var.select != -1:
-                    if money >= var.upgcost[var.select]:
-                        money -= round(var.upgcost[var.select], 2)
-                        var.bought.append(var.upgab[var.select])
-                        var.upg.remove(var.upg[var.select])
-                        var.upgcost.remove(var.upgcost[var.select])
-                        var.upgdesc.remove(var.upgdesc[var.select][0])
-                        var.upgab.remove(var.upgab[var.select])
+                if var.page == 1 and var.select != -1:
+                    if var.selectcol == 1:
+                        func.buyupgrade()
+                    if var.selectcol == 2:
+                        func.buyprestige()
                 if (
                     var.page == 3 and var.select != -1
                 ):  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
@@ -129,7 +126,7 @@ while True:
 
     for i in range(len(var.gn)):  # calculating money increase and sanity loss
         mult = 1
-        var.tMpS += var.MpS[i] * var.gn[i]
+        var.tMpS += var.MpS[i] * 0.5 * var.gn[i] * ((var.upgBought[i] + 1) * 2) * ((1.2) ** var.prestige[i])
 
-        var.money += var.MpS[i] * var.gn[i] * 0.02
+        var.money += var.MpS[i] * 0.5 * var.gn[i] * ((var.upgBought[i] + 1) * 2) * ((1.2) ** var.prestige[i] - 1) * 0.02
     var.sanity -= var.sanmult * 0.02 * (1 / 60)
