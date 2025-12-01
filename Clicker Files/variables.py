@@ -205,35 +205,32 @@ upgDesc = {  # upgrade descriptions
 }
 
 upgCost = [  # Base Upgrade Cost
-    [500],
-    [2000],
-    [8000],
-    [30000],
-    [160000],
-    [1300000],
+    [0.5, 7000],
+    [2000, 16000],
+    [8000, 56000],
+    [30000, 112000],
+    [160000, 800000],
+    [1300000, 9000000],
     [24000000],
     [144000000],
     [750000000],
     [9000000000],
     [85000000000],
-    [500, 240000000000],
 ]
-upgMult = [  # on second thought i lowk might leave it
-    # also can we STOP PINGING ME IN THE CODE BRO 😭😭😭😭😭 IT DOESN'T EVEN DO ANYTHING
-    "0-2",
-    "0-2",
-    "1-2",
-    "2-2",
-    "3-2",
-    "4-2",
-    "5-2",
-    "6-2",
-    "7-2",
-    "8-2",
-    "9-2",
-    "10-2",
-    "0-3",
-]
+
+upgBought = [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+]  # Upgrades that have been bought for each tier
 
 prestige = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
@@ -435,7 +432,6 @@ def initiate_generators(name, placeholder_name):
                 "upg": upg[index],
                 "desc": upgDesc[index],
                 "cost": upgCost[index],
-                "mult": upgMult[index],
             },
             "Prestige": {"lvl": prestige[index], "name": prName[index]},
         }

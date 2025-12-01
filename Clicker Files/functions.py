@@ -216,11 +216,17 @@ def page1(selected, cost, SMpS):
         if i < len(var.upg):
             if var.selectcol == 1 and i == var.select:
                 left_lines.append(
-                    var.upg[i][0] + " ($" + shorten(var.upgCost[i][0]) + ") <"
+                    var.upg[i][var.upgBought[i]]
+                    + " ($"
+                    + shorten(var.upgCost[i][var.upgBought[i]])
+                    + ") <"
                 )
             else:
                 left_lines.append(
-                    var.upg[i][0] + " ($" + shorten(var.upgCost[i][0]) + ")"
+                    var.upg[i][var.upgBought[i]]
+                    + " ($"
+                    + shorten(var.upgCost[i][var.upgBought[i]])
+                    + ")"
                 )
 
         if var.selectcol == 2 and i == var.select:
@@ -240,16 +246,10 @@ def page1(selected, cost, SMpS):
     print("\033[2K", end="")
 
     if var.select != -1:
-        print(var.upgDesc[var.select][0])
+        print(var.upgDesc[var.select][var.upgBought[var.select]])
         print("\033[2K", end="")
-        up = var.upgMult[var.select].split("-")
-        if up[0] != "a" and up[0] is not None:
-            print(var.gnNames[int(up[0])] + " - x" + up[1] + " production")
-        else:
-            print("All generators - x" + up[1] + " production")
         # print(len(bought))
         # print(str(select) + " " + str(selectcol))
-
     print("\033[2K")
     print("\033[2K")
 
@@ -300,3 +300,9 @@ def page3(selected, cost, SMpS):
             print("You can't travel here. You are not close enough.")
     print("\033[2K")
     print("\033[2K")
+
+
+def buyupgrade():
+    if var.money >= var.upgCost[var.select][var.upgBought[var.select]]:
+        var.money -= var.upgCost[var.select][var.upgBought[var.select]]
+        var.upgBought[var.select] += 1
