@@ -19,16 +19,30 @@ def yap(line):  # yappin
 def shorten(n):  # shortens numbers so that they are readable
     if n == 0:
         return "0"
-    magnitude = int(math.log10(abs(n)) // 3)
-    magnitude = max(0, min(magnitude, len(var.suffixes) - 1))
-    short = n / (10 ** (3 * magnitude))
-
-    if short.is_integer():
-        short_str = str(int(short))
-    else:
-        short_str = f"{short:.2f}".rstrip("0").rstrip(".")
-
-    return f"{short_str}{var.suffixes[magnitude]}"
+    if var.longform == True:
+        magnitude = int(math.log10(abs(n)) // 3)
+        magnitude = max(0, min(magnitude, len(var.suffixes) - 1))
+        short = n / (10 ** (3 * magnitude))
+        if short.is_integer():
+            short_str = str(int(short))
+        else:
+            short_str = f"{short:.2f}".rstrip("0").rstrip(".")
+        return f"{short_str}{var.suffixes[magnitude]}"
+    else: # e thing doesn't work yet
+        magnitude = int(math.log10(abs(n)) // 1)
+        short = n / (10 ** (3 * magnitude))
+        if magnitude >= 6:
+            return f"{str(n)[0] + "." + str(n)[1] + str(n)[2] + str(n)[3]}{"e"}{magnitude}"
+        if magnitude < 6 and magnitude >= 3:
+            nsplit = str(n).split('')
+            num = []
+            for i in range(len(nsplit)):
+                if i == len(nsplit) - 4:
+                    num.append(",")
+                num.append(nsplit[i])
+            return "".join(num)
+        else:
+            return str(round(n, 2))
 
 
 def to_roman(num):  # roman numeral converter (literally just for prestiges)
@@ -89,8 +103,8 @@ def update():  # updates certain lines every frame
     print("\033[2K", end="")
     t1 = "Main"  # t = title
     t2 = "Upgrades"
-    t3 = "Minigames"
-    t4 = "Research"
+    t3 = "Research"
+    t4 = "Settings"
     if var.select == -1:
         match var.selectcol:
             case 0:
@@ -204,27 +218,24 @@ def page1(selected, cost, SMpS):
 
     if var.select != -1:
         if var.selectcol == 1:
+            print("\033[2K", end="")
             if var.selected == False:
-                print("\033[2K", end="")
                 print(var.upgDesc[var.select][var.upgBought[var.select]])
                 print("\033[2K", end="")
                 print("Doubles the production rate of " + var.gnNames[var.select] + ".")
             else:
                 print("Buy for $" + shorten(var.upgCost[var.select][var.upgBought[var.select]]) + "?")
         if var.selectcol == 2:
-            print("Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
-            print("(Each prestige level increases the generator's production and reduces the\ncost by 20%.)")
+            print("\033[2K", end="")
+            if var.selected == False:
+                print("Each prestige level increases the generator's production and reduces the\ncost by 20%.")
+            else:
+                print("Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
+    print("\033[2K")
     print("\033[2K")
 
 
-def page2(selected, cost, SMpS):
-    print("YESYSEY")
-
-    sys.stdout.write(f"\033[{26};{0}H")  # description box
-    sys.stdout.flush()
-
-
-def page3(selected, cost, SMpS):
+def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
     sys.stdout.write(f"\033[{7};{0}H")
     sys.stdout.flush()
 
@@ -258,6 +269,13 @@ def page3(selected, cost, SMpS):
             print("You can't travel here. You are not close enough.")
     print("\033[2K")
     print("\033[2K")
+
+
+def page3(selected, cost, SMpS):
+    print("YESYSEY")
+
+    sys.stdout.write(f"\033[{26};{0}H")  # description box
+    sys.stdout.flush()
 
 
 def buyupgrade():
