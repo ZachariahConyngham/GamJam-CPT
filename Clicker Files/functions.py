@@ -34,7 +34,7 @@ def shorten(n):  # shortens numbers so that they are readable
 def to_roman(num):  # roman numeral converter (literally just for prestiges)
     roman_map = {
         1000: "M",
-        900: "CM",
+        900: "CM",      
         500: "D",
         400: "CD",
         100: "C",
@@ -132,11 +132,6 @@ def update():  # updates certain lines every frame
         case 3:
             page3(selected, cost, SMpS)
 
-    for i in range(40):
-        sys.stdout.write(f"\033[{12};{81}H")
-        sys.stdout.flush()
-        print("|")
-
 
 def page0(selected, cost, SMpS):
     left_lines = []
@@ -173,7 +168,7 @@ def page0(selected, cost, SMpS):
         else:
             print("You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             print("\033[2K", end="")
-            print("You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ". Lock in.")
+            print("You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
         print("\033[2K")
         print("\033[2K")
 
@@ -209,14 +204,16 @@ def page1(selected, cost, SMpS):
 
     if var.select != -1:
         if var.selectcol == 1:
-            print(var.upgDesc[var.select][var.upgBought[var.select]])
-            print("\033[2K", end="")
-            # print(len(bought))
-            # print(str(select) + " " + str(selectcol))
+            if var.selected == False:
+                print("\033[2K", end="")
+                print(var.upgDesc[var.select][var.upgBought[var.select]])
+                print("\033[2K", end="")
+                print("Doubles the production rate of " + var.gnNames[var.select] + ".")
+            else:
+                print("Buy for $" + shorten(var.upgCost[var.select][var.upgBought[var.select]]) + "?")
         if var.selectcol == 2:
-            print("Buy for $" + shorten((var.baseCost[var.select] + 30) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
-            print("(Each prestige level increases the generator's stats by 20%.)")
-    print("\033[2K")
+            print("Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
+            print("(Each prestige level increases the generator's production and reduces the\ncost by 20%.)")
     print("\033[2K")
 
 
