@@ -18,6 +18,8 @@ stupidNames = {  # trust US with YOUR naming conventions
 unix = 0  # universe coords on map
 uniy = 0
 
+longform = True # how numbers are displayed.
+
 dialogue = {
     1: [  # opening dialogue
         "...",
@@ -148,8 +150,8 @@ upg = {  # upgrade names for each generator
     3: [
         "All Day Open",
         "Open 25/8",
-        "Fat Load Order",
-        "One Thousand Nuggets",
+        "The Motherload",
+        "A Thousand Nuggets",
         "Roland McDoland's Obesity House",
     ],
     4: [
@@ -161,11 +163,10 @@ upg = {  # upgrade names for each generator
     ],
     5: ["Trading Hub", ""],  # kai add whatever you need in these ones
     6: ["Child Labour", ""],
-    7: ["Room Service", ""],
-    8: ["Thousand Dollar Bills", "Monopoly Money"],
+    7: ["Breakfast Buffet", ""],
+    8: ["1000 Dollar Bills", ""],
     9: ["Weighty Dice", ""],
     10: ["Radioactive Waste", ""],
-    11: ["More Cash", "Increased Profits"],  # increases all
 }
 
 upgDesc = {  # upgrade descriptions
@@ -177,7 +178,7 @@ upgDesc = {  # upgrade descriptions
         "Genetically Modified Fruit: Now with toys inside!",
     ],
     1: [
-        "Leafy Greens instead of Leafy Browns",
+        "Leafy Greens instead of Leafy Browns.",
         "A long day for the workers.",
         "The most openiest and unclosiest maybe possibly clopen store.",
         "You're never paying this off...",
@@ -204,19 +205,18 @@ upgDesc = {  # upgrade descriptions
         "Unnecessarily large for an excavation of that size.",
         "Explodes when slept on by sentient humans. The average villager does not apply.",
     ],
-    5: ["Excavate through the stone even faster."],
-    6: ["The hub of all trade - one might call it a trading hub."],
-    7: ["Who doesn't love a pinch of child labour?"],
-    8: ["Yes yes when the yes yes"],
-    9: ["Condensed bills will make your stacks worth more."],
-    10: ["It's almost as if these die always roll a six."],
-    11: ["The more radioactive it is, the more it sells for."],
+    5: ["The hub of all trade - one might call it a trading hub."],
+    6: ["Who doesn't love a pinch of child labour?"],
+    7: ["What better way to start your day than with a buffet?"],
+    8: ["Condensed bills will make your stacks worth more."],
+    9: ["It's almost as if these die always roll a six."],
+    10: ["The more radioactive it is, the more it sells for."],
 }
 
 upgCost = [  # Base Upgrade Cost
-    [5500, 7000],
-    [2000, 16000],
-    [8000, 56000],
+    [550, 7000, 62500, 480000],
+    [2000, 16000, 90000, 13500000],
+    [8000, 56000, 210000, 8000000],
     [30000, 112000],
     [160000, 800000],
     [1300000, 9000000],
@@ -318,9 +318,9 @@ def initiate_generators(name, placeholder_name):
             "desc": gnDesc[index],
             "art": gnArt[index],
             "Money": {
-                "baseCost": baseCost[index],
+                "baseCost": cost[index],
                 "ramping": ramping,
-                "cost": baseCost[index],
+                "cost": cost[index],
                 "bought": gn[index],
                 "bMpS": bMpS[index],
                 "MpS": MpS[index],
@@ -350,7 +350,7 @@ generators = {
     **initiate_generators("Power Plant", "plant"),
 }
 
-money = 0
+money = 999999999999
 day = 0
 page = 0
 sanity = 100
