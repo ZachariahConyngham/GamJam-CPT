@@ -34,12 +34,11 @@ def shorten(n):  # shortens numbers so that they are readable
         if magnitude >= 6:
             return f"{str(n)[0] + "." + str(n)[1] + str(n)[2] + str(n)[3]}{"e"}{magnitude}"
         if magnitude < 6 and magnitude >= 3:
-            nsplit = str(n).split('')
             num = []
-            for i in range(len(nsplit)):
-                if i == len(nsplit) - 4:
+            for i in range(len(str(n))):
+                if i == len(str(n)) - 5:
                     num.append(",")
-                num.append(nsplit[i])
+                num.append(str(n)[i])
             return "".join(num)
         else:
             return str(round(n, 2))
@@ -72,23 +71,25 @@ def to_roman(num):  # roman numeral converter (literally just for prestiges)
 def load():  # loads the base page
     clear()
 
-    print("---------------------------------------------------------------------------")
+    print("\n")
+
+    print("┃---------------------------------------------------------------------------┃")
 
     print("\n\n")
 
-    print("---------------------------------------------------------------------------")
+    print("┃---------------------------------------------------------------------------┃")
 
     print("\n\n\n")
 
-    print("---------------------------------------------------------------------------")
+    print("┃---------------------------------------------------------------------------┃")
 
     print("\n\n\n\n\n\n\n\n\n\n\n\n")
 
-    print("---------------------------------------------------------------------------")
+    print("┃---------------------------------------------------------------------------┃")
 
     print("\n\n\n\n")
 
-    print("---------------------------------------------------------------------------")
+    print("┃---------------------------------------------------------------------------┃")
 
 
 def update():  # updates certain lines every frame
@@ -97,11 +98,11 @@ def update():  # updates certain lines every frame
     cost = var.generators[selected]["Money"]["cost"]
     SMpS = var.bMpS[var.select] * var.gn[var.select]
 
-    sys.stdout.write(f"\033[{3};{0}H")
+    sys.stdout.write(f"\033[{5};{1}H")
     sys.stdout.flush()
 
     print("\033[2K", end="")
-    t1 = "Main"  # t = title
+    t1 = "┃ Main"  # t = title
     t2 = "Upgrades"
     t3 = "Research"
     t4 = "Settings"
@@ -118,13 +119,13 @@ def update():  # updates certain lines every frame
     else:
         print(f"{t1:<20}{t2:<20}{t3:<20}{t4}")
 
-    sys.stdout.write(f"\033[{7};{0}H")
+    sys.stdout.write(f"\033[{9};{1}H")
     sys.stdout.flush()
 
     if var.page != 3:
-        dc = "Current Day: " + str(var.day)
+        dc = "┃ Current Day: " + str(var.day)
         mn = "Money: $" + shorten(var.money)
-        sn = "Sanity: " + str(math.ceil(var.sanity))
+        sn = "┃ Sanity: " + str(math.ceil(var.sanity))
         mp = "($" + str(var.tMpS) + "/s)"
         print("\033[2K", end="")
         print(f"{dc:<40}{mn}")
@@ -133,7 +134,9 @@ def update():  # updates certain lines every frame
         else:
             print("\033[2K", end="")
 
-    sys.stdout.write(f"\033[{12};{0}H")
+    box()
+
+    sys.stdout.write(f"\033[{14};{1}H")
     sys.stdout.flush()
 
     match var.page:
@@ -146,15 +149,26 @@ def update():  # updates certain lines every frame
         case 3:
             page3(selected, cost, SMpS)
 
+def box():
+    sys.stdout.write(f"\033[{0};{0}H")
+    sys.stdout.flush()
+    print("┏", end="")
+    for i in range(75):
+        print("━", end="")
+    print("┓")
+    for i in range(34):
+        print("┃", end="")
+        sys.stdout.write(f"\033[{i + 2};{77}H")
+        print("┃")
 
 def page0(selected, cost, SMpS):
     left_lines = []
 
     for i in range(len(var.gn)):
         if var.select == i and i != -1 and var.selectcol == 0:
-            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}")
+            left_lines.append(f"{"┃ " + var.gnNames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}")
         else:
-            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
+            left_lines.append(f"{"┃ " + var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         if var.select != -1:
             print(f"{left_lines[i]:<38}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
@@ -162,16 +176,16 @@ def page0(selected, cost, SMpS):
             print("\033[2K", end="")
             print(left_lines[i])
 
-    sys.stdout.write(f"\033[{26};{0}H")
+    sys.stdout.write(f"\033[{28};{1}H")
     sys.stdout.flush()
     print("\033[2K", end="")
     if var.selected == False:
         if var.select != -1:
-            print(var.gnDesc[var.select])
+            print("┃ " + var.gnDesc[var.select])
             print("\033[2K", end="")
-            print("You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
+            print("┃ You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
             print("\033[2K", end="")
-            print("(Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
+            print("┃ (Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
         else:
             print("\033[2K")
             print("\033[2K")
@@ -180,9 +194,9 @@ def page0(selected, cost, SMpS):
         if var.money >= cost * (var.ramping ** var.gn[var.select]):
             print("Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "? (SPACE to confirm, X to cancel)")
         else:
-            print("You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
+            print("┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             print("\033[2K", end="")
-            print("You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
+            print("┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
         print("\033[2K")
         print("\033[2K")
 
@@ -212,7 +226,7 @@ def page1(selected, cost, SMpS):
         else:
             print(f"{"":<40}{right_lines[i]}")
 
-    sys.stdout.write(f"\033[{26};{0}H")
+    sys.stdout.write(f"\033[{28};{1}H")
     sys.stdout.flush()
     print("\033[2K", end="")
 
@@ -236,12 +250,12 @@ def page1(selected, cost, SMpS):
 
 
 def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
-    sys.stdout.write(f"\033[{7};{0}H")
+    sys.stdout.write(f"\033[{9};{1}H")
     sys.stdout.flush()
 
     print(f"{"Research":<40}{"Worldview"}")
 
-    sys.stdout.write(f"\033[{12};{0}H")
+    sys.stdout.write(f"\033[{14};{1}H")
     sys.stdout.flush()
 
     for i in range(len(var.map)):
@@ -254,7 +268,7 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
                 print("  (" + var.mapKeys[var.map[i][i1]], end=")  ")
         print("      |")
 
-    sys.stdout.write(f"\033[{26};{0}H")
+    sys.stdout.write(f"\033[{28};{1}H")
     sys.stdout.flush()
 
     print("\033[2K", end="")
@@ -274,7 +288,7 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
 def page3(selected, cost, SMpS):
     print("YESYSEY")
 
-    sys.stdout.write(f"\033[{26};{0}H")  # description box
+    sys.stdout.write(f"\033[{28};{1}H")  # description box
     sys.stdout.flush()
 
 
@@ -284,6 +298,6 @@ def buyupgrade():
         var.upgBought[var.select] += 1
 
 def buyprestige():
-    if var.money >= (var.baseCost[var.select] + 30) * (28.3729579 ** ((var.prestige[var.select]) * 2)):
-        var.money -= (var.baseCost[var.select] + 30) * (28.3729579 ** ((var.prestige[var.select]) * 2))
+    if var.money >= (var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2)):
+        var.money -= (var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))
         var.prestige[var.select] += 1

@@ -150,8 +150,8 @@ upg = {  # upgrade names for each generator
     3: [
         "All Day Open",
         "Open 25/8",
-        "Fat Load Order",
-        "One Thousand Nuggets",
+        "The Motherload",
+        "A Thousand Nuggets",
         "Roland McDoland's Obesity House",
     ],
     4: [
@@ -164,7 +164,7 @@ upg = {  # upgrade names for each generator
     5: ["Trading Hub", ""],  # kai add whatever you need in these ones
     6: ["Child Labour", ""],
     7: ["Breakfast Buffet", ""],
-    8: ["Thousand Dollar Bills", "Monopoly Money"],
+    8: ["1000 Dollar Bills", ""],
     9: ["Weighty Dice", ""],
     10: ["Radioactive Waste", ""],
 }
@@ -214,9 +214,9 @@ upgDesc = {  # upgrade descriptions
 }
 
 upgCost = [  # Base Upgrade Cost
-    [5500, 7000],
-    [2000, 16000],
-    [8000, 56000],
+    [550, 7000, 62500, 480000],
+    [2000, 16000, 90000, 13500000],
+    [8000, 56000, 210000, 8000000],
     [30000, 112000],
     [160000, 800000],
     [1300000, 9000000],
@@ -318,9 +318,9 @@ def initiate_generators(name, placeholder_name):
             "desc": gnDesc[index],
             "art": gnArt[index],
             "Money": {
-                "baseCost": baseCost[index],
+                "baseCost": cost[index],
                 "ramping": ramping,
-                "cost": baseCost[index],
+                "cost": cost[index],
                 "bought": gn[index],
                 "bMpS": bMpS[index],
                 "MpS": MpS[index],
@@ -350,7 +350,7 @@ generators = {
     **initiate_generators("Power Plant", "plant"),
 }
 
-money = 0
+money = 999999999999
 day = 0
 page = 0
 sanity = 100
