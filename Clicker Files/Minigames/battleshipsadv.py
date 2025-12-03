@@ -137,12 +137,16 @@ def batlshit():
 				for axis in range(2):
 					for gradient in range(-1, 3, 2):
 						for space in range(int(atkcoords[0][axis]), -1 if gradient == -1 else 10, gradient):
+							print(axis, gradient, space, atkcoords)
+							print_board(kaiGuessBoard)
+							print(kaiGuessBoard[space][int(atkcoords[0][1])] == " ", kaiGuessBoard[space][int(atkcoords[0][1])] == "X", (str(space) + atkcoords[0][1]) in atkcoords)
 							if axis == 0 and not (kaiGuessBoard[space][int(atkcoords[0][1])] == " " or kaiGuessBoard[space][int(atkcoords[0][1])] == "X" and (str(space) + atkcoords[0][1]) in atkcoords): break
 							if axis == 1 and not (kaiGuessBoard[int(atkcoords[0][0])][space] == " " or kaiGuessBoard[int(atkcoords[0][0])][space] == "X" and (atkcoords[0][0] + str(space)) in atkcoords): break
 							spaces[(0 if gradient == -1 else 2) + axis].append(str(atkcoords[0][0] if axis == 1 else space) + str(atkcoords[0][1] if axis == 0 else space))
 				len1 = len(spaces[0]) + len(spaces[2])
 				len2 = len(spaces[1]) + len(spaces[3])
 				direction = randint(0, 1) if len1 == len2 else (0 if len1 > len2 else 1)
+				print(spaces)
 				target = spaces[randint(0, 1) * 2 + direction][1] if len(spaces[direction]) == len(spaces[direction + 2]) else max(spaces[direction], spaces[direction + 2], key=len)[1]
 			
 			spaces = {key: [] for key in sum(userPieces, [])}
@@ -186,6 +190,7 @@ def batlshit():
 		if board[int(target[0])][int(target[1])] == " ":
 			kaiGuessBoard[int(target[0])][int(target[1])] = "O"
 		else:
+			kaiGuessBoard[int(target[0])][int(target[1])] = "O" if cleared else "X"
 			if cleared:
 				if len(atkcoordsall) <= len(atkcoords): kaiSuccessAtk = False
 				for coord in spaces[sunkShip[-1]]:
@@ -193,7 +198,6 @@ def batlshit():
 				cleared = False
 			else:
 				kaiSuccessAtk = True
-			kaiGuessBoard[int(target[0])][int(target[1])] = "O" if cleared else "X"
 
 
 	print("") # Start of running all code: change print statements in here
