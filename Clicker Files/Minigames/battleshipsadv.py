@@ -1,7 +1,14 @@
-import time
+import time, os
 import copy
+import functions as func
 from random import randint, choice
 from math import floor
+
+def clear():  # Clears the terminal
+    if os.name == "nt":
+        _ = os.system("cls")
+    else:
+        _ = os.system("clear")
 
 """
 ________Simplified List__________
@@ -412,6 +419,7 @@ def batlshit():
 								target = ""
 								print("You have already hit that spot.")
 								continue
+						clear()
 						# player shot valid
 						if kaiBoard[int(target[1:]) - 1][columns.index(target[0])] != " ": # if targeted coord is not empty
 							guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
