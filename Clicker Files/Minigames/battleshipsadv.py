@@ -14,7 +14,7 @@ ________Simplified List__________
 """
 
 def batlshit():
-	kaiTaunts = [[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, idk add more later
+	kaiTaunts = [[""],[""],[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, 3 is kai wins, 4 is kai loses idk add more later
 
 	def pwb(value, end = ""): # to simplify printing - print_within_brackets
 		print("[%s]" % (value), end=end)
@@ -146,7 +146,6 @@ def batlshit():
 				len1 = len(spaces[0]) + len(spaces[2])
 				len2 = len(spaces[1]) + len(spaces[3])
 				direction = randint(0, 1) if len1 == len2 else (0 if len1 > len2 else 1)
-				print(spaces)
 				target = spaces[randint(0, 1) * 2 + direction][1] if len(spaces[direction]) == len(spaces[direction + 2]) else max(spaces[direction], spaces[direction + 2], key=len)[1]
 			
 			spaces = {key: [] for key in sum(userPieces, [])}
@@ -189,6 +188,7 @@ def batlshit():
 
 		if board[int(target[0])][int(target[1])] == " ":
 			kaiGuessBoard[int(target[0])][int(target[1])] = "O"
+			print("I attacked %s" % (columns[int(target[1])] + str(int(target[0]) + 1)))
 		else:
 			kaiGuessBoard[int(target[0])][int(target[1])] = "O" if cleared else "X"
 			if cleared:
@@ -198,262 +198,238 @@ def batlshit():
 				cleared = False
 			else:
 				kaiSuccessAtk = True
+				print("I attacked %s" % (columns[int(target[1])] + str(int(target[0]) + 1)))
 
 
 	print("") # Start of running all code: change print statements in here
+	board_template = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]]
+	kaiBoard = copy.deepcopy(board_template)
+	guessBoard = copy.deepcopy(board_template)
+	kaiGuessBoard = copy.deepcopy(board_template)
+	pieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
+	columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+	print("Here is the board:")
+	time.sleep(0.5)
+	print("   a  b  c  d  e  f  g  h  i  j ")
+	for i in range(10):
+		if i != 9:
+			print(i + 1, end=" ")
+		else:
+			print(i + 1, end="")
+		for j in range(10):
+			print("[ ]", end="")
+		print("")
+	
+	print("You own 6 ships:")
+	time.sleep(1)
+	print("The Aircraft Carrier - ", end="")
+	time.sleep(1)
+	print("It takes up 5 spaces on the board")
+	time.sleep(1)
+	print("The Battleship - ", end="")
+	time.sleep(1)
+	print("It takes up 4 spaces on the board")
+	time.sleep(1)
+	print("The Cruiser and Submarine - ", end="")
+	time.sleep(1)
+	print("They both take up 3 spaces on the board")
+	time.sleep(1)
+	print("And finally,")
+	time.sleep(1)
+	print("The Destroyer and Frigate - ", end="")
+	time.sleep(1)
+	print("They both take up 2 spaces on the board.")
+	time.sleep(2)
+	print("")
+	print("I will have my own 6 ships.")
+	time.sleep(1)
+	print("We each place down our ships,")
+	time.sleep(1)
+	print("And after we have finished,")
+	time.sleep(1)
+	print("We try to sink each others!")
+	time.sleep(2)
+	
+	print("Place your battleships down now!")
+	time.sleep(0.2)
+	ready = False
+	while ready == False:
+		board = copy.deepcopy(board_template)
+		validationError = ["This is an invalid position. Please choose somewhere else.", "There is already a piece here. Please choose somewhere else.", "You can't place it here. Please choose somewhere else.", ""]
+		for piece in pieces:
+			validationError[3] = "A %s cannot fit in this region. Please choose somewhere else." % (piece[0])
+			while True: # Start to place
+				print_board(board)
+				position = ["", ""]
+				position[0] = input("Place the head of %s (Length: %s) (e.g. a1, d5): " % (piece[0], piece[1]))
+				if not bool(position[0]) or not(len(position[0]) == 2 or position[0][1:] == "10"):
+					print(validationError[0])
+					continue
+				if not (position[0][0] in columns and position[0][1:] in [str(x) for x in range(1, 11)]):
+					print(validationError[0])
+					continue
+				position[1] = input("Place the end of %s (e.g. a3, g5): " % (piece[0]))
+				if not bool(position[1]) or not(len(position[1]) == 2 or position[1][1:] == "10"):
+					print(validationError[0])
+					continue
+				if not (position[1][0] in columns and position[1][1:] in [str(x) for x in range(1, 11)]):
+					print(validationError[0])
+					continue
+				if not (position[0][0] == position[1][0] or position[0][1:] == position[1][1:]) or position[0] == position[1]:
+					print(validationError[3])
+					continue
+				# Update board[]
+				changedcoords = []
+				shiplength = 0
+				obstruction = False
+				# if same column
+				if position[0][0] == position[1][0]:
+					gradient = 0 if int(position[0][1:]) > int(position[1][1:]) else 1
+					for i in range(int(position[1 - gradient][1:]), int(position[gradient][1:]) + 1):
+						shiplength += 1
+						if not (board[i - 1][columns.index(position[0][0])] == " "):
+							print(validationError[1])
+							obstruction = True
+							break
+						changedcoords.append(i)
+				else:
+					gradient = 0 if columns.index(position[0][0]) > columns.index(position[1][0]) else 1
+					for i in range(columns.index(position[1 - gradient][0]), columns.index(position[gradient][0]) + 1):
+						shiplength += 1
+						if not (board[int(position[0][1:]) - 1][i] == " "):
+							print(validationError[1])
+							obstruction = True
+							break
+						changedcoords.append(columns[i])
+				if obstruction == True:
+					print(validationError[1])
+					continue
+				if shiplength != piece[1]:
+					print(validationError[3])
+					print("Your %s needs to be length %s." % (piece[0], piece[1]))
+					continue
+				axis = isinstance(changedcoords[0], int)
+				for space in changedcoords:
+					board[space if axis else int(position[0][1:]) - 1][columns.index(position[0][0] if axis else space)] = piece[0][0]
+				break
+		print_board(board)
+		while True:
+			readyinput = input("I have finished placing my ships. Have you?(y/n) ")
+			match readyinput:
+				case 'y':
+					ready = True
+					break
+				case 'n':
+					print("I'll give you a little big longer to place your ships.")
+					break
+				case '_':
+					print("I gave you two choices. It's not that hard.")
+					time.sleep(1)
 
-	gamemode = ""
-	while gamemode == "":
-		gamemode = input("Would you like to play classic or advanced Battleships? ")
-		match gamemode:
-			case "classic":
-				board_template = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]]
-				kaiBoard = copy.deepcopy(board_template)
-				guessBoard = copy.deepcopy(board_template)
-				kaiGuessBoard = copy.deepcopy(board_template)
-				pieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
-				columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-				print("Here is the board:")
-				time.sleep(0.5)
-				print("   a  b  c  d  e  f  g  h  i  j ")
-				for i in range(10):
-					if i != 9:
-						print(i + 1, end=" ")
-					else:
-						print(i + 1, end="")
-					for j in range(10):
-						print("[ ]", end="")
-					print("")
-				"""
-				print("You own 6 ships:")
-				time.sleep(1)
-				print("The Aircraft Carrier - ", end="")
-				time.sleep(1)
-				print("It takes up 5 spaces on the board")
-				time.sleep(1)
-				print("The Battleship - ", end="")
-				time.sleep(1)
-				print("It takes up 4 spaces on the board")
-				time.sleep(1)
-				print("The Cruiser and Submarine - ", end="")
-				time.sleep(1)
-				print("They both take up 3 spaces on the board")
-				time.sleep(1)
-				print("And finally,")
-				time.sleep(1)
-				print("The Destroyer and Frigate - ", end="")
-				time.sleep(1)
-				print("They both take up 2 spaces on the board.")
-				time.sleep(2)
-				print("")
-				print("I will have my own 6 ships.")
-				time.sleep(1)
-				print("We each place down our ships,")
-				time.sleep(1)
-				print("And after we have finished,")
-				time.sleep(1)
-				print("We try to sink each others!")
-				time.sleep(2)
-				"""
-				print("Place your battleships down now!")
-				time.sleep(0.2)
-				ready = False
-				while ready == False:
-					board = copy.deepcopy(board_template)
-					for piece in pieces:
-						placed = False
-						validationError = ["This is an invalid position. Please choose somewhere else.", "There is already a piece here. Please choose somewhere else.", "You can't place it here. Please choose somewhere else.", "A %s cannot fit in this region. Please choose somewhere else." % (piece[0])]
-						while placed == False: # Start to place
-							print_board(board)
-							position = ["", ""]
-							position[0] = input("Place the head of %s" % (piece[0]) + " (Length: %s)" % (piece[1]) + " (e.g. a1, d5): ")
-							if not bool(position[0]) or not(len(position[0]) == 2 or len(position[0]) == 3 and position[0][1] + position[0][2] == "10"):
-								print(validationError[0])
-								continue
-							if not position[0][1:].isdigit():
-								print(validationError[0])
-								continue
-							if not (position[0][0] in columns and int(position[0][1:]) in range(1, 11)):
-								print(validationError[0])
-								continue
-							position[1] = input("Place the end of %s" % (piece[0]) + "(e.g. a3, g5): ")
-							if not bool(position[1]) or not(len(position[1]) == 2 or len(position[1]) == 3 and position[1][1] + position[1][2] == "10"):
-								print(validationError[0])
-								continue
-							if not position[1][1:].isdigit():
-								print(validationError[0])
-								continue
-							if not (position[1][0] in columns and int(position[1][1:]) in range(1, 11)):
-								print(validationError[0])
-								continue
-							if not (position[0][0] == position[1][0] or position[0][1:] == position[1][1:]) or position[0] == position[1]:
-								print(validationError[3])
-								continue
-							else: # Update board[]
-								changedcoords = []
-								shiplength = 0
-								obstruction = False
-								if position[0][0] == position[1][0]:
-									if int(position[0][1:]) > int(position[1][1:]):
-										for i in range(int(position[1][1:]), int(position[0][1:]) + 1):
-											shiplength += 1
-											if not (board[i - 1][columns.index(position[0][0])] == " "):
-												print(validationError[1])
-												obstruction = True
-												break
-											changedcoords.append(i)
-									else:
-										for i in range(int(position[0][1:]), int(position[1][1:]) + 1):
-											shiplength += 1
-											if not (board[i - 1][columns.index(position[1][0])] == " "):
-												print(validationError[1])
-												obstruction = True
-												break
-											changedcoords.append(i)
-								else:
-									if columns.index(position[0][0]) > columns.index(position[1][0]):
-										for i in range(columns.index(position[1][0]), columns.index(position[0][0]) + 1):
-											shiplength += 1
-											if not (board[int(position[0][1:]) - 1][i] == " "):
-												print(validationError[1])
-												obstruction = True
-												break
-											changedcoords.append(columns[i])
-									else:
-										for i in range(columns.index(position[0][0]), columns.index(position[1][0]) + 1):
-											shiplength += 1
-											if not (board[int(position[0][1:]) - 1][i] == " "):
-												print(validationError[1])
-												obstruction = True
-												break
-											changedcoords.append(columns[i])
-								if obstruction == True:
-									continue
-								if shiplength != piece[1]:
-									print(shiplength, piece[1])
-									print(validationError[3])
-									continue
-								if type(changedcoords[0]) == int:
-									for row in changedcoords:
-										board[row - 1][columns.index(position[0][0])] = piece[0][0]
-								else:
-									for column in changedcoords:
-										board[int(position[0][1:]) - 1][columns.index(column)] = piece[0][0]
-							placed = True
-					print_board(board)
-					while True:
-						readyinput = input("I have finished placing my ships. Have you?(y/n) ")
-						match readyinput:
-							case 'y':
-								ready = True
-								break
-							case 'n':
-								print("I'll give you a little big longer to place your ships.")
-								break
-							case '_':
-								print("I gave you two choices. It's not that hard.")
-								print("I gave you two choices. It's not that hard.")
-								time.sleep(1)
+	generate_board()
+	print("Great! You're ready,")
+	time.sleep(0.2)
+	print("Now we can start.")
+	time.sleep(1)
+	true_turn = 0
+	turn = [0, "kai"]
+	gamestate = "ongoing"
 
-				generate_board()
-				print("Great! You're ready,")
-				time.sleep(0.2)
-				print("Now we can start.")
-				time.sleep(1)
-				true_turn = 0
-				turn = [0, "kai"]
-				gamestate = "ongoing"
-
-				# ai use variables only
-				global kaiSuccessAtk
-				global sunkShip
-				sunkShip = []
-				kaiSuccessAtk = False
-				userPieces = [["Frigate", "Destroyer"], ["Submarine", "Cruiser"], ["Battleship"], ["Aircraft Carrier"]]
+	# ai use variables only
+	global kaiSuccessAtk
+	global sunkShip
+	sunkShip = []
+	kaiSuccessAtk = False
+	userPieces = [["Frigate", "Destroyer"], ["Submarine", "Cruiser"], ["Battleship"], ["Aircraft Carrier"]]
 
 
-				while gamestate == "ongoing":
-					print(sunkShip)
-					print("--------Turn %s--------" % (floor(turn[0] / 2)))
-					print_game_board()
-					if true_turn == 0:
-						print("This is the first turn.")
-						print("As my guest,")
-						print("I'll let you attack first.")
-						print("Your goal is to attack coordinates that may contain my ships. ")
-						print("If you can shoot all my ships out of the water,")
-						print("You would win.")
-						print("But.", end="")
-						print(".", end="")
-						print(".", end="")
-						print("That's not happening.")
-						turn[1] = "user"
-					elif turn == 0:
-						if (randint(0, 1) == 0):
-							turn[1] = "user"
-						else:
-							turn[1] = "kai"
-					# Start of attack gameplay
+	while gamestate == "ongoing":
+		print("--------Turn %s--------" % (floor(turn[0] / 2) + 1))
+		print_game_board()
+		# print_board(kaiBoard)    ### For debugging purposes only
+		if true_turn == 0:
+			print("This is the first turn.")
+			print("As my guest,")
+			print("I'll let you attack first.")
+			print("Your goal is to attack coordinates that may contain my ships. ")
+			print("If you can shoot all my ships out of the water,")
+			print("You would win.")
+			print("But.", end="")
+			print(".", end="")
+			print(".", end="")
+			print("That's not happening.")
+			turn[1] = "user"
+		elif turn == 0:
+			if (randint(0, 1) == 0):
+				turn[1] = "user"
+			else:
+				turn[1] = "kai"
+		# Start of attack gameplay
 
-					if turn[1] == "user":
-						print("---Your Turn---")
-						target = ""
-						while target == "":
-							target = input("Where would you like to attack?(e.g. a1, d5) ")
-							if not (len(target) == 2 or len(target) == 3 and target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
-								target = ""
-								print("That is in the incorrect format.")
-								continue
-							if (target[0] not in columns) or (int(target[1:]) not in range(1, 11)):
-								target = ""
-								print("That's not a valid position.")
-								continue
-							if guessBoard[int(target[1:]) - 1][columns.index(target[0])] != " ":
-								target = ""
-								print("You have already hit that spot.")
-								continue
-						# player shot valid
-						if kaiBoard[int(target[1:]) - 1][columns.index(target[0])] != " ": # if targeted coord is not empty
-							guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
-							shotShip = kaiBoard[int(target[1:]) - 1][columns.index(target[0])] # identify hit ship
-							spaces = [] # declare spaces list
-							for row in kaiBoard: # for each row in kaiBoard
-								for index, value in enumerate(row):
-									if value == shotShip:
-										spaces.append(str(kaiBoard.index(row)) + str(index))
-							breakFor = False # declare breakFor bool
-							for coord in spaces:
-								print(coord)
-								if guessBoard[int(coord[0])][int(coord[1])] != "X": # if the ship is not hit
-									breakFor = True # breakFor
-									break
-							if breakFor == True:
-								print("You have hit my ship! %s" % (kaiTaunts[0][randint(0, len(kaiTaunts[0]) - 1)]))
-							else:
-								print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
-						else:
-							guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "O"
-							print(kaiTaunts[1][randint(0, len(kaiTaunts[1]) - 1)])
-					else:
-						print("---His Turn---")
-						kai_guess()
+		if turn[1] == "user":
+			print("---Your Turn---")
+			target = ""
+			while target == "":
+				target = input("Where would you like to attack?(e.g. a1, d5) ")
+				if not (len(target) == 2 or target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
+					target = ""
+					print("That is in the incorrect format.")
+					continue
+				if (target[0] not in columns) or (int(target[1:]) not in range(1, 11)):
+					target = ""
+					print("That's not a valid position.")
+					continue
+				if guessBoard[int(target[1:]) - 1][columns.index(target[0])] != " ":
+					target = ""
+					print("You have already hit that spot.")
+					continue
+			# player shot valid
+			shotShip = kaiBoard[int(target[1:]) - 1][columns.index(target[0])] # identify hit ship
+			if shotShip != " ": # if targeted coord is not empty
+				spaces = [] # declare spaces list
+				for rowindex, row in enumerate(kaiBoard): # check where the shotShip exists
+					for columnindex, column in enumerate(row):
+						if column == shotShip:
+							spaces.append(str(rowindex) + str(columnindex))
+				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
+				breakFor = False
+				for coord in spaces:
+					if guessBoard[int(coord[0])][int(coord[1])] != "X": # if the ship is not sunk
+						breakFor = True # breakFor
+						break
+				if breakFor:
+					print("You have hit my ship! %s" % (kaiTaunts[0][randint(0, len(kaiTaunts[0]) - 1)]))
+				else:
+					print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
+					for coord in spaces:
+						guessBoard[int(coord[0])][int(coord[1])] = shotShip # guessBoard update to 'hit'
+					if kaiBoard == guessBoard:
+						gamestate = "user"
 
-					turn[0] += 1
-					true_turn += 1
-					match turn[1]:
-						case "user":
-							turn[1] = "kai"
-						case "kai":
-							turn[1] = "user"
-						case _:
-							print("?????")
-					continue #end iteration
+			else:
+				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "O"
+				print(kaiTaunts[1][randint(0, len(kaiTaunts[1]) - 1)])
+		else:
+			print("---His Turn---")
+			kai_guess()
+			if len(sunkShip) == 6:
+				gamestate = "kai"
 
-
-			case "advanced":
-				pass
+		turn[0] += 1
+		true_turn += 1
+		match turn[1]:
+			case "user":
+				turn[1] = "kai"
+			case "kai":
+				turn[1] = "user"
 			case _:
-				print("That's not a way of playing Battleships.")
-				gamemode = ""
+				print("?????")
+		continue #end iteration
 
-batlshit()
+	match gamestate:
+		case "kai":
+			print("HAHAHAHAHA! I have defeated you! %s" % (kaiTaunts[3][randint(0, len(kaiTaunts[3]) - 1)]))
+		case "user":
+			print("NOOOOOOO! How have I lost, it cannot be! %s" % (kaiTaunts[4][randint(0, len(kaiTaunts[4]) - 1)]))
+
+# batlshit()
