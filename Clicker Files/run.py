@@ -62,6 +62,7 @@ while True:
                             func.yap("cameron is short")
                             # battleshipsadv.batlshit()
                 if var.select == -1:
+                    var.selected = False
                     func.load()
                     match var.selectcol:
                         case 0:
@@ -72,7 +73,8 @@ while True:
                             var.page = 2
                         case 3:
                             var.page = 3
-                var.selected = not var.selected
+                else:
+                    var.selected = not var.selected
             case "x":
                 if var.selected == True:
                     var.selected = False

@@ -1,7 +1,7 @@
 import sys, os, time, math
 from pynput.mouse import Controller
 import variables as var
-from ascii_art import mapArt
+from ascii_art import mapArt, titletext
 
 
 def clear():  # Clears the terminal
@@ -12,10 +12,8 @@ def clear():  # Clears the terminal
 
 
 def clearline():
-    print("\033[2K", end="")
-    print("┃", end="")
-    sys.stdout.write(f"\033[{Controller().position[0]};{77}H")
-    print("┃")
+    print("\033[76G\x1b[1K\r", end="")
+    print("┃                                                                           ┃\r", end="")
 
 
 def yap(line):  # yappin
@@ -109,7 +107,7 @@ def update():  # updates certain lines every frame
     sys.stdout.write(f"\033[{5};{1}H")
     sys.stdout.flush()
 
-    print("\033[2K", end="")
+    clearline()
     t1 = "┃ Main"  # t = title
     t2 = "Upgrades"
     t3 = "Research"
@@ -130,17 +128,17 @@ def update():  # updates certain lines every frame
     sys.stdout.write(f"\033[{9};{1}H")
     sys.stdout.flush()
 
-    if var.page != 3:
+    if var.page != 2:
         dc = "┃ Current Day: " + str(var.day)
         mn = "Money: $" + shorten(var.money)
         sn = "┃ Sanity: " + str(math.ceil(var.sanity))
         mp = "($" + str(var.tMpS) + "/s)"
-        print("\033[2K", end="")
+        clearline()
         print(f"{dc:<40}{mn}")
         if var.sanity > 0:
             print(f"{sn:<46}{mp}")
         else:
-            print("\033[2K", end="")
+            clearline()
 
     box()
 
@@ -156,6 +154,10 @@ def update():  # updates certain lines every frame
             page2(selected, cost, SMpS)
         case 3:
             page3(selected, cost, SMpS)
+
+    for i in range(len(titletext)):
+        sys.stdout.write(f"\033[{i + 1};{78}H")
+        print(titletext[i])
 
 def box():
     sys.stdout.write(f"\033[{0};{0}H")
@@ -183,27 +185,38 @@ def page0(selected, cost, SMpS):
             left_lines.append(f"{"┃ " + var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         if var.select != -1:
-            print(f"{left_lines[i]:<38}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
+            print(f"{left_lines[i]:<37}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
         else:
             print(f"{left_lines[i]}")
 
     sys.stdout.write(f"\033[{28};{1}H")
     sys.stdout.flush()
+
+
+
+    sys.stdout.write(f"\033[{28};{1}H")
+    sys.stdout.flush()
+    clearline()
+
     if var.selected == False:
         if var.select != -1:
-            print("\033[2K", end="")
             print("┃ " + var.gnDesc[var.select])
-            print("\033[2K", end="")
+            clearline()
             print("┃ You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
-            print("\033[2K", end="")
+            clearline()
             print("┃ (Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
+            clearline()
     else:
         if var.money >= cost * (var.ramping ** var.gn[var.select]):
-            print("┃ Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "? (SPACE to confirm, X to cancel)")
+            print("┃ Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "?")
+            clearline()
+            print("┃ (SPACE to confirm, X to cancel)")
+            clearline()
         else:
             print("┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
-            print("\033[2K", end="")
+            clearline()
             print("┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
+            clearline()
 
 
 def page1(selected, cost, SMpS):
@@ -235,17 +248,21 @@ def page1(selected, cost, SMpS):
 
     if var.select != -1:
         if var.selectcol == 1:
-            print("\033[2K", end="")
+            clearline()
             if var.selected == False:
                 print("┃ " + var.upgDesc[var.select][var.upgBought[var.select]])
-                print("\033[2K", end="")
+                clearline()
                 print("┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
             else:
                 print("┃ Buy for $" + shorten(var.upgCost[var.select][var.upgBought[var.select]]) + "?")
         if var.selectcol == 2:
-            print("\033[2K", end="")
+            clearline()
             if var.selected == False:
-                print("┃ Each prestige level increases the generator's production and reduces the\ncost by 20%.")
+                print("┃ Each prestige level increases " + var.gnNames[var.select] + "'s production and reduces the")
+                clearline()
+                print("┃ cost by 20%.")
+                clearline()
+                print("┃ Current bonus: " + str(20 * var.prestige[var.select]) + "%")
             else:
                 print("┃ Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
 
@@ -254,36 +271,33 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
     sys.stdout.write(f"\033[{9};{1}H")
     sys.stdout.flush()
 
-    print(f"{"Research":<40}{"Worldview"}")
+    print(f"{"┃ Research":<40}{"Worldview"}")
 
     sys.stdout.write(f"\033[{14};{1}H")
     sys.stdout.flush()
 
     for i in range(len(var.map)):
-        print("\033[2K", end="")
         print("┃     ", end="")
         for i1 in range(len(var.map[i])):
             if var.select == i and var.selectcol == i1:
                 print("  (" + var.mapKeys[var.map[i][i1]], end=") <")
             else:
                 print("  (" + var.mapKeys[var.map[i][i1]], end=")  ")
-        print("      ┃")
+        print("       ┃")
 
     sys.stdout.write(f"\033[{28};{1}H")
     sys.stdout.flush()
 
-    print("\033[2K", end="")
+    clearline()
     if var.select != -1:
-        print(var.mapDesc[var.map[var.select][var.selectcol]])
-        print("\033[2K", end="")
-        print("Travel costs $" + shorten(1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 2) * 1.5)))
-        print("\033[2K", end="")
+        print("┃ " + var.mapDesc[var.map[var.select][var.selectcol]])
+        clearline()
+        print("┃ Travel costs $" + shorten(1000000000000000 + 82761.39 ** ((var.select + var.selectcol + 2) * 1.5)))
+        clearline()
         if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
-            print("You can travel here!")
+            print("┃ You can travel here!")
         else:
-            print("You can't travel here. You are not close enough.")
-    print("\033[2K")
-    print("\033[2K")
+            print("┃ You can't travel here. You are not close enough.")
 
 
 def page3(selected, cost, SMpS):

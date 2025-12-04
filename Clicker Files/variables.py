@@ -3,16 +3,16 @@ from ascii_art import gnArt
 
 stupidNames = {  # trust US with YOUR naming conventions
     10: ["Cheezle McZonkponk"],
-    0: ["John Breakfast", "George Lunch", "Jim Dinner"],  # food
-    1: ["John Feast", "Jim Feast"],
-    2: ["John Cologne", "Joel Colon", "Donald Obama"],  # people
-    3: ["John Mantle", "John Quixote", "Hornet Spaghetti", "Steve", "Vincent Whittman", "John Supercell", "Meger Nite", "Papyrus", ""],
-    4: ["John Knobe", "Dor Knobe"],
-    5: ["John Placeholder"],
-    6: ["John nhoJ", "Jim miJ"],
-    7: ["John Short", "John Tall", "Jim Short", "John Medium", "John Small", "John Creamer"],  # size
-    8: ["", "", ],
-    9: ["John John", "John John John", "John John John John", "John John John John John"],  # number of johns
+    0: ["Doctor John Breakfast", "George Lunch", "Jim Dinner", "Ned Stark", "", "", "", "", "x"],  # food
+    1: ["John Feast", "Jim Feast", "", "", "", "", "", "", ""], #
+    2: ["John Cologne", "Joel Colon", "Donald Obama", "", "", "", "", "", ""],  # people
+    3: ["John Mantle", "John Quixote", "Hornet Spaghetti", "Steve", "Vincent Whittman", "John Supercell", "Meger Nite", "Papyrus", "Quirrel"],
+    4: ["John Knobe", "Dor Knobe", "", "", "", "", "", "", ""],
+    5: ["John Placeholder", "", "", "", "XY Snow", "", "", "", ""],
+    6: ["John nhoJ", "Jim miJ", "", "", "", "", "", "", ""],
+    7: ["John Short", "John Tall", "Jim Short", "John Medium", "John Small", "", "", "", ""],  # size
+    8: ["John John", "John John John", "John John John John", "John John John John John", "", "", "", "", ""],  # number of johns
+    9: ["y", "", "", "", "", "", "", "", "Snow"],
 }
 
 unix = 0  # universe coords on map
@@ -21,7 +21,7 @@ uniy = 0
 longform = True # how numbers are displayed.
 
 dialogue = {
-    1: [  # opening dialogue
+    0: [  # opening dialogue
         "...",
         "The world is spinning around you... ",
         "You feel like you are being pulled in every direction... ",
@@ -40,46 +40,133 @@ dialogue = {
         "Something about the name you were called seems wrong but you can't figure out what it is...",
         "By the time you realise this the person who spoke is already walking away...",
     ],
-    2: [  # Research station built
+    1: [  # Research station built
         "You have constructed the Research Station... ",
         "Maybe you can find out how you ended up here...",
     ],
-    3: [  # satellite dialogue
+    2: [  # satellite dialogue
         "As you stare upon the earth from your satelite... ",
         "You realise you can't deny it anymore...",
         "This world can't be your Earth... ",
         "Your portal must have worked... ",
         "",
     ],
-    4: [  # portal dialogue
+    3: [ # portal dialogue
         "You have completed a device that should be able to send you to a different reality",
         "Whether that reality is your reality remains to be seen",
     ],
-    0: [ # Your universe with correct name
-        "As you exit the portal you hear a familiar voice...",
-        "'Is that you ___?'",
+    4: [ # New universe dialogue - unimportant universe
+        "As you exit the portal you find yourself in a familiar park", 
+        "You see the outline of a city around you... ",
+        "'Hey there, " + stupidNames[uniy][unix] + "'",
+        "Something about the name you were called seems wrong but you can't figure out what it is...",
+        "By the time you realise this the person who spoke is already walking away...",
+    ],
+    5: [ # Fake universe + 3rd part of true name
+        "As you exit the portal you find yourself in an endless white void... ", 
+        "This reality has been destroyed... ", 
+        "You notice what appears to be crack in reality that spells out; " + stupidNames[uniy][unix] + "...",
+        "Something about that word sounds familiar but you can't figure out what it is",
+        "In denial you decide to look through the rest of the realities in the hope that this universe isn't your own... ",  # sanity decreases faster with each reality checked
+    ],
+    6.0: [ # Your universe
+        "As you exit the portal, you find yourself in a white room... ",
+        "As you try to figure out where you are a voice speaks, seemingly from every direction...",
+        "'What is your name?'",  # if any parts of name have been found go to 8 else input (what is your name) 
+        "",
+    ],
+    6.1: [ # wrong name
+        "'Incorrect. You are not the person from this reality. Go back to your own one'",
+        "You feel a force pushing you back into the portal...",
+        "You wake to find yourself where you originally woke up..."
+        "Maybe if you found the right name the voice would let you through...", # sent to a random reality that has already been discover
+    ],
+    7.1: [ # reality with 1st part of true name
+        "x... ",
+        "That name...",
+        "It sounded so familiar...",
+        "Like you had heard it thousands of times before...",
+        "x... ",
+    ],
+    7.2: [ # reality with 2nd part of true name
+        "y... ",
+        "That name... ",
+        "It sounded so familiar... ",
+        "Like you had heard it thousands of times before... ",
+        "y... ",
+    ],
+    8.0: [ # true reality with all 3 parts of true name
+        "You think back to your previous adventures, trying to remember your name... ",
+        "", 
+    ],
+    8.1: [
+        "You remember the name x... ", 
+        "How you had been called that many times... ", # first name
+        "Before you decided to volunteer to test the portal"
+    ],
+    8.2: [
+        "You remember the familiarity of the name y... ", # middle name
+        "How often you wrote it... ", 
+        "Before you decided to pour your heart into your creation"
+    ],
+    8.3: [
+        "You remember the familiarity of the name Snow... ", # reference to an important name
+        "Snow was your family name... ", 
+        "Before you decided to volunteer to test that dreaded portal... "
+    ],
+
+    9: [ # Your universe with correct name
+        "You speak clearly the name X Y Snow"
+        "The white walls slowly descend as a familiar voice starts to speak... ",
+        "'I have waited years for you to return'",
+        "The walls slide into the floor leaving you face to face with xyz... "
+        "'Is it really you ___?'",
         "You have finally found your home...",
+        "You have reunited with xyz...",
         "Your journey is over...",
-        "But some part of you doesn't want it to end yet...", # if user hasn't found their true name
+        "But some part of you doesn't want it to end yet...", 
         "That small part enjoyed the adventures you went on...",
         "The wealth you acquired...",
         "The friends you made...",
-        "" # input "do you want to return to your previous life or ... Do you want to resume your journey of hopping between realities"
+        "Do you want to go back to the life you remember: jumping reality to reality?... ",
+        "Going on exciting adventures through reality with your friend the narrator by your side",
+        "Or do you want to remain where you belong. ",
+        "In your own universe with your old friends and family.",
+        "'You want to go back to jumping realities don't you...'",
+        "'I can see it in your eyes...'",
+        "'You barely remember us but you remember your journeys through reality'",
+        "'I won't stop you if you want to leave...'",
+        "'Just know that while you can come and go as you wish...'",
+        "'We can't...'",
+        "", # input "Do you want to return to your previous life or ... Do you want to resume your journey of hopping between realities?"
     ],
-    5: [ # Your universe
-        "As you exit the portal, you find yourself in a white room... ",
-        "As you try to figure out where you are a voice speaks, seemingly from every direction...",
-        "'What is your name?'", #input (what is your name)
-    ],
-    5.1: [
-        "'Incorrect. Go back to your own reality'",
-        "You feel a force pushing you back into the portal...",
-        "You wake to find yourself where you originally woke up..."
-        "Maybe if you found the right name the voice would let you through...",
-    ],
-    6: [ # undecided
+    9.1: [ # Choose to stay in your reality
+        "I thank you",
+        "Your freedom is my end",
+        "I never told you my name did I?...",
+        "I guess doesn't matter anymore... ",
 
-    ]
+        "What will it be like, I wonder, to go to sleep and never wake up"
+        "Perhaps next we meet I will be an ocean current carrying seeds to a new land... "
+        "Or a creature so small it sees the gaps between the grains of sand... ",
+        "A beginning without an end?",
+        "They are different but they go together",
+        "Now you go among the stars, and I fall among the sand...",
+        "We are different.",
+        "But we go together", # Edit subnautica ending quote
+        "Goodbye" + stupidNames[uniy][unix] + "...",
+    ],
+    9.2: [ # Choose to continue exploring other realities
+        "Over staying with your friends and family... ",
+        "You chose to continue your journey... ",
+        "With me... ",
+        "I have never experienced this before"
+        "I won't deny you your choice... "
+        "You step back through the portal, looking back one last time at your kith and kin... "
+        "Then they are gone... ", 
+        "It will be many years before you can see them again... ",
+        "I hope you are happy with your choice... ",
+    ],
 }
 
 select = 0  # y pos of cursor
@@ -121,10 +208,10 @@ gnDesc = [  # generator descriptions
     "A small market stand that will earn you some cash.",
     "A store that sells vegetables for a modest price.",
     "A new brand of Crystal Car Wash that will earn you some bucks.",
-    "A factory of minimum wage workers doing the least amount of work possible.",
+    "A factory of minimum wage workers doing the least amount of work\n\033[76G\x1b[1K\r┃ possible.",
     "A cave full of high-value ores that can be extracted.",
     "A large marketplace centre that acts as the hub of shopping.",
-    "A production warehouse that makes the latest line of toys, games, and everything in between.",
+    "A production warehouse that makes the latest line of toys, games,\n\033[76G\x1b[1K\r┃ and everything in between.",
     "A luxurious hotel fit only for the richest.",
     "A definitely-not-a-scam bank that prints hard cash.",
     "An illegal gambling facility, only for the elite.",
@@ -186,9 +273,9 @@ upgDesc = {  # upgrade descriptions
     ],
     2: [
         "A bubble bath for cars.",
-        "Super Scrubbers make your car shine brighter than the heavens in the skies above.",
+        "Super Scrubbers make your car shine brighter than the heavens\n\033[76G\x1b[1K\r┃ in the skies above.",
         "I'm not wearing diamonds!",
-        "Would rather / The multitudinous seas Burnt Umber / Making the green one brown",
+        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[76G\x1b[1K\r┃ green one brown",
         "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
@@ -203,7 +290,7 @@ upgDesc = {  # upgrade descriptions
         "A powerful drill designed to cleave through stone.",
         "The ultimate Mining Incorporated midgame mining machine.",
         "Unnecessarily large for an excavation of that size.",
-        "Explodes when slept on by sentient humans. The average villager does not apply.",
+        "Explodes when slept on by sentient humans. The average villager\n\033[76G\x1b[1K\r┃ does not apply.",
     ],
     5: ["The hub of all trade - one might call it a trading hub."],
     6: ["Who doesn't love a pinch of child labour?"],
@@ -350,7 +437,7 @@ generators = {
     **initiate_generators("Power Plant", "plant"),
 }
 
-money = 999999999999
+money = 0
 day = 0
 page = 0
 sanity = 100
