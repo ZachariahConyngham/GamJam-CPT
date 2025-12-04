@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -73,6 +73,10 @@
               "Name": "ST:1321847279:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "battleshipsadv.py",
@@ -80,7 +84,7 @@
               "RelativeDocumentMoniker": "Clicker Files\\Minigames\\battleshipsadv.py",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\GamJam-CPT\\Clicker Files\\Minigames\\battleshipsadv.py",
               "RelativeToolTip": "Clicker Files\\Minigames\\battleshipsadv.py",
-              "ViewState": "AgIAABsBAAAAAAAAAAAuwCEBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKYBAAAAAAAAAAAAALIBAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-11-24T08:27:43.923Z",
               "EditorCaption": ""
