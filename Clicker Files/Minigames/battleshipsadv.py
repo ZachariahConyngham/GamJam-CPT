@@ -373,48 +373,48 @@ def batlshit():
 				turn[1] = "kai"
 		# Start of attack gameplay
 
-					if turn[1] == "user":
-						print("---Your Turn---")
-						target = ""
-						while target == "":
-							target = input("Where would you like to attack?(e.g. a1, d5) ")
-							if not (len(target) == 2 or len(target) == 3 and target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
-								target = ""
-								print("That is in the incorrect format.")
-								continue
-							if (target[0] not in columns) or (int(target[1:]) not in range(1, 11)):
-								target = ""
-								print("That's not a valid position.")
-								continue
-							if guessBoard[int(target[1:]) - 1][columns.index(target[0])] != " ":
-								target = ""
-								print("You have already hit that spot.")
-								continue
-						# player shot valid
-						if kaiBoard[int(target[1:]) - 1][columns.index(target[0])] != " ": # if targeted coord is not empty
-							guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
-							shotShip = kaiBoard[int(target[1:]) - 1][columns.index(target[0])] # identify hit ship
-							spaces = [] # declare spaces list
-							for row in kaiBoard: # for each row in kaiBoard
-								for index, value in enumerate(row):
-									if value == shotShip:
-										spaces.append(str(kaiBoard.index(row)) + str(index))
-							breakFor = False # declare breakFor bool
-							for coord in spaces:
-								print(coord)
-								if guessBoard[int(coord[0])][int(coord[1])] != "X": # if the ship is not hit
-									breakFor = True # breakFor
-									break
-							if breakFor == True:
-								print("You have hit my ship! %s" % (kaiTaunts[0][randint(0, len(kaiTaunts[0]) - 1)]))
-							else:
-								print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
-						else:
-							guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "O"
-							print(kaiTaunts[1][randint(0, len(kaiTaunts[1]) - 1)])
-					else:
-						print("---His Turn---")
-						kai_guess()
+		if turn[1] == "user":
+			print("---Your Turn---")
+			target = ""
+			while target == "":
+				target = input("Where would you like to attack?(e.g. a1, d5) ")
+				if not (len(target) == 2 or len(target) == 3 and target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
+					target = ""
+					print("That is in the incorrect format.")
+					continue
+				if (target[0] not in columns) or (int(target[1:]) not in range(1, 11)):
+					target = ""
+					print("That's not a valid position.")
+					continue
+				if guessBoard[int(target[1:]) - 1][columns.index(target[0])] != " ":
+					target = ""
+					print("You have already hit that spot.")
+					continue
+			# player shot valid
+			if kaiBoard[int(target[1:]) - 1][columns.index(target[0])] != " ": # if targeted coord is not empty
+				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
+				shotShip = kaiBoard[int(target[1:]) - 1][columns.index(target[0])] # identify hit ship
+				spaces = [] # declare spaces list
+				for row in kaiBoard: # for each row in kaiBoard
+					for index, value in enumerate(row):
+						if value == shotShip:
+							spaces.append(str(kaiBoard.index(row)) + str(index))
+				breakFor = False # declare breakFor bool
+				for coord in spaces:
+					print(coord)
+					if guessBoard[int(coord[0])][int(coord[1])] != "X": # if the ship is not hit
+						breakFor = True # breakFor
+						break
+				if breakFor == True:
+					print("You have hit my ship! %s" % (kaiTaunts[0][randint(0, len(kaiTaunts[0]) - 1)]))
+				else:
+					print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
+			else:
+				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "O"
+				print(kaiTaunts[1][randint(0, len(kaiTaunts[1]) - 1)])
+		else:
+			print("---His Turn---")
+			kai_guess()
 
 		turn[0] += 1
 		true_turn += 1
