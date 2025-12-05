@@ -1,6 +1,5 @@
 import time, os
 import copy
-import functions as func
 from random import randint, choice
 from math import floor
 
