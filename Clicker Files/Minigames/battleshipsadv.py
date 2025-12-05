@@ -1,7 +1,14 @@
-import time
+import time, os
 import copy
+#import functions as func
 from random import randint, choice
 from math import floor
+
+def clear():  # Clears the terminal
+    if os.name == "nt":
+        _ = os.system("cls")
+    else:
+        _ = os.system("clear")
 
 """
 ________Simplified List__________
@@ -137,9 +144,6 @@ def batlshit():
 				for axis in range(2):
 					for gradient in range(-1, 3, 2):
 						for space in range(int(atkcoords[0][axis]), -1 if gradient == -1 else 10, gradient):
-							print(axis, gradient, space, atkcoords)
-							print_board(kaiGuessBoard)
-							print(kaiGuessBoard[space][int(atkcoords[0][1])] == " ", kaiGuessBoard[space][int(atkcoords[0][1])] == "X", (str(space) + atkcoords[0][1]) in atkcoords)
 							if axis == 0 and not (kaiGuessBoard[space][int(atkcoords[0][1])] == " " or kaiGuessBoard[space][int(atkcoords[0][1])] == "X" and (str(space) + atkcoords[0][1]) in atkcoords): break
 							if axis == 1 and not (kaiGuessBoard[int(atkcoords[0][0])][space] == " " or kaiGuessBoard[int(atkcoords[0][0])][space] == "X" and (atkcoords[0][0] + str(space)) in atkcoords): break
 							spaces[(0 if gradient == -1 else 2) + axis].append(str(atkcoords[0][0] if axis == 1 else space) + str(atkcoords[0][1] if axis == 0 else space))
@@ -217,9 +221,9 @@ def batlshit():
 		else:
 			print(i + 1, end="")
 		for j in range(10):
-			print("[ ]", end="")
+			pwb(" ")
 		print("")
-	
+	"""
 	print("You own 6 ships:")
 	time.sleep(1)
 	print("The Aircraft Carrier - ", end="")
@@ -249,7 +253,7 @@ def batlshit():
 	time.sleep(1)
 	print("We try to sink each others!")
 	time.sleep(2)
-	
+	"""
 	print("Place your battleships down now!")
 	time.sleep(0.2)
 	ready = False
@@ -285,7 +289,8 @@ def batlshit():
 				# if same column
 				if position[0][0] == position[1][0]:
 					gradient = 0 if int(position[0][1:]) > int(position[1][1:]) else 1
-					for i in range(int(position[1 - gradient][1:]), int(position[gradient][1:]) + 1):
+					for i in range(int(position[1 - gradient][1:]) - 1, int(position[gradient][1:])):
+						print(i)
 						shiplength += 1
 						if not (board[i - 1][columns.index(position[0][0])] == " "):
 							print(validationError[1])
@@ -309,6 +314,7 @@ def batlshit():
 					print("Your %s needs to be length %s." % (piece[0], piece[1]))
 					continue
 				axis = isinstance(changedcoords[0], int)
+				print(changedcoords)
 				for space in changedcoords:
 					board[space if axis else int(position[0][1:]) - 1][columns.index(position[0][0] if axis else space)] = piece[0][0]
 				break
@@ -415,6 +421,7 @@ def batlshit():
 			if len(sunkShip) == 6:
 				gamestate = "kai"
 
+
 		turn[0] += 1
 		true_turn += 1
 		match turn[1]:
@@ -432,4 +439,4 @@ def batlshit():
 		case "user":
 			print("NOOOOOOO! How have I lost, it cannot be! %s" % (kaiTaunts[4][randint(0, len(kaiTaunts[4]) - 1)]))
 
-# batlshit()
+batlshit()
