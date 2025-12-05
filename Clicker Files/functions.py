@@ -1,8 +1,10 @@
 import sys, os, time, math
 from pynput.mouse import Controller
 import variables as var
+from variables import shift
 from ascii_art import mapArt, titletext
 
+shift = 30
 
 def clear():  # Clears the terminal
     if os.name == "nt":
@@ -12,8 +14,8 @@ def clear():  # Clears the terminal
 
 
 def clearline():
-    print("\033[76G\x1b[1K\r", end="")
-    print("┃                                                                           ┃\r", end="")
+    print("\033[" + str(shift + 1) + "G                                                                   \r", end="")
+    print("\033[" + str(shift) + "G" + "┃\033[" + str(shift + 76) + "G┃\r", end="")
 
 
 def yap(line):  # yappin
@@ -79,23 +81,23 @@ def load():  # loads the base page
 
     print("\n")
 
-    print("┠───────────────────────────────────────────────────────────────────────────┨")
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
 
     print("\n\n")
 
-    print("┠───────────────────────────────────────────────────────────────────────────┨")
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
 
     print("\n\n\n")
 
-    print("┠───────────────────────────────────────────────────────────────────────────┨")
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
 
-    print("\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("\033[" + str(shift) + "G" + "\n\n\n\n\n\n\n\n\n\n\n\n")
 
-    print("┠───────────────────────────────────────────────────────────────────────────┨")
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
 
     print("\n\n\n\n\n")
 
-    print("┠───────────────────────────────────────────────────────────────────────────┨")
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
 
 
 def update():  # updates certain lines every frame
@@ -108,38 +110,34 @@ def update():  # updates certain lines every frame
     sys.stdout.flush()
 
     clearline()
-    t1 = "┃ Main"  # t = title
+    t1 = " Main"  # t = title
     t2 = "Upgrades"
     t3 = "Research"
     t4 = "Settings"
     if var.select == -1:
         match var.selectcol:
             case 0:
-                print(f"{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
+                print(f"{"":<30}{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
             case 1:
-                print(f"{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
+                print(f"{"":<30}{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
             case 2:
-                print(f"{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
+                print(f"{"":<30}{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
             case 3:
-                print(f"{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
+                print(f"{"":<30}{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
     else:
-        print(f"{t1:<20}{t2:<20}{t3:<20}{t4}")
+        print(f"{"":<30}{t1:<20}{t2:<20}{t3:<20}{t4}")
 
     sys.stdout.write(f"\033[{9};{1}H")
     sys.stdout.flush()
 
     if var.page != 2:
-        dc = "┃ Current Day: " + str(var.day)
+        dc = "\033[" + str(shift) + "G" + "┃ Current Day: " + str(var.day)
         mn = "Money: $" + shorten(var.money)
-        sn = "┃ Sanity: " + str(math.ceil(var.sanity))
+        sn = "\033[" + str(shift) + "G" + "┃ Sanity: " + str(math.ceil(var.sanity))
         mp = "($" + str(var.tMpS) + "/s)"
         clearline()
-        print(f"{dc:<40}{mn}")
-        if var.sanity > 0:
-            print(f"{sn:<46}{mp}")
-        else:
-            clearline()
-
+        print(f"{"":<30}{dc:<40}{mn}")
+        print(f"{"":<30}{sn:<46}{mp}")
     box()
 
     sys.stdout.write(f"\033[{14};{1}H")
@@ -156,21 +154,21 @@ def update():  # updates certain lines every frame
             page3(selected, cost, SMpS)
 
     for i in range(len(titletext)):
-        sys.stdout.write(f"\033[{i + 1};{78}H")
+        sys.stdout.write(f"\033[{i + 1};{78 + shift}H")
         print(titletext[i])
 
 def box():
     sys.stdout.write(f"\033[{0};{0}H")
     sys.stdout.flush()
-    print("┏", end="")
+    print("\033[" + str(shift) + "G" + "┏", end="")
     for i in range(75):
         print("━", end="")
     print("┓")
     for i in range(33):
-        print("┃", end="")
-        sys.stdout.write(f"\033[{i + 2};{77}H")
+        print("\033[" + str(shift) + "G" + "┃", end="")
+        sys.stdout.write(f"\033[{i + 2};{76 + shift}H")
         print("┃")
-    print("┗", end="")
+    print("\033[" + str(shift) + "G" + "┗", end="")
     for i in range(75):
         print("━", end="")
     print("┛")
@@ -180,12 +178,12 @@ def page0(selected, cost, SMpS):
 
     for i in range(len(var.gn)):
         if var.select == i and i != -1 and var.selectcol == 0:
-            left_lines.append(f"{"┃ " + var.gnNames[i] + ": " + str(math.floor(var.gn[i])) + " <     "}")
+            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + " <     ")
         else:
-            left_lines.append(f"{"┃ " + var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
+            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         if var.select != -1:
-            print(f"{left_lines[i]:<37}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
+            print(f"{"":<29}{"┃ " + left_lines[i]:<37}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
         else:
             print(f"{left_lines[i]}")
 
@@ -194,28 +192,28 @@ def page0(selected, cost, SMpS):
 
 
 
-    sys.stdout.write(f"\033[{28};{1}H")
+    sys.stdout.write(f"\033[{28};{0}H")
     sys.stdout.flush()
     clearline()
 
     if var.selected == False:
         if var.select != -1:
-            print("┃ " + var.gnDesc[var.select])
+            print("\033[" + str(shift) + "G" + "┃ " + var.gnDesc[var.select])
             clearline()
-            print("┃ You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
+            print("\033[" + str(shift) + "G" + "┃ You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
             clearline()
-            print("┃ (Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
+            print("\033[" + str(shift) + "G" + "┃ (Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
             clearline()
     else:
         if var.money >= cost * (var.ramping ** var.gn[var.select]):
-            print("┃ Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "?")
+            print("\033[" + str(shift) + "G" + "┃ Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "?")
             clearline()
-            print("┃ (SPACE to confirm, X to cancel)")
+            print("\033[" + str(shift) + "G" + "┃ (SPACE to confirm, X to cancel)")
             clearline()
         else:
-            print("┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
+            print("\033[" + str(shift) + "G" + "┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             clearline()
-            print("┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
+            print("\033[" + str(shift) + "G" + "┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
             clearline()
 
 
