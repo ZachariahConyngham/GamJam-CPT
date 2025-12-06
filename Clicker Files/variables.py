@@ -1,4 +1,4 @@
-import copy
+import copy, os
 from ascii_art import gnArt
 
 stupidNames = {  # trust US with YOUR naming conventions
@@ -18,7 +18,8 @@ stupidNames = {  # trust US with YOUR naming conventions
 unix = 0  # universe coords on map
 uniy = 0
 
-shift = 30
+shift = 40  # shifting the box horizontally
+lineshift = 0  # vertically
 
 longform = True # how numbers are displayed.
 
