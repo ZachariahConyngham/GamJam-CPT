@@ -1,5 +1,18 @@
-gnArt = [  # Depending on how many buildings, they buy, there will be a small animation that plays (like candybox2)
-    [
+gnArt = {  # Depending on how many buildings, they buy, there will be a small animation that plays (like candybox2)
+    -1: [
+            "┌───────────────────────────────────┐",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "│                                   │",
+            "└───────────────────────────────────┘",
+    ],
+    0: [
         [
             "┌───────────────────────────────────┐",
             "│                                   │",
@@ -79,7 +92,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    1: [
         [
             "┌───────────────────────────────────┐",
             "│                ┬─^─┬              │",
@@ -159,7 +172,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    2: [
         [
             "┌───────────────────────────────────┐",
             "│          ┌───CAR──WASH───┐        │",
@@ -239,7 +252,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    3: [
         [
             "┌───────────────────────────────────┐",
             "│ ┌~─~─~~─~─~┐┌──────────────────┐  │",
@@ -319,7 +332,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    4: [
         [
             "┌───────────────────────────────────┐",
             "│    \_/       \__                  │",
@@ -386,7 +399,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    5: [
         [
             "┌───────────────────────────────────┐",
             "│                ___                │",
@@ -401,7 +414,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    6: [
         [
             "┌───────────────────────────────────┐",
             "│   ___________.·´^`·.___________   │",
@@ -416,7 +429,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    7: [
         [
             "-------------------------------------",
             "| ├───────────────────────────────┤ |",
@@ -431,7 +444,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "-------------------------------------",
         ],
     ],
-    [
+    8: [
         [
             "┌───────────────────────────────────┐",
             "│                                   │",
@@ -446,7 +459,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    9: [
         [
             "┌───────────────────────────────────┐",
             "│                                   │",
@@ -461,7 +474,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-    [
+    10: [
         [
             "┌───────────────────────────────────┐",
             "│                                   │",
@@ -476,7 +489,7 @@ gnArt = [  # Depending on how many buildings, they buy, there will be a small an
             "└───────────────────────────────────┘",
         ],
     ],
-]
+}
 
 mapArt = [
     [  # Starter map
