@@ -44,8 +44,11 @@ while True:
                         func.buyupgrade()
                     if var.selectcol == 2:
                         func.buyprestige()
-                if var.page == 3 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
-                    var.page = 4
+                if var.page == 3 and var.select != -1:
+                    var.settings[var.select] = not var.settings[var.select]
+
+                if var.page == 4 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+                    var.page = 5
                     func.clear()
                     match var.select:
                         case 1:
@@ -90,6 +93,8 @@ while True:
                     var.select = max(-1, min(var.select, 10))
             case 2:
                 var.select = max(-1, min(var.select, 10))
+            case 3:
+                var.select = max(-1, min(var.select, len(var.settings) - 1))
 
         if var.select == -1:
             var.selectcol = max(0, min(var.selectcol, 3))

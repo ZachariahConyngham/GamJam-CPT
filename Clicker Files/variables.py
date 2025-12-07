@@ -21,8 +21,6 @@ uniy = 0
 shift = 40  # shifting the box horizontally
 lineshift = 7  # vertically (7 is standard)
 
-longform = True # how numbers are displayed.
-
 dialogue = {
     0: [  # opening dialogue
         "...",
@@ -181,6 +179,9 @@ flavortext = { # flavour text self explanatory (ZAC CAN ADD THESE)
     3: [],
     4: [],
 }
+
+settingstxt = ["Number Format: "]
+settings = [True]
 
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor

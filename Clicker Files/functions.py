@@ -24,29 +24,18 @@ def yap(line):  # yappin
 def shorten(n):  # shortens numbers so that they are readable
     if n == 0:
         return "0"
-    if var.longform == True:
-        magnitude = int(math.log10(abs(n)) // 3)
-        magnitude = max(0, min(magnitude, len(var.suffixes) - 1))
-        short = n / (10 ** (3 * magnitude))
-        if short.is_integer():
-            short_str = str(int(short))
-        else:
-            short_str = f"{short:.2f}".rstrip("0").rstrip(".")
-        return f"{short_str}{var.suffixes[magnitude]}"
-    else: # e thing doesn't work yet
-        magnitude = int(math.log10(abs(n)) // 1)
-        short = n / (10 ** (3 * magnitude))
-        if magnitude >= 6:
-            return f"{str(n)[0] + "." + str(n)[1] + str(n)[2] + str(n)[3]}{"e"}{magnitude}"
-        if magnitude < 6 and magnitude >= 3:
-            num = []
-            for i in range(len(str(n))):
-                if i == len(str(n)) - 5:
-                    num.append(",")
-                num.append(str(n)[i])
-            return "".join(num)
-        else:
-            return str(round(n, 2))
+    mag = int(math.log10(abs(n)) // 3)
+    mag = max(0, min(mag, len(var.suffixes) - 1))
+    short = n / (10 ** (3 * mag))
+    if short.is_integer():
+        short_str = str(int(short))
+    else:
+        short_str = f"{short:.2f}".rstrip("0").rstrip(".")
+    if var.settings[0] == True or mag < 2:
+        return f"{short_str}{var.suffixes[mag]}"
+    else:
+        mag *= 3
+        return f"{short_str}e{mag}"
 
 
 def to_roman(num):  # roman numeral converter (literally just for prestiges)
@@ -332,7 +321,19 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
 
 
 def page3(selected, cost, SMpS):
-    print("YESYSEY")
+    
+    for i in range(len(var.settings)):
+        form = ""
+        if i == 0:
+            match var.settings[0]:
+                case True:
+                    form = "Extended"
+                case False:
+                    form = "Shortened"
+        if var.select == i:
+            print(f"{"":<{shift - 1}}{"┃ " + var.settingstxt[i] + form + " < "}")
+        else:
+            print(f"{"":<{shift - 1}}{"┃ " + var.settingstxt[i] + form + "   "}")
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")  # description box
     sys.stdout.flush()
