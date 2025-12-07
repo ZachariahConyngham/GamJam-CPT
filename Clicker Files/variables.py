@@ -19,7 +19,7 @@ unix = 0  # universe coords on map
 uniy = 0
 
 shift = 40  # shifting the box horizontally
-lineshift = 0  # vertically
+lineshift = 7  # vertically (7 is standard)
 
 longform = True # how numbers are displayed.
 
@@ -172,12 +172,20 @@ dialogue = {
     ],
 }
 
+flavortext = { # flavour text self explanatory (ZAC CAN ADD THESE)
+    0: [
+        "You feel a sense of strangeness."
+    ],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+}
+
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 
 
-
-print()
 
 gnNames = [  # generator names
     "Market Stand",
@@ -276,9 +284,9 @@ upgDesc = {  # upgrade descriptions
     ],
     2: [
         "A bubble bath for cars.",
-        "Super Scrubbers make your car shine brighter than the heavens\n\033[76G\x1b[1K\r┃ in the skies above.",
+        "Super Scrubbers make your car shine brighter than the heavens\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ in the skies above.",
         "I'm not wearing diamonds!",
-        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(76 + shift) + "G\x1b[1K\r┃ green one brown",
+        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ green one brown",
         "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
@@ -293,7 +301,7 @@ upgDesc = {  # upgrade descriptions
         "A powerful drill designed to cleave through stone.",
         "The ultimate Mining Incorporated midgame mining machine.",
         "Unnecessarily large for an excavation of that size.",
-        "Explodes when slept on by sentient humans. The average villager\n\033[76G\x1b[1K\r┃ does not apply.",
+        "Explodes when slept on by sentient humans. The average villager\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ does not apply.",
     ],
     5: ["The hub of all trade - one might call it a trading hub."],
     6: ["Who doesn't love a pinch of child labour?"],
