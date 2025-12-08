@@ -106,15 +106,15 @@ def update():  # updates certain lines every frame
     if var.select == -1:
         match var.selectcol:
             case 0:
-                print(f"{"":<{shift}}{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
             case 1:
-                print(f"{"":<{shift}}{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
             case 2:
-                print(f"{"":<{shift}}{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
             case 3:
-                print(f"{"":<{shift}}{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
     else:
-        print(f"{"":<{shift}}{t1:<20}{t2:<20}{t3:<20}{t4}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2:<20}{t3:<20}{t4}")
 
     sys.stdout.write(f"\033[{lineshift + 11};{1}H")
     sys.stdout.flush()
@@ -125,9 +125,9 @@ def update():  # updates certain lines every frame
         sn = "\033[" + str(shift) + "G" + "┃ Sanity: " + str(math.ceil(var.sanity))
         mp = "($" + shorten(var.tMpS) + "/s)"
         clearline()
-        print(f"{"":<{shift}}{dc:<47}{mn}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{dc:<47}{mn}")
         clearline()
-        print(f"{"":<{shift}}{sn:<53}{mp}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{sn:<53}{mp}")
     box()
 
     sys.stdout.write(f"\033[{lineshift + 16};{1}H")
@@ -194,9 +194,9 @@ def page0(selected, cost, SMpS):
             left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         if var.select != -1:
-            print(f"{"":<{shift - 1}}{"┃ " + left_lines[i]:<37}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<37}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
         else:
-            print(f"{"":<{shift - 1}}{"┃ " + left_lines[i]:<37}{var.gnArt[-1][i]}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<37}{var.gnArt[-1][i]}")
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")
     sys.stdout.flush()
@@ -238,9 +238,9 @@ def page1(selected, cost, SMpS):
         print("\033[2K", end="")
         if i < len(var.upg):
             if var.selectcol == 1 and i == var.select:
-                left_lines.append("┃ " + var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ") <")
+                left_lines.append(var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ") <")
             else:
-                left_lines.append("┃ " + var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ")")
+                left_lines.append(var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ")")
 
         if var.selectcol == 2 and i == var.select:
             right_lines.append(var.prName[i] + " " + to_roman(var.prestige[i]) + " <")
@@ -249,7 +249,7 @@ def page1(selected, cost, SMpS):
 
     for i in range(len(right_lines)):
         if len(left_lines) > i:
-            print(f"{"":<{shift - 1}}{left_lines[i]:<76}{"┃"}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<74}{"┃"}")
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")
     sys.stdout.flush()
@@ -331,9 +331,21 @@ def page3(selected, cost, SMpS):
                 case False:
                     form = "Shortened"
         if var.select == i:
-            print(f"{"":<{shift - 1}}{"┃ " + var.settingstxt[i] + form + " < "}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{var.settingstxt[i] + form + " < "}")
         else:
-            print(f"{"":<{shift - 1}}{"┃ " + var.settingstxt[i] + form + "   "}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{var.settingstxt[i] + form + "   "}")
+
+    print("")
+    
+    if var.select == len(var.settings):
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Get Save Code <"}")
+    else:
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Get Save Code  "}")
+
+    if var.select == len(var.settings) + 1:
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code <"}")
+    else:
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code  "}")
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")  # description box
     sys.stdout.flush()

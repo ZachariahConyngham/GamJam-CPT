@@ -3,8 +3,10 @@ import functions as func
 import variables as var
 from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime
 
+disable = False
+
 func.clear()
-skip = input("Do you want to skip opening dialogue? (Y/N) ").upper()
+skip = input(var.shift).upper()
 if skip != "Y":
     func.clear()
     for line in var.dialogue[1]:
@@ -17,6 +19,23 @@ if skip != "Y":
 
 func.load()
 print("\033[?25l", end="")  # Hides the player cursor
+
+def savecode():
+    disable = True
+    func.clear()
+    for i in range(shutil.get_terminal_size().lines):
+        print("\033[2K")
+    print("\x1b[H")
+    for gn in var.gn:
+        print(gn, end="")
+    print("-", end="")
+    for upg in var.upgBought:
+        print(upg, end="")
+    print("-" + func.shorten(var.money) + "-" + func.shorten(var.sanity), end="")
+
+def loadsave():
+    func.clear()
+    quit()
 
 while True:
     if msvcrt.kbhit():  # Key check
@@ -44,8 +63,12 @@ while True:
                         func.buyupgrade()
                     if var.selectcol == 2:
                         func.buyprestige()
-                if var.page == 3 and var.select != -1:
+                if var.page == 3 and var.select != -1 and not var.select >= len(var.settings):
                     var.settings[var.select] = not var.settings[var.select]
+                if var.page == 3 and var.select == len(var.settings):
+                    savecode()
+                if var.page == 3 and var.select == len(var.settings) + 1:
+                    loadsave()
 
                 if var.page == 4 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
                     var.page = 5
@@ -94,7 +117,7 @@ while True:
             case 2:
                 var.select = max(-1, min(var.select, 10))
             case 3:
-                var.select = max(-1, min(var.select, len(var.settings) - 1))
+                var.select = max(-1, min(var.select, len(var.settings) + 1))
 
         if var.select == -1:
             var.selectcol = max(0, min(var.selectcol, 3))
@@ -104,16 +127,19 @@ while True:
             var.selectcol = max(0, min(var.selectcol, 8))
         else:
             var.selectcol = 0
-
+    
     if shutil.get_terminal_size().lines <= 42:
         print("\033[H", end="")
         for i in range(shutil.get_terminal_size().lines):
             if i != 19:
                 print("x1b[" + str(i + 1) + ";80H\033[2K")
         print("\x1b[20;80HScreen not big enough.")
-    else:
+    if disable == False:
         func.update()
-        time.sleep(0.02)
+    
+    time.sleep(0.02)
+
+    shift = round((shutil.get_terminal_size().columns / 2) - 40)
 
     var.tMpS = 0
 
@@ -125,3 +151,4 @@ while True:
 
         var.cost[i] = var.baseCost[i] * (0.8 ** (var.prestige[i] - 1))
     var.sanity -= var.sanmult * 0.02 * (1 / 60)
+

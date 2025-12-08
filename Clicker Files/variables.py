@@ -1,4 +1,4 @@
-import copy, os
+import copy, os, shutil
 from ascii_art import gnArt
 
 stupidNames = {  # trust US with YOUR naming conventions
@@ -18,7 +18,7 @@ stupidNames = {  # trust US with YOUR naming conventions
 unix = 0  # universe coords on map
 uniy = 0
 
-shift = 40  # shifting the box horizontally
+shift = round((shutil.get_terminal_size().columns / 2) - 40)  # shifting the box horizontally
 lineshift = 7  # vertically (7 is standard)
 
 dialogue = {
