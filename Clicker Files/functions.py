@@ -142,6 +142,8 @@ def update():  # updates certain lines every frame
             page2(selected, cost, SMpS)
         case 3:
             page3(selected, cost, SMpS)
+        case 4:
+            page4(selected, cost, SMpS)
 
     for i in range(len(titletext)):
         sys.stdout.write(f"\033[{lineshift + i - 6};{24 + shift}H")
@@ -306,7 +308,7 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
     if var.select != -1:
         print("\033[" + str(shift) + "G" + "┃ " + var.mapDesc[var.map[var.select][var.selectcol]])
         clearline()
-        print("\033[" + str(shift) + "G" + "┃ Travel costs $" + shorten(1000000000000 + 62761.39 ** ((var.select + var.selectcol + 2))))
+        print("\033[" + str(shift) + "G" + "┃ Travel costs $" + shorten(10000000 + 62761.39 ** ((var.select + var.selectcol + 2))))
         clearline()
         if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
             print("\033[" + str(shift) + "G" + "┃ You can travel here!")
@@ -350,6 +352,16 @@ def page3(selected, cost, SMpS):
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")  # description box
     sys.stdout.flush()
 
+def page4(selected, cost, SMpS):
+    print("\033[23;" + str(shift + 2) + "H", end="")
+    for gn in var.gn:
+        print(gn, end="")
+    print("-", end="")
+    for upg in var.upgBought:
+        print(upg, end="")
+    print("-" + shorten(var.money) + "-" + shorten(var.sanity))
+
+    print("\n\033[" + str(shift + 2) + "G(You can copy this code to re-enter your save file at a later date.)")
 
 def buyupgrade():
     if var.money >= var.upgCost[var.select][var.upgBought[var.select]]:

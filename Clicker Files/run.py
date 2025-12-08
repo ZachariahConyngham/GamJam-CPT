@@ -5,33 +5,12 @@ from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gambl
 
 disable = False
 
-func.clear()
-skip = input(var.shift).upper()
-if skip != "Y":
-    func.clear()
-    for line in var.dialogue[1]:
-        if line != "clear":
-            func.yap(line)
-            time.sleep(1)
-            print("\n")
-        else:
-            func.clear()
-
 func.load()
 print("\033[?25l", end="")  # Hides the player cursor
 
 def savecode():
-    disable = True
-    func.clear()
-    for i in range(shutil.get_terminal_size().lines):
-        print("\033[2K")
-    print("\x1b[H")
-    for gn in var.gn:
-        print(gn, end="")
-    print("-", end="")
-    for upg in var.upgBought:
-        print(upg, end="")
-    print("-" + func.shorten(var.money) + "-" + func.shorten(var.sanity), end="")
+    var.page = 4
+    func.load()
 
 def loadsave():
     func.clear()
@@ -70,7 +49,7 @@ while True:
                 if var.page == 3 and var.select == len(var.settings) + 1:
                     loadsave()
 
-                if var.page == 4 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+                if var.page == 8 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
                     var.page = 5
                     func.clear()
                     match var.select:
@@ -118,6 +97,8 @@ while True:
                 var.select = max(-1, min(var.select, 10))
             case 3:
                 var.select = max(-1, min(var.select, len(var.settings) + 1))
+            case 4:
+                var.select = -1
 
         if var.select == -1:
             var.selectcol = max(0, min(var.selectcol, 3))
@@ -134,21 +115,21 @@ while True:
             if i != 19:
                 print("x1b[" + str(i + 1) + ";80H\033[2K")
         print("\x1b[20;80HScreen not big enough.")
-    if disable == False:
-        func.update()
+    func.update()
     
     time.sleep(0.02)
 
     shift = round((shutil.get_terminal_size().columns / 2) - 40)
 
     var.tMpS = 0
+    
+    if var.page != 4:
+        for i in range(len(var.gn)):  # calculating money increase and sanity loss
+            mult = 1
+            var.tMpS += var.MpS[i] * var.gn[i] * (2 ** (var.upgBought[i])) * (1.2 ** (var.prestige[i] - 1))
 
-    for i in range(len(var.gn)):  # calculating money increase and sanity loss
-        mult = 1
-        var.tMpS += var.MpS[i] * var.gn[i] * (2 ** (var.upgBought[i])) * (1.2 ** (var.prestige[i] - 1))
+            var.money += var.MpS[i] * var.gn[i] * (2 ** (var.upgBought[i])) * (1.2 ** (var.prestige[i] - 1)) * 0.02
 
-        var.money += var.MpS[i] * var.gn[i] * (2 ** (var.upgBought[i])) * (1.2 ** (var.prestige[i] - 1)) * 0.02
-
-        var.cost[i] = var.baseCost[i] * (0.8 ** (var.prestige[i] - 1))
-    var.sanity -= var.sanmult * 0.02 * (1 / 60)
+            var.cost[i] = var.baseCost[i] * (0.8 ** (var.prestige[i] - 1))
+        var.sanity -= var.sanmult * 0.02 * (1 / 60)
 
