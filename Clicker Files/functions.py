@@ -11,8 +11,8 @@ def clear():  # Clears the terminal
 
 
 def clearline():
-    print("\033[" + str(shift + 1) + "G                                                                          \r", end="")
-    print("\033[" + str(shift) + "G" + "┃\033[" + str(shift + 76) + "G┃\r", end="")
+    print("\033[" + str(shift - 3) + "G║  ┃", end="")
+    print(" " * 75 + "\r", end="")
 
 
 def yap(line):  # yappin

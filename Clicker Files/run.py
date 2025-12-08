@@ -1,4 +1,4 @@
-import sys, time, os, math, msvcrt
+import sys, time, os, math, msvcrt, shutil
 import functions as func
 import variables as var
 from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime
@@ -105,8 +105,15 @@ while True:
         else:
             var.selectcol = 0
 
-    func.update()
-    time.sleep(0.02)
+    if shutil.get_terminal_size().lines <= 42:
+        print("\033[H", end="")
+        for i in range(shutil.get_terminal_size().lines):
+            if i != 19:
+                print("x1b[" + str(i + 1) + ";80H\033[2K")
+        print("\x1b[20;80HScreen not big enough.")
+    else:
+        func.update()
+        time.sleep(0.02)
 
     var.tMpS = 0
 
