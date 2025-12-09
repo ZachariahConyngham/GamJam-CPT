@@ -20,7 +20,7 @@ ________Simplified List__________
 
 """
 
-def batlshit():
+def batlshit(shift):
 	kaiTaunts = [[""],[""],[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, 3 is kai wins, 4 is kai loses idk add more later
 
 	def pwb(value, end = ""): # to simplify printing - print_within_brackets
@@ -28,9 +28,9 @@ def batlshit():
 		return
 
 	def print_board(board): # general printing board such as debugging or tutorial
-		print("   a  b  c  d  e  f  g  h  i  j ") # x-axis
+		print("\033[23;" + str(shift + 20) + "H   a  b  c  d  e  f  g  h  i  j ") # x-axis
 		for row in range(10):
-			print(row + 1, end=" " if row != 9 else "") # row number, if it is 10, don't print last space
+			print("\033[" + str(row + 24) + ";" + str(shift + 20) + "H" + str(row + 1), end=" " if row != 9 else "") # row number, if it is 10, don't print last space
 			for column in range(10): # prints columns
 				pwb(board[row][column]) # print tiles of the defined board
 			print("") # print on new line
@@ -212,17 +212,6 @@ def batlshit():
 	kaiGuessBoard = copy.deepcopy(board_template)
 	pieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
 	columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-	print("Here is the board:")
-	time.sleep(0.5)
-	print("   a  b  c  d  e  f  g  h  i  j ")
-	for i in range(10):
-		if i != 9:
-			print(i + 1, end=" ")
-		else:
-			print(i + 1, end="")
-		for j in range(10):
-			pwb(" ")
-		print("")
 	"""
 	print("You own 6 ships:")
 	time.sleep(1)
@@ -254,7 +243,6 @@ def batlshit():
 	print("We try to sink each others!")
 	time.sleep(2)
 	"""
-	print("Place your battleships down now!")
 	time.sleep(0.2)
 	ready = False
 	while ready == False:
@@ -438,5 +426,3 @@ def batlshit():
 			print("HAHAHAHAHA! I have defeated you! %s" % (kaiTaunts[3][randint(0, len(kaiTaunts[3]) - 1)]))
 		case "user":
 			print("NOOOOOOO! How have I lost, it cannot be! %s" % (kaiTaunts[4][randint(0, len(kaiTaunts[4]) - 1)]))
-
-batlshit()

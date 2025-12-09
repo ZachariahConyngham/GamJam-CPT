@@ -144,6 +144,8 @@ def update():  # updates certain lines every frame
             page3(selected, cost, SMpS)
         case 4:
             page4(selected, cost, SMpS)
+        case 5:
+            page5(selected, cost, SMpS)
 
     for i in range(len(titletext)):
         sys.stdout.write(f"\033[{lineshift + i - 6};{24 + shift}H")
@@ -362,6 +364,9 @@ def page4(selected, cost, SMpS):
     print("-" + shorten(var.money) + "-" + shorten(var.sanity))
 
     print("\n\033[" + str(shift + 2) + "G(You can copy this code to re-enter your save file at a later date.)")
+
+def page5(selected, cost, SMpS):
+    print("EIOFAFHOIEAFH")
 
 def buyupgrade():
     if var.money >= var.upgCost[var.select][var.upgBought[var.select]]:

@@ -1,7 +1,7 @@
 import sys, time, os, math, msvcrt, shutil
 import functions as func
 import variables as var
-from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime
+from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
 
 disable = False
 
@@ -42,6 +42,13 @@ while True:
                         func.buyupgrade()
                     if var.selectcol == 2:
                         func.buyprestige()
+                if var.page == 2 and var.select != -1:
+                    var.page == 55
+                    func.clear()
+                    func.load()
+                    func.box()
+                    func.update()
+                    battleshipsadv.batlshit(var.shift)
                 if var.page == 3 and var.select != -1 and not var.select >= len(var.settings):
                     var.settings[var.select] = not var.settings[var.select]
                 if var.page == 3 and var.select == len(var.settings):
