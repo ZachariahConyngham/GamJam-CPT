@@ -1,24 +1,8 @@
-# GamJam-CPT
+# CPT GameJam - Cameron, Zac, Kai
 
-Zac's Games:
-1. Guess the number
-2. Roshambo
-3. Blackjack
+Instructions for play:
 
-Cameron's Games:
-1. Solitaire
-2. Minesweeper
-3. Hangman (DONE)
-4. Top Trumps (WIP)
-5. Snakes and Ladders (DONE)
-6. Exploding Kittens
-
-Kai's games:
-1. Battleships
-
-LORE (to be added):
-
-
-
-
-Hahahahahahahahhahahaa incremental game ahhaahahahah
+- Download the files.
+- Go into the "Clicker Files" folder and open the `run.bat` file.
+- Choose ('n') to wipe your savefile or start if you don't already have one.
+- Play! (Have fun...)
