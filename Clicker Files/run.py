@@ -43,7 +43,7 @@ while True:
                     if var.selectcol == 2:
                         func.buyprestige()
                 if var.page == 2 and var.select != -1:
-                    var.page == 55
+                    var.page == 5
                     func.clear()
                     func.load()
                     func.box()
@@ -91,6 +91,7 @@ while True:
                 if var.selected == True:
                     var.selected = False
             case "r":
+                var.shift = round((shutil.get_terminal_size().columns / 2) - 40)
                 func.load()
         match var.page:
             case 0:

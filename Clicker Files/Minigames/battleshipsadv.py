@@ -23,13 +23,20 @@ ________Simplified List__________
 def batlshit(shift):
 	kaiTaunts = [[""],[""],[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, 3 is kai wins, 4 is kai loses idk add more later
 
+	def clearline():
+		print("\033[" + str(shift - 3) + "G║  ┃", end="")
+		print(" " * 75 + "\r", end="")
+
 	def pwb(value, end = ""): # to simplify printing - print_within_brackets
 		print("[%s]" % (value), end=end)
 		return
 
 	def print_board(board): # general printing board such as debugging or tutorial
+		print("\033[23;" + str(shift + 20) + "H", end="")
+		clearline()
 		print("\033[23;" + str(shift + 20) + "H   a  b  c  d  e  f  g  h  i  j ") # x-axis
 		for row in range(10):
+			clearline()
 			print("\033[" + str(row + 24) + ";" + str(shift + 20) + "H" + str(row + 1), end=" " if row != 9 else "") # row number, if it is 10, don't print last space
 			for column in range(10): # prints columns
 				pwb(board[row][column]) # print tiles of the defined board
@@ -253,14 +260,14 @@ def batlshit(shift):
 			while True: # Start to place
 				print_board(board)
 				position = ["", ""]
-				position[0] = input("Place the head of %s (Length: %s) (e.g. a1, d5): " % (piece[0], piece[1]))
+				position[0] = input("\033[37;" + str(shift + 2) + "HPlace the head of %s (Length: %s) (e.g. a1, d5):\n" % (piece[0], piece[1]))
 				if not bool(position[0]) or not(len(position[0]) == 2 or position[0][1:] == "10"):
 					print(validationError[0])
 					continue
 				if not (position[0][0] in columns and position[0][1:] in [str(x) for x in range(1, 11)]):
 					print(validationError[0])
 					continue
-				position[1] = input("Place the end of %s (e.g. a3, g5): " % (piece[0]))
+				position[1] = input("\033[37;" + str(shift + 2) + "HPlace the end of %s (e.g. a3, g5):\n" % (piece[0]))
 				if not bool(position[1]) or not(len(position[1]) == 2 or position[1][1:] == "10"):
 					print(validationError[0])
 					continue

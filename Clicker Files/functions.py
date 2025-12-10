@@ -98,7 +98,6 @@ def update():  # updates certain lines every frame
     sys.stdout.write(f"\033[{lineshift + 7};{0}H")
     sys.stdout.flush()
 
-    clearline()
     t1 = " Main"  # t = title
     t2 = "Upgrades"
     t3 = "Research"
@@ -106,15 +105,15 @@ def update():  # updates certain lines every frame
     if var.select == -1:
         match var.selectcol:
             case 0:
-                print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + " <":<20}{t2:<20}{t3:<20}{t4}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + " <":<20}{t2 + "  ":<20}{t3 + "  ":<20}{t4 + "  "}")
             case 1:
-                print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2 + " <":<20}{t3:<20}{t4}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + "  ":<20}{t2 + " <":<20}{t3 + "  ":<20}{t4 + "  "}")
             case 2:
-                print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2:<20}{t3 + " <":<20}{t4}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + "  ":<20}{t2 + "  ":<20}{t3 + " <":<20}{t4 + "  "}")
             case 3:
-                print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2:<20}{t3:<20}{t4 + " <"}")
+                print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + "  ":<20}{t2 + "  ":<20}{t3 + "  ":<20}{t4 + " <"}")
     else:
-        print(f"{"":<{shift - 4}}{"║  ┃"}{t1:<20}{t2:<20}{t3:<20}{t4}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{t1 + "  ":<20}{t2 + "  ":<20}{t3 + "  ":<20}{t4 + "  "}")
 
     sys.stdout.write(f"\033[{lineshift + 11};{1}H")
     sys.stdout.flush()
@@ -310,12 +309,20 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
     if var.select != -1:
         print("\033[" + str(shift) + "G" + "┃ " + var.mapDesc[var.map[var.select][var.selectcol]])
         clearline()
-        print("\033[" + str(shift) + "G" + "┃ Travel costs $" + shorten(10000000 + 62761.39 ** ((var.select + var.selectcol + 2))))
-        clearline()
-        if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
-            print("\033[" + str(shift) + "G" + "┃ You can travel here!")
+        if var.select == var.unix and var.selectcol == var.uniy:
+            print("\033[" + str(shift) + "G" + "┃ You're already here.")
+            clearline()
         else:
-            print("\033[" + str(shift) + "G" + "┃ You can't travel here. You are not close enough.")
+            clearline()
+            print("\033[" + str(shift) + "G" + "┃ Travel costs $" + shorten(10000000 + 62761.39 ** ((var.select + var.selectcol + 2))))
+            clearline()
+            if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
+                if var.money >= 10000000 + 62761.39 ** (var.select + var.selectcol + 2):
+                    print("\033[" + str(shift) + "G" + "┃ You can travel here!")
+                else:
+                    print("\033[" + str(shift) + "G" + "┃ You could travel here... if you were richer.")
+            else:
+                print("\033[" + str(shift) + "G" + "┃ You can't travel here. You are not close enough.")
     else:
         clearline()
         print()
