@@ -354,15 +354,22 @@ def batlshit(shift):
 		# print_board(kaiBoard)    ### For debugging purposes only
 		if true_turn == 0:
 			print("This is the first turn.")
+			time.sleep(0.4)
 			print("As my guest,")
+			time.sleep(0.4)
 			print("I'll let you attack first.")
+			time.sleep(0.4)
 			print("Your goal is to attack coordinates that may contain my ships. ")
+			time.sleep(0.4)
 			print("If you can shoot all my ships out of the water,")
+			time.sleep(0.4)
 			print("You would win.")
+			time.sleep(0.4)
 			print("But.", end="")
 			print(".", end="")
 			print(".", end="")
 			print("That's not happening.")
+			time.sleep(0.4)
 			turn[1] = "user"
 		elif turn == 0:
 			if (randint(0, 1) == 0):
@@ -404,12 +411,14 @@ def batlshit(shift):
 						break
 				if breakFor:
 					print("You have hit my ship! %s" % (kaiTaunts[0][randint(0, len(kaiTaunts[0]) - 1)]))
+					time.sleep(1.5)
 				else:
 					print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
 					for coord in spaces:
 						guessBoard[int(coord[0])][int(coord[1])] = shotShip # guessBoard update to 'hit'
 					if kaiBoard == guessBoard:
 						gamestate = "user"
+					time.sleep(1.5)
 
 			else:
 				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "O"

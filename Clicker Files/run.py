@@ -92,16 +92,14 @@ while True:
                         func.buyupgrade()
                     if var.selectcol == 2:
                         func.buyprestige()
-                if var.page == 2 and var.select != -1:
+                if var.page == 3 and var.select != -1 and not var.select >= len(var.settings):
+                    var.settings[var.select] = not var.settings[var.select]
+                if var.page == 3 and var.select == len(var.settings):
                     var.page == 5
                     func.clear()
                     func.load()
                     func.box()
                     battleshipsadv.batlshit(var.shift)
-                if var.page == 3 and var.select != -1 and not var.select >= len(var.settings):
-                    var.settings[var.select] = not var.settings[var.select]
-                if var.page == 3 and var.select == len(var.settings) + 2:
-                    skills_gamblingtime.gambling()
 
                 if var.page == 8 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
                     var.page = 5
@@ -151,7 +149,7 @@ while True:
             case 2:
                 var.select = max(-1, min(var.select, 10))
             case 3:
-                var.select = max(-1, min(var.select, len(var.settings) + 2))
+                var.select = max(-1, min(var.select, len(var.settings)))
             case 4:
                 var.select = -1
 

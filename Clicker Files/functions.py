@@ -160,7 +160,7 @@ def update():  # updates certain lines every frame
 
 def box():
     for i in range(len(titletext)):
-        sys.stdout.write(f"\033[{lineshift + i - 6};{24 + shift}H")
+        sys.stdout.write(f"\033[{lineshift + i - 6};{22 + shift}H")
         print(titletext[i])
     print("\033[" + str(shift + 24) + "GA game by Cameron, Zac and Kai")
 
@@ -354,19 +354,9 @@ def page3(selected, cost, SMpS):
     print("")
     
     if var.select == len(var.settings):
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Save Game <"}")
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"??? <"}")
     else:
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Save Game  "}")
-
-    if var.select == len(var.settings) + 1:
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code <"}")
-    else:
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code  "}")
-
-    if var.select == len(var.settings) + 2:
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"M <"}")
-    else:
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"M  "}")
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"???  "}")
     
     
     
