@@ -145,18 +145,6 @@ def update():  # updates certain lines every frame
             page4(selected, cost, SMpS)
         case 5:
             page5(selected, cost, SMpS)
-
-    for i in range(len(titletext)):
-        sys.stdout.write(f"\033[{lineshift + i - 6};{24 + shift}H")
-        print(titletext[i])
-    print("\033[" + str(shift + 24) + "GA game by Cameron, Zac and Kai")
-
-    sys.stdout.write(f"\033[{0};{0}H")
-    sys.stdout.flush()
-
-    for i in range(shutil.get_terminal_size()[1] - 1):
-        print("\033[" + str(shift - 3) + "G║", end="")
-        print("\033[" + str(shift + 79) + "G║")
     
     sys.stdout.write(f"\033[{lineshift + 2};{shift + 3}H")
     sys.stdout.flush()
@@ -171,6 +159,18 @@ def update():  # updates certain lines every frame
         print("\033[" + str(shift + 75) + "G╡")
 
 def box():
+    for i in range(len(titletext)):
+        sys.stdout.write(f"\033[{lineshift + i - 6};{24 + shift}H")
+        print(titletext[i])
+    print("\033[" + str(shift + 24) + "GA game by Cameron, Zac and Kai")
+
+    sys.stdout.write(f"\033[{0};{0}H")
+    sys.stdout.flush()
+
+    for i in range(shutil.get_terminal_size().lines - 1):
+        print("\033[" + str(shift - 3) + "G║", end="")
+        print("\033[" + str(shift + 78) + "G║")
+
     sys.stdout.write(f"\033[{lineshift};{0}H")
     sys.stdout.flush()
 
@@ -357,6 +357,14 @@ def page3(selected, cost, SMpS):
         print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code <"}")
     else:
         print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code  "}")
+
+    if var.select == len(var.settings) + 2:
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"M <"}")
+    else:
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"M  "}")
+    
+    
+    
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")  # description box
     sys.stdout.flush()

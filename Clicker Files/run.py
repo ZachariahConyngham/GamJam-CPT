@@ -1,12 +1,33 @@
-import sys, time, os, math, msvcrt, shutil
+import sys, time, os, math, msvcrt, shutil, time
 import functions as func
 import variables as var
 from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
 
 disable = False
+func.clear()
+func.box()
 
-func.load()
+time.sleep(1)
+
+print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+
+if (input("Do you want to read opening dialogue? (Y/N) ")).upper == "Y":
+    func.clear()
+    func.box()
+    print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+    for line in var.dialogue[0]:
+        if line == "clear":
+            func.clear()
+            func.box()
+        else:
+            func.yap("\033[" + str(var.shift + 2) + "G" + line)
+            print("\n")
+            time.sleep(0.5)
+
 print("\033[?25l", end="")  # Hides the player cursor
+func.clear()
+func.box()
+func.load()
 
 def savecode():
     var.page = 4
@@ -55,6 +76,8 @@ while True:
                     savecode()
                 if var.page == 3 and var.select == len(var.settings) + 1:
                     loadsave()
+                if var.page == 3 and var.select == len(var.settings) + 2:
+                    skills_gamblingtime.gambling()
 
                 if var.page == 8 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
                     var.page = 5
@@ -104,7 +127,7 @@ while True:
             case 2:
                 var.select = max(-1, min(var.select, 10))
             case 3:
-                var.select = max(-1, min(var.select, len(var.settings) + 1))
+                var.select = max(-1, min(var.select, len(var.settings) + 2))
             case 4:
                 var.select = -1
 
@@ -123,8 +146,28 @@ while True:
             if i != 19:
                 print("x1b[" + str(i + 1) + ";80H\033[2K")
         print("\x1b[20;80HScreen not big enough.")
-    func.update()
-    
+    if disable == False:
+        func.update()
+    else:
+        func.box()
+
+
+    if var.sanity == 50:
+        batlshit(shift)
+        disable = True
+    else:
+        jim = "Bald"
+
+    if var.sanity <= 0:
+        snekandeladr()
+        disable = True
+    else:
+        jim = "Short"
+    #if  =  :
+    #    e
+    #else:
+    #    e
+
     time.sleep(0.02)
 
     shift = round((shutil.get_terminal_size().columns / 2) - 40)
