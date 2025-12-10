@@ -21,10 +21,11 @@ ________Simplified List__________
 """
 
 def batlshit(shift):
+	clear()
 	kaiTaunts = [[""],[""],[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, 3 is kai wins, 4 is kai loses idk add more later
 
 	def clearline():
-		print("\033[" + str(shift - 3) + "G║  ┃", end="")
+		print("\033[" + str(shift + 2) + "G", end="")
 		print(" " * 75 + "\r", end="")
 
 	def pwb(value, end = ""): # to simplify printing - print_within_brackets
@@ -254,20 +255,20 @@ def batlshit(shift):
 	ready = False
 	while ready == False:
 		board = copy.deepcopy(board_template)
-		validationError = ["This is an invalid position. Please choose somewhere else.", "There is already a piece here. Please choose somewhere else.", "You can't place it here. Please choose somewhere else.", ""]
+		validationError = ["\033[37;" + str(shift + 2) + "HThis is an invalid position. Please choose somewhere else.", "\033[37;" + str(shift + 2) + "HThere is already a piece here. Please choose somewhere else.", "\033[37;" + str(shift + 2) + "HYou can't place it here. Please choose somewhere else.", ""]
 		for piece in pieces:
 			validationError[3] = "A %s cannot fit in this region. Please choose somewhere else." % (piece[0])
 			while True: # Start to place
 				print_board(board)
 				position = ["", ""]
-				position[0] = input("\033[37;" + str(shift + 2) + "HPlace the head of %s (Length: %s) (e.g. a1, d5):\n" % (piece[0], piece[1]))
+				position[0] = input("\033[37;" + str(shift + 2) + "HPlace the head of %s (Length: %s) (e.g. a1, d5): " % (piece[0], piece[1]))
 				if not bool(position[0]) or not(len(position[0]) == 2 or position[0][1:] == "10"):
 					print(validationError[0])
 					continue
 				if not (position[0][0] in columns and position[0][1:] in [str(x) for x in range(1, 11)]):
 					print(validationError[0])
 					continue
-				position[1] = input("\033[37;" + str(shift + 2) + "HPlace the end of %s (e.g. a3, g5):\n" % (piece[0]))
+				position[1] = input("\033[38;" + str(shift + 2) + "HPlace the end of %s (e.g. a3, g5): " % (piece[0]))
 				if not bool(position[1]) or not(len(position[1]) == 2 or position[1][1:] == "10"):
 					print(validationError[0])
 					continue
@@ -307,11 +308,13 @@ def batlshit(shift):
 				if shiplength != piece[1]:
 					print(validationError[3])
 					print("Your %s needs to be length %s." % (piece[0], piece[1]))
+					clear()
 					continue
 				axis = isinstance(changedcoords[0], int)
 				print(changedcoords)
 				for space in changedcoords:
 					board[space if axis else int(position[0][1:]) - 1][columns.index(position[0][0] if axis else space)] = piece[0][0]
+					clear()
 				break
 		print_board(board)
 		while True:

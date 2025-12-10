@@ -1,4 +1,4 @@
-import sys, time, os, math, msvcrt, shutil, time
+import sys, time, os, math, msvcrt, shutil, time, json
 import functions as func
 import variables as var
 from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
@@ -9,9 +9,41 @@ func.box()
 
 time.sleep(1)
 
+def savedata():
+    player_data = {
+        "money": var.money,
+        "gn": var.gn,
+        "upg": var.upgBought,
+        "sanity": var.sanity,
+        "time": var.time
+    }
+
+    with open("savefile.json", "w") as f:
+        json.dump(player_data, f, indent=4)
+
+def load_data(filename="savefile.json"):
+    try:
+        with open(filename, "r") as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError:
+        return None
+
 print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
 
-if (input("Do you want to read opening dialogue? (Y/N) ")).upper == "Y":
+if (input("Do you want to load your previous save? (Y/N) ")).upper() == "Y":
+    data = load_data()
+    if data != "{}":
+        var.money = data["money"]
+        var.gn = data["gn"]
+        var.upgBought = data["upg"]
+        var.sanity = data["sanity"]
+        var.time = data["time"]
+else:
+    with open("savefile.json", "w") as f:
+        f.write("{}")
+
+if (input("Do you want to read opening dialogue? (Y/N) ")).upper() == "Y":
     func.clear()
     func.box()
     print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
@@ -19,9 +51,10 @@ if (input("Do you want to read opening dialogue? (Y/N) ")).upper == "Y":
         if line == "clear":
             func.clear()
             func.box()
+            print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
         else:
-            func.yap("\033[" + str(var.shift + 2) + "G" + line)
-            print("\n")
+            func.yap("\033[" + str(var.shift + 2) + "G\033[?25h" + line)
+            print("\033[?25l\n")
             time.sleep(0.5)
 
 print("\033[?25l", end="")  # Hides the player cursor
@@ -29,13 +62,7 @@ func.clear()
 func.box()
 func.load()
 
-def savecode():
-    var.page = 4
-    func.load()
 
-def loadsave():
-    func.clear()
-    quit()
 
 while True:
     if msvcrt.kbhit():  # Key check
@@ -68,14 +95,9 @@ while True:
                     func.clear()
                     func.load()
                     func.box()
-                    func.update()
                     battleshipsadv.batlshit(var.shift)
                 if var.page == 3 and var.select != -1 and not var.select >= len(var.settings):
                     var.settings[var.select] = not var.settings[var.select]
-                if var.page == 3 and var.select == len(var.settings):
-                    savecode()
-                if var.page == 3 and var.select == len(var.settings) + 1:
-                    loadsave()
                 if var.page == 3 and var.select == len(var.settings) + 2:
                     skills_gamblingtime.gambling()
 
@@ -169,6 +191,9 @@ while True:
     #    e
 
     time.sleep(0.02)
+    var.time += 0.02
+
+    savedata()
 
     shift = round((shutil.get_terminal_size().columns / 2) - 40)
 

@@ -21,6 +21,8 @@ uniy = 0
 shift = round((shutil.get_terminal_size().columns / 2) - 40)  # shifting the box horizontally
 lineshift = 7  # vertically (7 is standard)
 
+time = 0
+
 dialogue = {
     0: [  # opening dialogue
         "...",
@@ -33,13 +35,15 @@ dialogue = {
         "clear",
         "You awake to the sound of water running nearby. ",
         "You find yourself in a place that is vaguely familiar... ",
-        "You decide to explore to find out where you have arrived... ",
+        "You decide to explore to find out where you have arrived. ",
         "clear",
         "You see the outline of a city in the distance... ",
         "You realise you remember nothing from before you woke up... ",
-        "'Hey there, " + stupidNames[uniy][unix] + "'",
-        "Something about the name you were called seems wrong but you can't figure out what it is...",
-        "By the time you realise this the person who spoke is already walking away...",
+        "Then, someone approaches you. ",
+        "'Hey there, " + stupidNames[uniy][unix] + "', they say. ",
+        "Something about the name you were called seems wrong but you can't figure\n\033[" + str(shift + 2) + "Gout what it is. ",
+        "By the time you realise this the person who spoke is already walking\n\033[" + str(shift + 2) + "Gaway...",
+        "Maybe you should try and fit in for a while. "
     ],
     1: [  # Research station built
         "You have constructed the Research Station... ",
@@ -53,22 +57,22 @@ dialogue = {
         "",
     ],
     3: [ # portal dialogue
-        "You have completed a device that should be able to send you to a different reality",
+        "You have completed a device that should be able to send you to a different\n\033[" + str(shift + 2) + "Greality",
         "Whether that reality is your reality remains to be seen",
     ],
     4: [ # New universe dialogue - unimportant universe
         "As you exit the portal you find yourself in a familiar park", 
         "You see the outline of a city around you... ",
         "'Hey there, " + stupidNames[uniy][unix] + "'",
-        "Something about the name you were called seems wrong but you can't figure out what it is...",
-        "By the time you realise this the person who spoke is already walking away...",
+        "Something about the name you were called seems wrong but you can't figure\n\033[" + str(shift + 2) + "Gout what it is...",
+        "By the time you realise this the person who spoke is already walking\n\033[" + str(shift + 2) + "Gaway...",
     ],
     5: [ # Fake universe + 3rd part of true name
         "As you exit the portal you find yourself in an endless white void... ", 
         "This reality has been destroyed... ", 
         "You notice what appears to be crack in reality that spells out; " + stupidNames[uniy][unix] + "...",
         "Something about that word sounds familiar but you can't figure out what it is",
-        "In denial you decide to look through the rest of the realities in the hope that this universe isn't your own... ",  # sanity decreases faster with each reality checked
+        "In denial you decide to look through the rest of the realities in the hope\n\033[" + str(shift + 2) + "Gthat this universe isn't your own... ",  # sanity decreases faster with each reality checked
     ],
     6.0: [ # Your universe
         "As you exit the portal, you find yourself in a white room... ",
@@ -260,7 +264,7 @@ upg = {  # upgrade names for each generator
         "Mammoth Drill",
         "Bed Bombers",
     ],
-    5: ["Trading Hub", ""],  # kai add whatever you need in these ones
+    5: ["Parking Lot", "24-Hour Clock Tower", "Copyright Immunity"],  # kai add whatever you need in these ones
     6: ["Child Labour", ""],
     7: ["Breakfast Buffet", ""],
     8: ["1000 Dollar Bills", ""],
@@ -287,7 +291,7 @@ upgDesc = {  # upgrade descriptions
         "A bubble bath for cars.",
         "Super Scrubbers make your car shine brighter than the heavens\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ in the skies above.",
         "I'm not wearing diamonds!",
-        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ green one brown",
+        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ green one brown.",
         "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
@@ -304,7 +308,11 @@ upgDesc = {  # upgrade descriptions
         "Unnecessarily large for an excavation of that size.",
         "Explodes when slept on by sentient humans. The average villager\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ does not apply.",
     ],
-    5: ["The hub of all trade - one might call it a trading hub."],
+    5: [
+        "A space to store a hundred cars from your shoppers.",
+        "A more precise clock to tell the time from afar.",
+        "Immunity to copyright. Now I can call the stores EXACTLY what\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ they're supposed to be.",
+    ],
     6: ["Who doesn't love a pinch of child labour?"],
     7: ["What better way to start your day than with a buffet?"],
     8: ["Condensed bills will make your stacks worth more."],
@@ -375,8 +383,8 @@ mapDesc = [
 
 gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator, this basically covers bought
 
-bMpS = [0.5, 6, 30, 75, 300, 750, 1400, 5500, 18000, 40000, 125000]  # base money per second
-MpS = [0.5, 6, 30, 75, 300, 750, 1400, 5500, 18000, 40000, 125000]  # actual money per second
+bMpS = [0.5, 6, 30, 90, 300, 1200, 5500, 18000, 125000, 850000, 3400000]  # base money per second
+MpS = [0.5, 6, 30, 90, 300, 1200, 5500, 18000, 125000, 850000, 3400000]  # actual money per second
 tMpS = 0.5  # total money per second
 baseCost = [2, 40, 800, 6500, 38000, 170000, 1400000, 40000000, 444444444, 7000000000, 80000000000] # Starting Cost of Every Building
 cost = [2, 40, 800, 6500, 38000, 170000, 1400000, 40000000, 444444444, 7000000000, 80000000000]

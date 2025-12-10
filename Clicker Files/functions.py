@@ -119,12 +119,12 @@ def update():  # updates certain lines every frame
     sys.stdout.flush()
 
     if var.page != 2:
-        dc = "\033[" + str(shift) + "G" + "┃ Current Day: " + str(var.day)
+        tp = "\033[" + str(shift) + "G" + "┃ Time Played: " + shorten(var.time / 60 / 20) + " Days"
         mn = "Money: $" + shorten(var.money)
         sn = "\033[" + str(shift) + "G" + "┃ Sanity: " + str(math.ceil(var.sanity))
         mp = "($" + shorten(var.tMpS) + "/s)"
         clearline()
-        print(f"{"":<{shift - 4}}{"║  ┃"}{dc:<47}{mn}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{tp:<47}{mn}")
         clearline()
         print(f"{"":<{shift - 4}}{"║  ┃"}{sn:<53}{mp}")
     box()
@@ -225,10 +225,14 @@ def page0(selected, cost, SMpS):
             clearline()
             print("\033[" + str(shift) + "G" + "┃ (SPACE to confirm, X to cancel)")
             clearline()
+            print()
+            clearline()
         else:
             print("\033[" + str(shift) + "G" + "┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             clearline()
             print("\033[" + str(shift) + "G" + "┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
+            clearline()
+            print()
             clearline()
 
 
@@ -276,9 +280,10 @@ def page1(selected, cost, SMpS):
                 print("\033[" + str(shift) + "G" + "┃ Current bonus: " + str(20 * var.prestige[var.select]) + "%")
             else:
                 print("\033[" + str(shift) + "G" + "┃ Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
-    else:
         clearline()
         print()
+        clearline()
+    else:
         clearline()
         print()
         clearline()
@@ -349,9 +354,9 @@ def page3(selected, cost, SMpS):
     print("")
     
     if var.select == len(var.settings):
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Get Save Code <"}")
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Save Game <"}")
     else:
-        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Get Save Code  "}")
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"Save Game  "}")
 
     if var.select == len(var.settings) + 1:
         print(f"{"":<{shift - 4}}{"║  ┃ "}{"Enter Save Code <"}")
