@@ -255,7 +255,7 @@ def batlshit(shift):
 	ready = False
 	while ready == False:
 		board = copy.deepcopy(board_template)
-		validationError = ["\033[37;" + str(shift + 2) + "HThis is an invalid position. Please choose somewhere else.", "\033[37;" + str(shift + 2) + "HThere is already a piece here. Please choose somewhere else.", "\033[37;" + str(shift + 2) + "HYou can't place it here. Please choose somewhere else.", ""]
+		validationError = ["\033[41;" + str(shift + 2) + "HThis is an invalid position. Please choose somewhere else.", "\033[41;" + str(shift + 2) + "HThere is already a piece here. Please choose somewhere else.", "\033[41;" + str(shift + 2) + "HYou can't place it here. Please choose somewhere else.", ""]
 		for piece in pieces:
 			validationError[3] = "A %s cannot fit in this region. Please choose somewhere else." % (piece[0])
 			while True: # Start to place
@@ -348,6 +348,7 @@ def batlshit(shift):
 
 
 	while gamestate == "ongoing":
+		clear()
 		print("--------Turn %s--------" % (floor(turn[0] / 2) + 1))
 		print_game_board()
 		# print_board(kaiBoard)    ### For debugging purposes only
@@ -436,3 +437,5 @@ def batlshit(shift):
 			print("HAHAHAHAHA! I have defeated you! %s" % (kaiTaunts[3][randint(0, len(kaiTaunts[3]) - 1)]))
 		case "user":
 			print("NOOOOOOO! How have I lost, it cannot be! %s" % (kaiTaunts[4][randint(0, len(kaiTaunts[4]) - 1)]))
+
+# batlshit(30)

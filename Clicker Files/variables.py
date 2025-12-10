@@ -43,7 +43,7 @@ dialogue = {
         "'Hey there, " + stupidNames[uniy][unix] + "', they say. ",
         "Something about the name you were called seems wrong but you can't figure\n\033[" + str(shift + 2) + "Gout what it is. ",
         "By the time you realise this the person who spoke is already walking\n\033[" + str(shift + 2) + "Gaway...",
-        "Maybe you should try and fit in for a while. "
+        "Maybe you should try and do something for a while. "
     ],
     1: [  # Research station built
         "You have constructed the Research Station... ",

@@ -197,9 +197,9 @@ def page0(selected, cost, SMpS):
             left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         if var.select != -1:
-            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<37}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<36}{var.gnArt[var.select][var.upgBought[var.select]][i]}")
         else:
-            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<37}{var.gnArt[-1][i]}")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<36}{var.gnArt[-1][i]}")
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")
     sys.stdout.flush()

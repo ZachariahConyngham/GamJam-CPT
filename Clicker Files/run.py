@@ -43,7 +43,9 @@ else:
     with open("savefile.json", "w") as f:
         f.write("{}")
 
-if (input("Do you want to read opening dialogue? (Y/N) ")).upper() == "Y":
+print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+
+if (input("Do you want to read the opening dialogue? (Y/N) ")).upper() == "Y":
     func.clear()
     func.box()
     print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
