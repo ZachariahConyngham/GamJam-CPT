@@ -220,10 +220,10 @@ gnDesc = [  # generator descriptions
     "A small market stand that will earn you some cash.",
     "A store that sells vegetables for a modest price.",
     "A new brand of Crystal Car Wash that will earn you some bucks.",
-    "A factory of minimum wage workers doing the least amount of work\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ possible.",
+    "A factory of minimum wage workers doing the least amount of work\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ possible.",
     "A cave full of high-value ores that can be extracted.",
     "A large marketplace centre that acts as the hub of shopping.",
-    "A production warehouse that makes the latest line of toys, games,\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ and everything in between.",
+    "A production warehouse that makes the latest line of toys, games,\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ and everything in between.",
     "A luxurious hotel fit only for the richest.",
     "A definitely-not-a-scam bank that prints hard cash.",
     "An illegal gambling facility, only for the elite.",
@@ -285,9 +285,9 @@ upgDesc = {  # upgrade descriptions
     ],
     2: [
         "A bubble bath for cars.",
-        "Super Scrubbers make your car shine brighter than the heavens\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ in the skies above.",
+        "Super Scrubbers make your car shine brighter than the heavens\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ in the skies above.",
         "I'm not wearing diamonds!",
-        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ green one brown",
+        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ green one brown",
         "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
@@ -302,7 +302,7 @@ upgDesc = {  # upgrade descriptions
         "A powerful drill designed to cleave through stone.",
         "The ultimate Mining Incorporated midgame mining machine.",
         "Unnecessarily large for an excavation of that size.",
-        "Explodes when slept on by sentient humans. The average villager\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ does not apply.",
+        "Explodes when slept on by sentient humans. The average villager\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ does not apply.",
     ],
     5: ["The hub of all trade - one might call it a trading hub."],
     6: ["Who doesn't love a pinch of child labour?"],
@@ -313,12 +313,12 @@ upgDesc = {  # upgrade descriptions
 }
 
 upgCost = [  # Base Upgrade Cost
-    [550, 7000, 62500, 480000],
-    [2000, 16000, 90000, 13500000],
-    [8000, 56000, 210000, 8000000],
-    [30000, 112000],
-    [160000, 800000],
-    [1300000, 9000000],
+    [550, 7000, 62500, 480000, 24000000],
+    [2000, 16000, 90000, 1350000, 17500000],
+    [8000, 56000, 210000, 4000000, 45000000],
+    [30000, 112000, 550000, 9000000, 165000000],
+    [160000, 800000, 2500000, 14000000, 600000000],
+    [1300000, 9000000, 60000000],
     [24000000, 172000000],
     [144000000],
     [750000000],
@@ -375,11 +375,11 @@ mapDesc = [
 
 gn = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # amounts of each generator, this basically covers bought
 
-bMpS = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]  # base money per second
-MpS = [0.5, 6, 24, 60, 200, 750, 1400, 5500, 18000, 40000, 125000]  # actual money per second
+bMpS = [0.5, 6, 30, 75, 300, 750, 1400, 5500, 18000, 40000, 125000]  # base money per second
+MpS = [0.5, 6, 30, 75, 300, 750, 1400, 5500, 18000, 40000, 125000]  # actual money per second
 tMpS = 0.5  # total money per second
-baseCost = [2, 60, 900, 8500, 55000, 240000, 3500000, 50000000, 444444444, 7000000000, 80000000000] # Starting Cost of Every Building
-cost = [2, 60, 900, 8500, 55000, 240000, 3500000, 50000000, 444444444, 7000000000, 80000000000]
+baseCost = [2, 40, 800, 6500, 38000, 170000, 1400000, 40000000, 444444444, 7000000000, 80000000000] # Starting Cost of Every Building
+cost = [2, 40, 800, 6500, 38000, 170000, 1400000, 40000000, 444444444, 7000000000, 80000000000]
 
 currentCost = copy.deepcopy(baseCost)
 selected = False

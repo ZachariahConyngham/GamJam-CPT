@@ -93,7 +93,7 @@ def update():  # updates certain lines every frame
 
     selected = var.placeNames[var.select]  # the selected generator
     cost = var.generators[selected]["Money"]["cost"]
-    SMpS = var.bMpS[var.select] * var.gn[var.select]
+    SMpS = var.bMpS[var.select] * var.gn[var.select] * (2 ** var.upgBought[var.select])
 
     sys.stdout.write(f"\033[{lineshift + 7};{0}H")
     sys.stdout.flush()
@@ -169,7 +169,7 @@ def box():
 
     for i in range(shutil.get_terminal_size().lines - 1):
         print("\033[" + str(shift - 3) + "G║", end="")
-        print("\033[" + str(shift + 78) + "G║")
+        print("\033[" + str(shift + 79) + "G║")
 
     sys.stdout.write(f"\033[{lineshift};{0}H")
     sys.stdout.flush()
