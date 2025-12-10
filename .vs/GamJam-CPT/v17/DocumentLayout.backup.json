@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Bookmark",
@@ -71,10 +71,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:1321847279:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",

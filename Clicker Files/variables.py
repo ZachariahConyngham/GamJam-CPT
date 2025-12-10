@@ -1,4 +1,4 @@
-import copy
+import copy, os, shutil
 from ascii_art import gnArt
 
 stupidNames = {  # trust US with YOUR naming conventions
@@ -18,7 +18,8 @@ stupidNames = {  # trust US with YOUR naming conventions
 unix = 0  # universe coords on map
 uniy = 0
 
-longform = True # how numbers are displayed.
+shift = round((shutil.get_terminal_size().columns / 2) - 40)  # shifting the box horizontally
+lineshift = 7  # vertically (7 is standard)
 
 dialogue = {
     0: [  # opening dialogue
@@ -169,12 +170,23 @@ dialogue = {
     ],
 }
 
+flavortext = { # flavour text self explanatory (ZAC CAN ADD THESE)
+    0: [
+        "You feel a sense of strangeness."
+    ],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+}
+
+settingstxt = ["Number Format: "]
+settings = [True]
+
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 
 
-
-print()
 
 gnNames = [  # generator names
     "Market Stand",
@@ -208,10 +220,10 @@ gnDesc = [  # generator descriptions
     "A small market stand that will earn you some cash.",
     "A store that sells vegetables for a modest price.",
     "A new brand of Crystal Car Wash that will earn you some bucks.",
-    "A factory of minimum wage workers doing the least amount of work\n\033[76G\x1b[1K\r┃ possible.",
+    "A factory of minimum wage workers doing the least amount of work\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ possible.",
     "A cave full of high-value ores that can be extracted.",
     "A large marketplace centre that acts as the hub of shopping.",
-    "A production warehouse that makes the latest line of toys, games,\n\033[76G\x1b[1K\r┃ and everything in between.",
+    "A production warehouse that makes the latest line of toys, games,\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ and everything in between.",
     "A luxurious hotel fit only for the richest.",
     "A definitely-not-a-scam bank that prints hard cash.",
     "An illegal gambling facility, only for the elite.",
@@ -273,9 +285,9 @@ upgDesc = {  # upgrade descriptions
     ],
     2: [
         "A bubble bath for cars.",
-        "Super Scrubbers make your car shine brighter than the heavens\n\033[76G\x1b[1K\r┃ in the skies above.",
+        "Super Scrubbers make your car shine brighter than the heavens\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ in the skies above.",
         "I'm not wearing diamonds!",
-        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[76G\x1b[1K\r┃ green one brown",
+        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ green one brown",
         "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
@@ -290,7 +302,7 @@ upgDesc = {  # upgrade descriptions
         "A powerful drill designed to cleave through stone.",
         "The ultimate Mining Incorporated midgame mining machine.",
         "Unnecessarily large for an excavation of that size.",
-        "Explodes when slept on by sentient humans. The average villager\n\033[76G\x1b[1K\r┃ does not apply.",
+        "Explodes when slept on by sentient humans. The average villager\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift) + "G┃ does not apply.",
     ],
     5: ["The hub of all trade - one might call it a trading hub."],
     6: ["Who doesn't love a pinch of child labour?"],

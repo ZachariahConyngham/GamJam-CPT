@@ -1,5 +1,6 @@
 import time, os
 import copy
+#import functions as func
 from random import randint, choice
 from math import floor
 
@@ -19,7 +20,7 @@ ________Simplified List__________
 
 """
 
-def batlshit():
+def batlshit(shift):
 	kaiTaunts = [[""],[""],[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, 3 is kai wins, 4 is kai loses idk add more later
 
 	def pwb(value, end = ""): # to simplify printing - print_within_brackets
@@ -27,9 +28,9 @@ def batlshit():
 		return
 
 	def print_board(board): # general printing board such as debugging or tutorial
-		print("   a  b  c  d  e  f  g  h  i  j ") # x-axis
+		print("\033[23;" + str(shift + 20) + "H   a  b  c  d  e  f  g  h  i  j ") # x-axis
 		for row in range(10):
-			print(row + 1, end=" " if row != 9 else "") # row number, if it is 10, don't print last space
+			print("\033[" + str(row + 24) + ";" + str(shift + 20) + "H" + str(row + 1), end=" " if row != 9 else "") # row number, if it is 10, don't print last space
 			for column in range(10): # prints columns
 				pwb(board[row][column]) # print tiles of the defined board
 			print("") # print on new line
@@ -211,18 +212,7 @@ def batlshit():
 	kaiGuessBoard = copy.deepcopy(board_template)
 	pieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
 	columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-	print("Here is the board:")
-	time.sleep(0.5)
-	print("   a  b  c  d  e  f  g  h  i  j ")
-	for i in range(10):
-		if i != 9:
-			print(i + 1, end=" ")
-		else:
-			print(i + 1, end="")
-		for j in range(10):
-			pwb(" ")
-		print("")
-	
+	"""
 	print("You own 6 ships:")
 	time.sleep(1)
 	print("The Aircraft Carrier - ", end="")
@@ -252,8 +242,7 @@ def batlshit():
 	time.sleep(1)
 	print("We try to sink each others!")
 	time.sleep(2)
-	
-	print("Place your battleships down now!")
+	"""
 	time.sleep(0.2)
 	ready = False
 	while ready == False:
@@ -376,7 +365,7 @@ def batlshit():
 			target = ""
 			while target == "":
 				target = input("Where would you like to attack?(e.g. a1, d5) ")
-				if not (len(target) == 2 or len(target) == 3 and target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
+				if not (len(target) == 2 or target[1:] == "10") or not target[0].isalpha() or not target[1].isdigit():
 					target = ""
 					print("That is in the incorrect format.")
 					continue
@@ -389,30 +378,37 @@ def batlshit():
 					print("You have already hit that spot.")
 					continue
 			# player shot valid
-			if kaiBoard[int(target[1:]) - 1][columns.index(target[0])] != " ": # if targeted coord is not empty
-				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
-				shotShip = kaiBoard[int(target[1:]) - 1][columns.index(target[0])] # identify hit ship
+			shotShip = kaiBoard[int(target[1:]) - 1][columns.index(target[0])] # identify hit ship
+			if shotShip != " ": # if targeted coord is not empty
 				spaces = [] # declare spaces list
-				for row in kaiBoard: # for each row in kaiBoard
-					for index, value in enumerate(row):
-						if value == shotShip:
-							spaces.append(str(kaiBoard.index(row)) + str(index))
-				breakFor = False # declare breakFor bool
+				for rowindex, row in enumerate(kaiBoard): # check where the shotShip exists
+					for columnindex, column in enumerate(row):
+						if column == shotShip:
+							spaces.append(str(rowindex) + str(columnindex))
+				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "X" # guessBoard update to 'hit'
+				breakFor = False
 				for coord in spaces:
-					print(coord)
-					if guessBoard[int(coord[0])][int(coord[1])] != "X": # if the ship is not hit
+					if guessBoard[int(coord[0])][int(coord[1])] != "X": # if the ship is not sunk
 						breakFor = True # breakFor
 						break
-				if breakFor == True:
+				if breakFor:
 					print("You have hit my ship! %s" % (kaiTaunts[0][randint(0, len(kaiTaunts[0]) - 1)]))
 				else:
 					print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
+					for coord in spaces:
+						guessBoard[int(coord[0])][int(coord[1])] = shotShip # guessBoard update to 'hit'
+					if kaiBoard == guessBoard:
+						gamestate = "user"
+
 			else:
 				guessBoard[int(target[1:]) - 1][columns.index(target[0])] = "O"
 				print(kaiTaunts[1][randint(0, len(kaiTaunts[1]) - 1)])
 		else:
 			print("---His Turn---")
 			kai_guess()
+			if len(sunkShip) == 6:
+				gamestate = "kai"
+
 
 		turn[0] += 1
 		true_turn += 1
@@ -430,5 +426,3 @@ def batlshit():
 			print("HAHAHAHAHA! I have defeated you! %s" % (kaiTaunts[3][randint(0, len(kaiTaunts[3]) - 1)]))
 		case "user":
 			print("NOOOOOOO! How have I lost, it cannot be! %s" % (kaiTaunts[4][randint(0, len(kaiTaunts[4]) - 1)]))
-
-batlshit()
