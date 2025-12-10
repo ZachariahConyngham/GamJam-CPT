@@ -235,11 +235,17 @@ gnDesc = [  # generator descriptions
 ]
 
 upg = {  # upgrade names for each generator
-    0: ["Fresh Fruit", "Pesticides", "Selective Cultivar", "Tomacco", "GMF"],
+    0: [
+        "Fresh Fruit",
+        "Pesticides",
+        "Selective Cultivar",
+        "Tomacco",
+        "GMF",
+        ],
     1: [
         "Leafy Greens",
         "12hr Shifts",
-        "The Openestest",
+        "24hr Shifts",
         "Life Debt Contract",
         "Deal With The Manager",
     ],
@@ -251,10 +257,10 @@ upg = {  # upgrade names for each generator
         "Nuclear Explosion Dried Cars",
     ],
     3: [
-        "All Day Open",
-        "Open 25/8",
-        "The Motherload",
-        "A Thousand Nuggets",
+        "Open 24/7",
+        "Open 25/7",
+        "Can I have 36 burgers, 24 Large Cokes, ...",
+        "1,000,000 Water Cups Please",
         "Roland McDoland's Obesity House",
     ],
     4: [
@@ -264,60 +270,127 @@ upg = {  # upgrade names for each generator
         "Mammoth Drill",
         "Bed Bombers",
     ],
-    5: ["Parking Lot", "24-Hour Clock Tower", "Copyright Immunity"],  # kai add whatever you need in these ones
-    6: ["Child Labour", ""],
-    7: ["Breakfast Buffet", ""],
-    8: ["1000 Dollar Bills", ""],
-    9: ["Weighty Dice", ""],
-    10: ["Radioactive Waste", ""],
+    5: [
+        "BBB",
+        "The BIGGEST Building",
+        "Shopping City",
+        "Global Coverage",
+        "The CENTRE",
+        ],
+    6: [
+        "Better Machinery",
+        "Autonomous Machines",
+        "Overclock",
+        "Ultraboost",
+        "The Speed Force",
+        ],
+    7: [
+        "Valet Parking",
+        "VIPs",
+        "Gold Flaked Croissants",
+        "Kingly Suites",
+        "Diamond Encrusted Toilets"
+        ],
+    8: [
+        "Armed Guards",
+        "1000 Dollar Bills",
+        "The Mafia",
+        "Foreign Currency",
+        "Synthesising Money"
+        ],
+    9: [
+        "Weighted Dice",
+        "Magician Dealers",
+        "Dopamine Injections"
+        "Neural Dampeners",
+        "'Yes, a lucky guy could win the jackpot!'",
+        ],
+    10: [
+        "More Energy Efficiency",
+        "Lubricated Turbine",
+        "Compact Reactor Core",
+        "Fusion Reactions",
+        "Micro Dyson Sphere",
+        ],
 }
-
 upgDesc = {  # upgrade descriptions
     0: [
-        "Fresher fruit means happier customers means more money.",
+        "Fresher Fruit = More Money",
         "Pesticides are the Besticides!",
-        "Only the best cultivar used for your store.",
+        "Only the best!",
         "It's smooth and mild, and refreshingly addictive!",
         "Genetically Modified Fruit: Now with toys inside!",
     ],
     1: [
         "Leafy Greens instead of Leafy Browns.",
-        "A long day for the workers.",
-        "The most openiest and unclosiest maybe possibly clopen store.",
+        "A long day.",
+        "A longer day and night.",
         "You're never paying this off...",
         "Unfair deal: Give your soul to the manager",
     ],
     2: [
-        "A bubble bath for cars.",
-        "Super Scrubbers make your car shine brighter than the heavens\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ in the skies above.",
+        "Foamy bubbles make for better marketing.",
+        "Super-Sonic Scrubbers",
         "I'm not wearing diamonds!",
-        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ green one brown.",
+        "Would rather / The multitudinous seas Burnt Umber / Making the\n\033[76G\x1b[1K\r┃ green one brown",
         "Daily dose of Gamma Rays and free neutrons!",
     ],
     3: [
-        "No downtime, no weaknesses.",
-        "An extra hour to keep your workers busy.",
-        "Can I have 36 Big Macs, 24 large Cokes...",
+        "No downtime.",
+        "Owe downtime.",
+        "AAAAAAAAAAAAAHHHHHHHHHHHHHHHHH",
         "At least they said 'please'...",
-        "The most honest marketping campaign in the big two five.",
+        "Honest Marketing",
     ],
     4: [
-        "A sharpened pickaxe that cuts through ore like butter.",
+        "Cuts through earth like butter.",
         "A powerful drill designed to cleave through stone.",
-        "The ultimate Mining Incorporated midgame mining machine.",
-        "Unnecessarily large for an excavation of that size.",
-        "Explodes when slept on by sentient humans. The average villager\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ does not apply.",
+        "The rocks won't see it coming!",
+        "Unnecessarily large.",
+        "SCP-████: Explodes when slept on by sentient humans. The average villager\n\033[76G\x1b[1K\r┃ does not apply.",
     ],
     5: [
-        "A space to store a hundred cars from your shoppers.",
-        "A more precise clock to tell the time from afar.",
-        "Immunity to copyright. Now I can call the stores EXACTLY what\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ they're supposed to be.",
-    ],
-    6: ["Who doesn't love a pinch of child labour?"],
-    7: ["What better way to start your day than with a buffet?"],
-    8: ["Condensed bills will make your stacks worth more."],
-    9: ["It's almost as if these die always roll a six."],
-    10: ["The more radioactive it is, the more it sells for."],
+        "Bigger, Bulkier Building - can fit hundres of shops.",
+        "The Biggest building in your mini-city.",
+        "The Shopping Centre has enveloped the city. It's getting out of hand now...",
+        "Thousands of delivery drones fly through the centre per second. Injuries skyrocket.",
+        "Your shopping centre has now become a minor country. Millions tour your centre.",
+        ],
+    6: [
+        "Better quality and more quantity",
+        "The machines runs the factory themselves. Who knows what would happen?",
+        "The machines upgrade themselves with parts they built themselves. Self-developing electronics is a bit of a concern..",
+        "The machines becomes a blur as they move through the factory.",
+        "A sudden thunderstorm has infused the machinery with the speed force. ",
+        ],
+    7: [
+        "Valet Parking: The first sign of a delux hotel. Warning: Valet Parking may result in the disappearances of supercars.",
+        "VIPs: The second sign of a deluxe hotel. Warning: VIPs may snub 'less fortunate' guests.",
+        "Sumptuously Cooked Food: The third sign of a deluxe hotel. Warning: Gilded food may cause uncomfortableness and minor stomach lining issues.",
+        "Kingly Suites: The fourth sign of a deluxe hotel. Warning: Kingly suites may result in a state of confusion about the geographical layout of the suite.",
+        "Overly Opulent Furniture: The final sign of a deluxe hotel? Warning: Overly opulent furniture may result in uncomfortable situations and major bruising.",
+        ],
+    8: [
+        "Armed guards to protect the bank - and the stash.",
+        "Introducing: The never-seen-before $1000 Bills. The world rolls with it.",
+        "The mafia now supports your cause."
+        "The business expands worldwide.",
+        "Better technology allows instant printing.",
+        ],
+    9: [
+        "'It's almost as if these die always roll a one.'",
+        "You need an ace to win? Poof, there's no more in the deck.",
+        "Keeps the customers happy, even after they lose.",
+        "Counting cards is a no-go.",
+        "The Chance: 1 / 1 Novemnonagintillion.",
+        ],
+    10: [
+        "A better fuels source has alowed more energy efficiency.",
+        "Cryo-stabilised fluxducts ensures more energy is transferred.",
+        "Building 10 reactor cores where it would only fit 3. What could go wrong?",
+        "The fusing of atoms to release more energy.",
+        "A mini-sun on earth, what could go wrong?",
+        ],
 }
 
 upgCost = [  # Base Upgrade Cost
