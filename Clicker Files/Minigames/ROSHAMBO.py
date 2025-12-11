@@ -1,4 +1,5 @@
-import os, time
+import os
+import time
 import random
 
 
@@ -130,9 +131,9 @@ def ROSHAMBO():
     yap("Lets begin...")
     clear()
     wins = 0
+    roshambolist = ["R", "S", "P"]
     while wins < 3:
         answer = "N"
-        roshambolist = ["R", "S", "P"]
         print("You currently have", wins, "wins")
         answer = str(input("Choose... S for scissors... R for rock... and P for paper"))
         match answer:
@@ -142,7 +143,6 @@ def ROSHAMBO():
                     case "R":
                         yap("I choose Rock")
                         yap("It's a tie")
-                        wins += 0
                     case "S":
                         yap("I choose Scissors")
                         yap("You win this round...")
@@ -161,7 +161,6 @@ def ROSHAMBO():
                     case "S":
                         yap("I choose Scissors")
                         yap("It's a tie")
-                        wins += 0
                     case "P":
                         yap("I choose Paper")
                         yap("You win this round...")
@@ -180,7 +179,6 @@ def ROSHAMBO():
                     case "P":
                         yap("I choose Paper")
                         yap("It's a tie")
-                        wins += 0
         clear()
         wins = 0
         while wins < 5:
@@ -196,7 +194,6 @@ def ROSHAMBO():
                         case "R":
                             yap("I choose Rock")
                             yap("It's a tie")
-                            wins += 0
                         case "S":
                             yap("I choose Scissors")
                             yap("You win this round...")
@@ -215,7 +212,6 @@ def ROSHAMBO():
                         case "S":
                             yap("I choose Scissors")
                             yap("It's a tie")
-                            wins += 0
                         case "P":
                             yap("I choose Paper")
                             yap("You win this round...")
@@ -234,7 +230,6 @@ def ROSHAMBO():
                         case "P":
                             yap("I choose Paper")
                             yap("It's a tie")
-                            wins += 0
             clear()
 
         yap("Congratulations")
