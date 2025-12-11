@@ -76,66 +76,51 @@ def hangthatman():
         "You might need to consider getting better.\n",
         "I despise you for that guess.\n",
     ]
-    letters = []
-    alrguess = []
-    wrong = [""]
-    guess = ""
     mistakes = 7
     wins = 0
     maxwins = 3
+    wrong = [""]
+    guess = ""
+
     id = random.randint(0, len(words)) - 1
+    word = words[id]
+    alrguess = []
+    length = len(word)
+    letters = length * ["_"]
 
-    length = len(words[id])
-
-    count = 0
-    while count < length:
-        letters.append("_")
-        count += 1
-
-    count = 0
-    for letter in letters:
-        if words[id][count].isalpha() == False:
-            letters[count] = words[id][count]
-        count += 1
+    for letter in range(len(letters)):
+        if not word[letter].isalpha():
+            letters[letter] = word[letter]
 
     def generate():
         os.system("cls")
         print(" ".join(letters) + "\n")
         print("Already guessed: " + ", ".join(alrguess))
-        print("Errors left: " + str(mistakes))
-        print("Games won: " + str(wins) + "/" + str(maxwins))
+        print("Errors left:", mistakes)
+        print("Games won: %s/%s" % (str(wins), str(maxwins)))
 
     generate()
 
-    while "_" in letters and not mistakes < 1:
+    while "_" in letters and mistakes > 0:
         guess = ""
-        while not len(guess) == 1:
-            guess = (input("\nGuess a letter. Or die. I don't mind. ")).upper()
+        while len(guess) != 1:
+            guess = input("\nGuess a letter. Or die. I don't mind. ").upper()
+            os.system("cls")
+            time.sleep(1)
+            print("...\n")
+            time.sleep(1)
+            
             if guess in alrguess:
-                os.system("cls")
-                time.sleep(1)
-                print("...\n")
-                time.sleep(1)
                 print("You've already guessed that, squiglet.\n")
                 time.sleep(3)
-            elif guess.isalpha() == False:
-                os.system("cls")
-                time.sleep(1)
-                print("...\n")
-                time.sleep(1)
-                print(
-                    "Little squiglet. Do you know what a letter is? Are you braindead?\n"
-                )
+            elif not guess.isalpha():
+                print("Little squiglet. Do you know what a letter is? Are you braindead?\n")
                 time.sleep(3)
             elif guess == "SOLVE":
-                os.system("cls")
-                time.sleep(1)
-                print("...\n")
-                time.sleep(1)
                 print("You wanna solve? Good luck, squiglet.\n")
                 time.sleep(1)
                 solve = input("Guess here: ").upper()
-                if solve == words[id]:
+                if solve == word:
                     os.system("cls")
                     print("You win.\n")
                     wins += 1
@@ -147,12 +132,8 @@ def hangthatman():
                     elif wins == 2:
                         print("You're still not done though.\n")
                         time.sleep(1)
-                        print(
-                            "I said THREE games. One left. And only "
-                            + str(mistakes)
-                            + " errors to go.\n"
-                        )
-                    elif wins == 3:
+                        print("I said THREE games. One left. And only", str(mistakes), "errors to go.\n")
+                    else:
                         print("You win the game.\n")
                         time.sleep(1)
                         print("Leave.\n")
@@ -164,32 +145,23 @@ def hangthatman():
                         sys.end()
                     time.sleep(3)
                     id = random.randint(0, len(words)) - 1
-                    letters.clear()
-                    alrguess.clear()
-                    count = 0
-                    length = len(words[id])
-                    while count < length:
-                        letters.append("_")
-                        count += 1
+                    word = words[id]
+                    alrguess = []
+                    length = len(word)
+                    letters = length * ["_"]
                 else:
                     os.system("cls")
                     time.sleep(1)
                     print("...\n")
                     time.sleep(1)
-                    print(
-                        "HAHAHHAHAHAHAH!!! YOU GOT IT WRONG!!! YOU ARE REALLY BAD AT THIS!!!\n"
-                    )
+                    print("HAHAHHAHAHAHAH!!! YOU GOT IT WRONG!!! YOU ARE REALLY BAD AT THIS!!!\n")
                     time.sleep(2)
                     mistakes -= 1
             elif not len(guess) == 1:
-                os.system("cls")
-                time.sleep(1)
-                print("...\n")
-                time.sleep(1)
                 print("That's not a letter, squiglet. That's multiple letters.\n")
                 time.sleep(3)
             else:
-                if guess in words[id]:
+                if guess in word:
                     os.system("cls")
                     time.sleep(1)
                     print("...\n")
@@ -199,10 +171,8 @@ def hangthatman():
                     start_index = 0
                     index = 0
                     while True:
-                        index = words[id].find(guess, start_index)
-                        if index == -1:
-                            break
-                        print(index)
+                        index = word.find(guess, start_index)
+                        if index == -1: break
                         letters[index] = guess
                         start_index = index + 1
                     alrguess.append(guess)
@@ -218,6 +188,4 @@ def hangthatman():
             generate()
 
     print("YOU LOSE, SQUIGLET!!! HAHAHAHHHAH!")
-    print(
-        "By the way, the word was " + words[id] + ". How'd you even fail that? Goodbye."
-    )
+    print("By the way, the word was", word + ". How'd you even fail that? Goodbye.")
