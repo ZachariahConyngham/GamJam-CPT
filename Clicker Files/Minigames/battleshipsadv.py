@@ -407,7 +407,7 @@ def batlshit(shift):
 					print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
 					for coord in spaces:
 						guessBoard[int(coord[0])][int(coord[1])] = shotShip # guessBoard update to 'hit'
-					ship.remove([ship for ship in playerSunkShip if ship[0] == shotShip][0])
+					playerSunkShip.remove([ship for ship in playerSunkShip if ship[0] == shotShip][0])
 					if len(playerSunkShip) == 0:
 						gamestate = "user"
 					time.sleep(1.5)
