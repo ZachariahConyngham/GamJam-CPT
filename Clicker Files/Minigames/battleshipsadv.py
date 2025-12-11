@@ -10,16 +10,6 @@ def clear():  # Clears the terminal
     else:
         _ = os.system("clear")
 
-"""
-________Simplified List__________
-- pwb(value)
-- print_board(board)
-- print_game_board()
-- generate_board()
-- kai_guess()
-
-"""
-
 def batlshit(shift):
 	clear()
 	kaiTaunts = [[""],[""],[""],[""],[""]] #add something to this, 0 is you hit kai's ship, 1 is you didn't hit kai's ship, 2 is i sunk your ship, 3 is kai wins, 4 is kai loses idk add more later
@@ -220,7 +210,7 @@ def batlshit(shift):
 	kaiGuessBoard = copy.deepcopy(board_template)
 	pieces = [["Aircraft Carrier", 5], ["Battleship", 4], ["Cruiser", 3], ["Submarine", 3], ["Destroyer", 2], ["Frigate", 2]]
 	columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-	"""
+	
 	print("You own 6 ships:")
 	time.sleep(1)
 	print("The Aircraft Carrier - ", end="")
@@ -250,7 +240,7 @@ def batlshit(shift):
 	time.sleep(1)
 	print("We try to sink each others!")
 	time.sleep(2)
-	"""
+	
 	time.sleep(0.2)
 	ready = False
 	while ready == False:
@@ -338,6 +328,7 @@ def batlshit(shift):
 	true_turn = 0
 	turn = [0, "kai"]
 	gamestate = "ongoing"
+	playerSunkShip = [piece[0] for piece in pieces]
 
 	# ai use variables only
 	global kaiSuccessAtk
@@ -416,7 +407,8 @@ def batlshit(shift):
 					print("You have sunk my %s!" % ([value for index, value in enumerate(pieces) if value[0][0] == shotShip][0][0]))
 					for coord in spaces:
 						guessBoard[int(coord[0])][int(coord[1])] = shotShip # guessBoard update to 'hit'
-					if kaiBoard == guessBoard:
+					ship.remove([ship for ship in playerSunkShip if ship[0] == shotShip][0])
+					if len(playerSunkShip) == 0:
 						gamestate = "user"
 					time.sleep(1.5)
 
