@@ -64,49 +64,14 @@ def blackjack():
             match cardnumber:
                 case 1:
                     facecard = "Ace"
-                case 2:
-                    facecard = "2"
-                case 3:
-                    facecard = "3"
-                case 4:
-                    facecard = "4"
-                case 5:
-                    facecard = "5"
-                case 6:
-                    facecard = "6"
-                case 7:
-                    facecard = "7"
-                case 8:
-                    facecard = "8"
-                case 9:
-                    facecard = "9"
                 case 10:
                     facecard = random.choice(facecards)
+                case _:
+                    facecard = str(cardnumber)
             print(facecard, "of", random.choice(Suits))
             print("Your current total is", total)
             match total:
-                case (
-                    1
-                    | 2
-                    | 3
-                    | 4
-                    | 5
-                    | 6
-                    | 7
-                    | 8
-                    | 9
-                    | 10
-                    | 11
-                    | 12
-                    | 13
-                    | 14
-                    | 15
-                    | 16
-                    | 17
-                    | 18
-                    | 19
-                    | 20
-                ):
+                case total if total in range(21):
                     hit = str(input("Do you want another card? (Y or N)"))
                 case 21:
                     print("You Win")
@@ -116,9 +81,7 @@ def blackjack():
                 case _:
                     if total > 21:
                         print("You lose")
-                        hit = "N"
-                    else:
-                        hit = "N"
+                    hit = "N"
         while dealertotal < 17:
             print("The Dealers next card is:")
             cardnumber = random.choice(cardsnumber)
@@ -126,39 +89,21 @@ def blackjack():
             match cardnumber:
                 case 1:
                     facecard = "Ace"
-                case 2:
-                    facecard = "2"
-                case 3:
-                    facecard = "3"
-                case 4:
-                    facecard = "4"
-                case 5:
-                    facecard = "5"
-                case 6:
-                    facecard = "6"
-                case 7:
-                    facecard = "7"
-                case 8:
-                    facecard = "8"
-                case 9:
-                    facecard = "9"
                 case 10:
                     facecard = random.choice(facecards)
+                case _:
+                    facecard = str(cardnumber)
             print(facecard, "of", random.choice(Suits))
-        if dealertotal > 21:
+        if dealertotal > 21 or total == 21:
             print("You win")
             wins += 1
         else:
-            if total == 21:
-                print("you win")
+            print("The dealers total is", dealertotal)
+            print("Your total is", total)
+            if dealertotal < total < 22:
+                print("You win")
                 wins += 1
             else:
-                print("The dealers total is", dealertotal)
-                print("Your total is", total)
-                if dealertotal < total < 22:
-                    print("You win")
-                    wins += 1
-                else:
-                    print("you lose")
+                print("you lose")
     print("Congratulations, you have beaten the blackjack minigame")
     print("It took you", total, "attempts to beat the blackjack")
