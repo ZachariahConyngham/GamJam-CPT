@@ -76,7 +76,7 @@ def load():  # loads the base page
     print(dividerline)
     print(3 * "\n")
     print(dividerline)
-    print("\033[%sG" + 12 * "\n" % (str(shift)))
+    print(f"\033[{str(shift)}G" + 12 * "\n")
     print(dividerline)
     print(5 * "\n")
     print(dividerline)
@@ -92,10 +92,10 @@ def update():  # updates certain lines every frame
     sys.stdout.flush()
 
     
-    titles = [f"{" Main <":<20}", f"{"Upgrades <":<20}", f"{"Research <":<20}", f"{"Settings <":<20}"]
+    titles = [f"{" Main  ":<20}", f"{"Upgrades  ":<20}", f"{"Research  ":<20}", f"{"Settings  ":<20}"]
     
     if var.select == -1:
-        titles[var.selectcol] = f"{titles[var.selection][:titles[var.selection].find(" <")]:<20}"
+        titles[var.selectcol] = f"{titles[var.selectcol][:titles[var.selectcol].find("  ")] + " <":<20}"
     print(f"{"":<{shift - 4}}║  ┃" + titles[0] + titles[1] + titles[2] + titles[3])
 
     sys.stdout.write(f"\033[{lineshift + 11};1H")
