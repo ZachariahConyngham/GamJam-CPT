@@ -1,7 +1,7 @@
 import sys, time, os, math, msvcrt, shutil, time, json
 import functions as func
 import variables as var
-from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
+import Minigames.hangman, Minigames.blackjack, Minigames.ROSHAMBO, Minigames.snakes_ladders, Minigames.skills_gamblingtime, Minigames.battleshipsadv
 
 disable = False
 func.clear()
@@ -84,10 +84,10 @@ while True:
                 var.selected = False
             case " ":
                 if var.page == 0 and var.selectcol == 0 and var.select != -1:
-                    if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]) and var.selected == True:
+                    if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
                         var.gn[var.select] += 1
-                if var.page == 1 and var.select != -1 and var.selected == True:
+                if var.page == 1 and var.select != -1 and var.selected:
                     if var.selectcol == 1:
                         func.buyupgrade()
                     if var.selectcol == 2:
@@ -174,14 +174,14 @@ while True:
         func.box()
 
 
-    if var.sanity == 50:
-        batlshit(shift)
+    if 0 < var.sanity <= 50:
+        battleshipsadv.batlshit(var.shift)
         disable = True
     else:
         jim = "Bald"
 
     if var.sanity <= 0:
-        snekandeladr()
+        snakes_ladders.snekandeladr()
         disable = True
     else:
         jim = "Short"

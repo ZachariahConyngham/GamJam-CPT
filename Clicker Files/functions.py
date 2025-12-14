@@ -175,7 +175,7 @@ def page0(selected, cost, SMpS):
         left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + (" <     " if select else "      "))
 
     for i in range(len(left_lines)):
-        printtemp = var.gnArt[var.select][var.upgBought[var.select]][i] if var.select != -1 else var.gnArt[-1][i]
+        printtemp = var.gnArt[-1][i] if var.select == -1 else var.gnArt[var.select][var.upgBought[var.select]][i]
         print(f"{"":<{shift - 4}}║  ┃ {left_lines[i]:<36}{printtemp}")
 
     sys.stdout.write(f"\033[{lineshift + 30};0H")
@@ -221,7 +221,14 @@ def page1(selected, cost, SMpS):
     for i in range(11):
         print("\033[2K", end="")
         if i < len(var.upg):
-            left_lines.append(var.upg[i][var.upgBought[i]] + " ($" + shorten(var.upgCost[i][var.upgBought[i]]) + ")" + (" <" if var.selectcol == 1 and i == var.select else ""))
+            try:
+                upg = var.upg[i][var.upgBought[i]]
+                upgCost = shorten(var.upgCost[i][var.upgBought[i]])
+            except:
+                upg = "Maxed Upgrades"
+                upgCost = "None"
+            left_lines.append(f"{upg} (${upgCost})" + (" <" if var.selectcol == 1 and i == var.select else ""))
+            
         right_lines.append(var.prName[i] + " " + to_roman(var.prestige[i]) + (" <" if var.selectcol == 2 and i == var.select else ""))
 
     for i in range(len(right_lines)):
@@ -234,12 +241,23 @@ def page1(selected, cost, SMpS):
     if var.select != -1:
         if var.selectcol == 1:
             clearline()
+            if var.upgBought[var.select] == 5:
+                desc = "Maxed Upgrades."
+                cost = "None"
+            else:
+                desc = var.upgDesc[var.select][var.upgBought[var.select]]
+                cost = shorten(var.upgCost[var.select][var.upgBought[var.select]])
             if not var.selected:
-                print("\033[" + str(shift) + "G┃ " + var.upgDesc[var.select][var.upgBought[var.select]])
+                print("\033[" + str(shift) + "G┃ " + desc)
                 clearline()
                 print("\033[" + str(shift) + "G┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
             else:
-                print("\033[" + str(shift) + "G┃ Buy for $" + shorten(var.upgCost[var.select][var.upgBought[var.select]]) + "?")
+                if cost == "None":
+                    print(f"\033[{shift}G┃ There is nothing to buy.")
+                    var.can = False
+                else:
+                    print(f"\033[{shift}G┃ Buy for ${cost}?")
+                    var.can = True
         if var.selectcol == 2:
             clearline()
             if not var.selected:
