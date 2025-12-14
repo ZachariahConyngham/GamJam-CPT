@@ -65,7 +65,7 @@ def to_roman(num):  # roman numeral converter (literally just for prestiges)
 def load():  # loads the base page
     clear()
 
-    sys.stdout.write(f"\033[{lineshift + 1};0H")
+    sys.stdout.write(f"\033[{lineshift + 1};{0}H")
     sys.stdout.flush()
 
     dividerline = "\033[%sG┠───────────────────────────────────────────────────────────────────────────┨" % (str(shift))
@@ -81,6 +81,22 @@ def load():  # loads the base page
     print(5 * "\n")
     print(dividerline)
 
+    print("\n\n")
+
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
+
+    print("\n\n\n")
+
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
+
+    print("\033[" + str(shift) + "G" + "\n\n\n\n\n\n\n\n\n\n\n\n")
+
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
+
+    print("\n\n\n\n\n")
+
+    print("\033[" + str(shift) + "G" + "┠───────────────────────────────────────────────────────────────────────────┨")
+
 
 def update():  # updates certain lines every frame
 
@@ -88,7 +104,7 @@ def update():  # updates certain lines every frame
     cost = var.generators[selected]["Money"]["cost"]
     SMpS = var.bMpS[var.select] * var.gn[var.select] * (2 ** var.upgBought[var.select])
 
-    sys.stdout.write(f"\033[{lineshift + 7};0H")
+    sys.stdout.write(f"\033[{lineshift + 7};{0}H")
     sys.stdout.flush()
 
     
@@ -98,21 +114,21 @@ def update():  # updates certain lines every frame
         titles[var.selectcol] = f"{titles[var.selectcol][:titles[var.selectcol].find("  ")] + " <":<20}"
     print(f"{"":<{shift - 4}}║  ┃" + titles[0] + titles[1] + titles[2] + titles[3])
 
-    sys.stdout.write(f"\033[{lineshift + 11};1H")
+    sys.stdout.write(f"\033[{lineshift + 11};{1}H")
     sys.stdout.flush()
 
     if var.page != 2:
-        tp = "\033[" + str(shift) + "G┃ Time In This Universe: " + shorten(var.time / 60 / 20) + " Days"
+        tp = "\033[" + str(shift) + "G" + "┃ Time Played: " + shorten(var.time / 60 / 20) + " Days"
         mn = "Money: $" + shorten(var.money)
-        sn = "\033[" + str(shift) + "G┃ Sanity: " + str(math.ceil(var.sanity))
+        sn = "\033[" + str(shift) + "G" + "┃ Sanity: " + str(math.ceil(var.sanity))
         mp = "($" + shorten(var.tMpS) + "/s)"
         clearline()
-        print(f"{"":<{shift - 4}}║  ┃{tp:<47}{mn}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{tp:<47}{mn}")
         clearline()
-        print(f"{"":<{shift - 4}}║  ┃{sn:<53}{mp}")
+        print(f"{"":<{shift - 4}}{"║  ┃"}{sn:<53}{mp}")
     box()
 
-    sys.stdout.write(f"\033[{lineshift + 16};1H")
+    sys.stdout.write(f"\033[{lineshift + 16};{1}H")
     sys.stdout.flush()
 
     match var.page:
@@ -134,8 +150,8 @@ def update():  # updates certain lines every frame
 
     print("\x1B[3m" + var.flavortext[0][0] + "\x1B[0m")
 
-    for i in range(1,5):
-        sys.stdout.write(f"\033[{lineshift + i};0H")
+    for i in range(4):
+        sys.stdout.write(f"\033[{lineshift + i + 1};{0}H")
         sys.stdout.flush()
 
         print("\033[" + str(shift + 1) + "G╞", end="")
@@ -147,48 +163,52 @@ def box():
         print(titletext[i])
     print("\033[" + str(shift + 24) + "GA game by Cameron, Zac and Kai")
 
-    sys.stdout.write(f"\033[0;0H")
+    sys.stdout.write(f"\033[{0};{0}H")
     sys.stdout.flush()
 
     for i in range(shutil.get_terminal_size().lines - 1):
         print("\033[" + str(shift - 3) + "G║", end="")
         print("\033[" + str(shift + 79) + "G║")
 
-    sys.stdout.write(f"\033[{lineshift};0H")
+    sys.stdout.write(f"\033[{lineshift};{0}H")
     sys.stdout.flush()
 
     print("\033[" + str(shift) + "G" + "┏", end="")
-    print(75 * "━" + "┓")
-    
-    for i in range(1,35):
-        print("\033[" + str(shift) + "G┃", end="")
-        sys.stdout.write(f"\033[{lineshift + i};{76 + shift}H")
+    for i in range(75):
+        print("━", end="")
+    print("┓")
+    for i in range(34):
+        print("\033[" + str(shift) + "G" + "┃", end="")
+        sys.stdout.write(f"\033[{lineshift + i + 1};{76 + shift}H")
         print("┃")
-    print("\033[" + str(shift) + "G┗", end="")
-    print(75 * "━" + "┛")
+    print("\033[" + str(shift) + "G" + "┗", end="")
+    for i in range(75):
+        print("━", end="")
+    print("┛")
 
 def page0(selected, cost, SMpS):
     left_lines = []
 
     for i in range(len(var.gn)):
-        select = var.select == i and var.selectcol == 0
-        left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + (" <     " if select else "      "))
-
+        if var.select == i and i != -1 and var.selectcol == 0:
+            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + " <     ")
+        else:
+            left_lines.append(f"{var.gnNames[i] + ": " + str(math.floor(var.gn[i]))}" + "      ")
     for i in range(len(left_lines)):
         printtemp = var.gnArt[-1][i] if var.select == -1 else var.gnArt[var.select][var.upgBought[var.select]][i]
         print(f"{"":<{shift - 4}}║  ┃ {left_lines[i]:<36}{printtemp}")
 
-    sys.stdout.write(f"\033[{lineshift + 30};0H")
+    sys.stdout.write(f"\033[{lineshift + 30};{0}H")
     sys.stdout.flush()
     clearline()
 
-    if not var.selected:
+    if var.selected == False:
         if var.select != -1:
-            print("\033[" + str(shift) + "G┃ " + var.gnDesc[var.select])
+            print("\033[" + str(shift) + "G" + "┃ " + var.gnDesc[var.select])
             clearline()
-            print("\033[" + str(shift) + "G┃ You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
+            print("\033[" + str(shift) + "G" + "┃ You currently own: " + str(math.floor(var.gn[var.select])) + " (Producing $" + shorten(SMpS) + " per second - " + str(round((SMpS / var.tMpS) * 100, 2)) + "%)")
             clearline()
-            print("\033[" + str(shift) + "G┃ (Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
+            print("\033[" + str(shift) + "G" + "┃ (Next one costs $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ")")
             clearline()
         else:
             clearline()
@@ -198,16 +218,16 @@ def page0(selected, cost, SMpS):
             clearline()
     else:
         if var.money >= cost * (var.ramping ** var.gn[var.select]):
-            print("\033[" + str(shift) + "G┃ Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "?")
+            print("\033[" + str(shift) + "G" + "┃ Buy one for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + "?")
             clearline()
-            print("\033[" + str(shift) + "G┃ (SPACE to confirm, X to cancel)")
+            print("\033[" + str(shift) + "G" + "┃ (SPACE to confirm, X to cancel)")
             clearline()
             print()
             clearline()
         else:
-            print("\033[" + str(shift) + "G┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
+            print("\033[" + str(shift) + "G" + "┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             clearline()
-            print("\033[" + str(shift) + "G┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
+            print("\033[" + str(shift) + "G" + "┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
             clearline()
             print()
             clearline()
@@ -233,9 +253,9 @@ def page1(selected, cost, SMpS):
 
     for i in range(len(right_lines)):
         if len(left_lines) > i:
-            print(f"{"":<{shift - 4}}║  ┃ {left_lines[i]:<74}┃")
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{left_lines[i]:<74}{"┃"}")
 
-    sys.stdout.write(f"\033[{lineshift + 30};0H")
+    sys.stdout.write(f"\033[{lineshift + 30};{0}H")
     sys.stdout.flush()
 
     if var.select != -1:
@@ -250,7 +270,7 @@ def page1(selected, cost, SMpS):
             if not var.selected:
                 print("\033[" + str(shift) + "G┃ " + desc)
                 clearline()
-                print("\033[" + str(shift) + "G┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
+                print("\033[" + str(shift) + "G" + "┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
             else:
                 if cost == "None":
                     print(f"\033[{shift}G┃ There is nothing to buy.")
@@ -260,32 +280,39 @@ def page1(selected, cost, SMpS):
                     var.can = True
         if var.selectcol == 2:
             clearline()
-            if not var.selected:
-                print("\033[" + str(shift) + "G┃ Each prestige level increases " + var.gnNames[var.select] + "'s production and reduces the")
+            if var.selected == False:
+                print("\033[" + str(shift) + "G" + "┃ Each prestige level increases " + var.gnNames[var.select] + "'s production and reduces the")
                 clearline()
-                print("\033[" + str(shift) + "G┃ cost by 20%.")
+                print("\033[" + str(shift) + "G" + "┃ cost by 20%.")
                 clearline()
-                print("\033[" + str(shift) + "G┃ Current bonus: " + str(20 * var.prestige[var.select]) + "%")
+                print("\033[" + str(shift) + "G" + "┃ Current bonus: " + str(20 * var.prestige[var.select]) + "%")
             else:
-                print("\033[" + str(shift) + "G┃ Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
-    clearline()
-    print()
-    clearline()
+                print("\033[" + str(shift) + "G" + "┃ Buy for $" + shorten((var.baseCost[var.select] + 15) * (28.3729579 ** ((var.prestige[var.select]) * 2))) + "?")
+        clearline()
+        print()
+        clearline()
+    else:
+        clearline()
+        print()
+        clearline()
 
 
 def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
-    sys.stdout.write(f"\033[{lineshift + 11};0H")
+    sys.stdout.write(f"\033[{lineshift + 11};{0}H")
     sys.stdout.flush()
 
-    print(f"{"":<{shift - 1}}{"┃ Research":<40}Worldview")
+    print(f"{"":<{shift - 1}}{"┃ Research":<40}{"Worldview"}")
 
-    sys.stdout.write(f"\033[{lineshift + 16};1H")
+    sys.stdout.write(f"\033[{lineshift + 16};{1}H")
     sys.stdout.flush()
 
     for i in range(len(var.map)):
-        print("\033[" + str(shift) + "G┃     ", end="")
+        print("\033[" + str(shift) + "G" + "┃     ", end="")
         for i1 in range(len(var.map[i])):
-            print("  (" + var.mapKeys[var.map[i][i1]] + ") " + ("<" if var.select == i and var.selectcol == i1 else " "), end = "")
+            if var.select == i and var.selectcol == i1:
+                print("  (" + var.mapKeys[var.map[i][i1]], end=") <")
+            else:
+                print("  (" + var.mapKeys[var.map[i][i1]], end=")  ")
         print("       ┃")
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")
@@ -293,14 +320,14 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
 
     clearline()
     if var.select != -1:
-        print("\033[" + str(shift) + "G┃ " + var.mapDesc[var.map[var.select][var.selectcol]])
+        print("\033[" + str(shift) + "G" + "┃ " + var.mapDesc[var.map[var.select][var.selectcol]])
         clearline()
         if var.select == var.unix and var.selectcol == var.uniy:
             print("\033[" + str(shift) + "G" + "┃ You're already here.")
             clearline()
         else:
             clearline()
-            print("\033[" + str(shift) + "G" + "┃ Travel costs $" + shorten(10000000 + 62761.39 ** (var.select + var.selectcol + 2)))
+            print("\033[" + str(shift) + "G" + "┃ Travel costs $" + shorten(10000000 + 62761.39 ** ((var.select + var.selectcol + 2))))
             clearline()
             if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
                 if var.money >= 10000000 + 62761.39 ** (var.select + var.selectcol + 2):
@@ -322,10 +349,25 @@ def page3(selected, cost, SMpS):
     for i in range(len(var.settings)):
         form = ""
         if i == 0:
-            form = "Extended" if var.settings[0] else "Shortened"
-        print(f"{"":<{shift - 4}}║  ┃ {var.settingstxt[i] + form} " + ("< " if var.select == i else "  "))
-    print()
-    print(f"{"":<{shift - 4}}║  ┃ ??? " + ("<" if var.select == len(var.settings) else " "))    
+            match var.settings[0]:
+                case True:
+                    form = "Extended"
+                case False:
+                    form = "Shortened"
+        if var.select == i:
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{var.settingstxt[i] + form + " < "}")
+        else:
+            print(f"{"":<{shift - 4}}{"║  ┃ "}{var.settingstxt[i] + form + "   "}")
+
+    print("")
+    
+    if var.select == len(var.settings):
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"??? <"}")
+    else:
+        print(f"{"":<{shift - 4}}{"║  ┃ "}{"???  "}")
+    
+    
+    
 
     sys.stdout.write(f"\033[{lineshift + 30};{0}H")  # description box
     sys.stdout.flush()
