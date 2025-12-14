@@ -87,7 +87,7 @@ while True:
                     if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
                         var.gn[var.select] += 1
-                if var.page == 1 and var.select != -1 and var.selected:
+                if var.page == 1 and var.select != -1 and var.selected and var.can:
                     if var.selectcol == 1:
                         func.buyupgrade()
                     if var.selectcol == 2:

@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\run.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\run.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\variables.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\variables.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\savefile.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\savefile.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\run.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\run.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\Minigames\\battleshipsadv.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 21,
+          "SelectedChildIndex": 19,
           "Children": [
             {
               "$type": "Bookmark",
@@ -103,10 +103,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:1321847279:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
@@ -175,20 +171,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "savefile.json",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\savefile.json",
               "RelativeDocumentMoniker": "Clicker Files\\savefile.json",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\savefile.json",
               "RelativeToolTip": "Clicker Files\\savefile.json",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABkAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-12-13T11:31:32.722Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "variables.py",
               "DocumentMoniker": "c:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\variables.py",
               "RelativeDocumentMoniker": "Clicker Files\\variables.py",
@@ -201,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "functions.py",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py",
               "RelativeDocumentMoniker": "Clicker Files\\functions.py",
@@ -214,7 +210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "run.py",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\run.py",
               "RelativeDocumentMoniker": "Clicker Files\\run.py",

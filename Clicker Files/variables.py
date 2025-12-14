@@ -366,14 +366,14 @@ upgDesc = {  # upgrade descriptions
     7: [
         "Valet Parking: The first sign of a delux hotel. Warning: Valet\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ Parking may result in the disappearances of supercars.",
         "VIPs: The second sign of a deluxe hotel. Warning: VIPs may snub\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ 'less fortunate' guests.",
-        "Sumptuously Cooked Food: The third sign of a deluxe hotel.\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ Warning: Gilded food may cause uncomfortableness and minor stomach lining issues.",
-        "Kingly Suites: The fourth sign of a deluxe hotel. Warning: Kingly\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ suites may result in a state of confusion about the geographical layout of the suite.",
-        "Overly Opulent Furniture: The final sign of a deluxe hotel?\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ Warning: Overly opulent furniture may result in uncomfortable situations and major bruising.",
+        "Sumptuously Cooked Food: The third sign of a deluxe hotel.\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ Warning: Gilded food may cause uncomfortableness and minor stomach lining\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ issues.",
+        "Kingly Suites: The fourth sign of a deluxe hotel. Warning: Kingly\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ suites may result in a state of confusion about the geographical layout of\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ the suite.",
+        "Overly Opulent Furniture: The final sign of a deluxe hotel?\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ Warning: Overly opulent furniture may result in uncomfortable situations\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ and major bruising.",
         ],
     8: [
         "Armed guards to protect the bank - and the stash.",
         "Introducing: The never-seen-before $1000 Bills. The world rolls\n\033[" + str(75 + shift) + "G\x1b[1K\r\033[" + str(shift - 3) + "G║  ┃ with it.",
-        "The mafia now supports your cause."
+        "The mafia now supports your cause.",
         "The business expands worldwide.",
         "Better technology allows instant printing.",
         ],
@@ -464,6 +464,7 @@ cost = [2, 40, 800, 6500, 38000, 170000, 1400000, 40000000, 444444444, 700000000
 
 currentCost = copy.deepcopy(baseCost)
 selected = False
+can = False #if can buy
 ramping = 1.25  # Base cost ramping
 
 minigames = [
