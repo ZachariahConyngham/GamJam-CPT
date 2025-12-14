@@ -307,7 +307,7 @@ upg = {  # upgrade names for each generator
         ],
     10: [
         "More Energy Efficiency",
-        "Lubricated Turbine",
+        "Instant Energy Transfer",
         "Compact Reactor Core",
         "Fusion Reactions",
         "Micro Dyson Sphere",
