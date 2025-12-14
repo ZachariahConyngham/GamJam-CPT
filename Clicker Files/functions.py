@@ -202,7 +202,7 @@ def page0(selected, cost, SMpS):
     sys.stdout.flush()
     clearline()
 
-    if var.selected == False:
+    if not var.selected:
         if var.select != -1:
             print("\033[" + str(shift) + "G" + "┃ " + var.gnDesc[var.select])
             clearline()

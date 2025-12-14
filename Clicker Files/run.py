@@ -83,6 +83,7 @@ while True:
                 var.selectcol += 1
                 var.selected = False
             case " ":
+                
                 if var.page == 0 and var.selectcol == 0 and var.select != -1:
                     if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
