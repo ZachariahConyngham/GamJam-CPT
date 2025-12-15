@@ -418,6 +418,7 @@ def batlshit(shift):
 		else:
 			print("---His Turn---")
 			kai_guess()
+			time.sleep(2)
 			if len(sunkShip) == 6:
 				gamestate = "kai"
 
@@ -438,5 +439,6 @@ def batlshit(shift):
 			print("HAHAHAHAHA! I have defeated you! %s" % (kaiTaunts[3][randint(0, len(kaiTaunts[3]) - 1)]))
 		case "user":
 			print("NOOOOOOO! How have I lost, it cannot be! %s" % (kaiTaunts[4][randint(0, len(kaiTaunts[4]) - 1)]))
+	time.sleep(5)
 
 # batlshit(30)

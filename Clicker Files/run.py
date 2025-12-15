@@ -1,7 +1,7 @@
 import sys, time, os, math, msvcrt, shutil, time, json
 import functions as func
 import variables as var
-import Minigames.hangman, Minigames.blackjack, Minigames.ROSHAMBO, Minigames.snakes_ladders, Minigames.skills_gamblingtime, Minigames.battleshipsadv
+from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
 
 disable = False
 func.clear()
@@ -30,18 +30,30 @@ def load_data(filename="savefile.json"):
         return None
 
 print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
-
-if (input("Do you want to load your previous save? (Y/N) ")).upper() == "Y":
-    data = load_data()
-    if data != "{}":
-        var.money = data["money"]
-        var.gn = data["gn"]
-        var.upgBought = data["upg"]
-        var.sanity = data["sanity"]
-        var.time = data["time"]
-else:
-    with open("savefile.json", "w") as f:
-        f.write("{}")
+save = ""
+while save == "":
+    save = input("Do you want to load your previous save? (Y/N) ").upper()
+    match save:
+        case "Y":
+            data = load_data()
+            if data != "{}":
+                var.money = data["money"]
+                var.gn = data["gn"]
+                var.upgBought = data["upg"]
+                var.sanity = data["sanity"]
+                var.time = data["time"]
+        case "N":
+            with open("savefile.json", "w") as f:
+                f.write("{}")
+        case "JIM":
+            var.money = 1234567890123456789012345678901234567890
+            var.gn = [1] + 10 * [0]
+            var.upgBought = 11 * [0]
+            var.sanity = 100
+            var.time = 0
+        case _:
+            print("Sorry, Y and N only.")
+            save = ""
 
 print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
 
@@ -83,7 +95,6 @@ while True:
                 var.selectcol += 1
                 var.selected = False
             case " ":
-                
                 if var.page == 0 and var.selectcol == 0 and var.select != -1:
                     if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
@@ -101,6 +112,7 @@ while True:
                     func.load()
                     func.box()
                     battleshipsadv.batlshit(var.shift)
+                    func.clear()
 
                 if var.page == 8 and var.select != -1:  # ZAC PUT YO SHI HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
                     var.page = 5
