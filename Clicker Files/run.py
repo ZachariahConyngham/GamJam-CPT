@@ -1,4 +1,4 @@
-import sys, time, os, math, msvcrt, shutil, time, json
+﻿import sys, time, os, math, msvcrt, shutil, json
 import functions as func
 import variables as var
 from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
@@ -17,7 +17,6 @@ def savedata():
         "sanity": var.sanity,
         "time": var.time
     }
-
     with open("savefile.json", "w") as f:
         json.dump(player_data, f, indent=4)
 
@@ -32,7 +31,7 @@ def load_data(filename="savefile.json"):
 print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
 save = ""
 while save == "":
-    save = input("Do you want to load your previous save? (Y/N) ").upper()
+    save = input("Do you want to load your save? (Y/N) ").upper()
     match save:
         case "Y":
             data = load_data()
@@ -99,6 +98,23 @@ while True:
                     if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
                         var.gn[var.select] += 1
+                        if var.gn[var.select] in var.gnMilestones:
+                            match var.gn[var.select]:
+                                case 1:
+                                    func.news("You have bought your FIRST %s, congratulations!" % (var.gnNames[var.select]))
+                                    var.money += var.baseCost[var.select] / 2
+                                case 420:
+                                    func.news("The meaning of life. Have a bonus!")
+                                    var.money += var.baseCost[var.select] * 420 * 100
+                                case 31415:
+                                    func.news("It's Pi!")
+                                    var.money += var.baseCost[var.select] * 31415 * 3.1415
+                                case 1000000000000000000:
+                                    func.news("Your dedication astounds us. Have a huge bonus!")
+                                    var.money += var.baseCost[var.select] * var.gn[var.select] * 31415926
+                                case milestone:
+                                    func.news("You have bought %s %s!" % (var.gn[var.select], var.gnNamesPlural[var.select]))
+                                    var.money += var.baseCost[var.select] * milestone / 5
                 if var.page == 1 and var.select != -1 and var.selected and var.can:
                     if var.selectcol == 1:
                         func.buyupgrade()
@@ -188,6 +204,8 @@ while True:
 
 
     if 0 < var.sanity <= 50:
+        func.news("You decide to play Battleships to anchor your sanity.")
+        func.news("You are overwhelmed by the insanity of the world.")
         battleshipsadv.batlshit(var.shift)
         disable = True
     else:
@@ -206,6 +224,13 @@ while True:
     time.sleep(0.02)
     var.time += 0.02
 
+    for index, news in enumerate(var.news):
+        if news[1] >= 7:
+            var.news[index] = [70 * " " + "╡", -1]
+        else:
+            if news[1] != -1:
+                news[1] = time.time() - news[2]
+
     savedata()
 
     shift = round((shutil.get_terminal_size().columns / 2) - 40)
@@ -221,4 +246,3 @@ while True:
 
             var.cost[i] = var.baseCost[i] * (0.8 ** (var.prestige[i] - 1))
         var.sanity -= var.sanmult * 0.02 * (1 / 60)
-

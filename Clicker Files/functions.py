@@ -1,4 +1,4 @@
-import sys, os, time, math, shutil
+import sys, os, time, math, shutil, random
 import variables as var
 from variables import shift, lineshift
 from ascii_art import mapArt, titletext
@@ -15,10 +15,15 @@ def clearline():
     print(" " * 75 + "\r", end="")
 
 
-def yap(line):  # yappin
+def yap(line, interval=0.05):  # yappin
     for letter in line:
         print(letter, end="", flush=True)
-        time.sleep(0.05)
+        time.sleep(interval)
+
+
+def news(news):
+    var.news.append([news , 0, time.time()])
+    del var.news[0]
 
 
 def shorten(n):  # shortens numbers so that they are readable
@@ -144,16 +149,22 @@ def update():  # updates certain lines every frame
             page4(selected, cost, SMpS)
         case 5:
             page5(selected, cost, SMpS)
-    
     sys.stdout.write(f"\033[{lineshift + 2};{shift + 3}H")
     sys.stdout.flush()
-
     print("\x1B[3m" + var.flavortext[0][0] + "\x1B[0m")
+    for i in range(1, min(4, len(var.news) + 1)):
+        text = f"\033[{lineshift + 2 + i};{shift + 1}H╞   " + var.news[-i][0].ljust(70, ' ') + '╡'
+        if var.news[-i][1] > 0.1 or var.news[-i][1] == -1:
+            print(text)
+        else:
+            clearline()
+            yap(text, 0.001)
+    # printing anything here pretty much prints without issue, just don't print over the amount fo lines
 
-    for i in range(4):
+
+    for i in range(5):
         sys.stdout.write(f"\033[{lineshift + i + 1};{0}H")
         sys.stdout.flush()
-
         print("\033[" + str(shift + 1) + "G╞", end="")
         print("\033[" + str(shift + 75) + "G╡")
 
@@ -228,6 +239,9 @@ def page0(selected, cost, SMpS):
             print("\033[" + str(shift) + "G" + "┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             clearline()
             print("\033[" + str(shift) + "G" + "┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
+            if random.randint(1, 80) == 1:
+                news("The %s rejected your poor status. You are emotionally hurt." % (var.gnNames[var.select]))
+                var.sanity -= 10
             clearline()
             print()
             clearline()
@@ -240,7 +254,9 @@ def page1(selected, cost, SMpS):
 
     for i in range(11):
         print("\033[2K", end="")
-        if i < len(var.upg):
+        if var.gn[i] == 0:
+            left_lines.append("LOCKED" + (" <" if var.selectcol == 1 and i == var.select else ""))
+        elif i < len(var.upg):
             try:
                 upg = var.upg[i][var.upgBought[i]]
                 upgCost = shorten(var.upgCost[i][var.upgBought[i]])
@@ -261,7 +277,10 @@ def page1(selected, cost, SMpS):
     if var.select != -1:
         if var.selectcol == 1:
             clearline()
-            if var.upgBought[var.select] == 5:
+            if var.gn[var.select] == 0:
+                desc = "What does this do?"
+                cost = ""
+            elif var.upgBought[var.select] == 5:
                 desc = "Maxed Upgrades."
                 cost = "None"
             else:
@@ -270,14 +289,18 @@ def page1(selected, cost, SMpS):
             if not var.selected:
                 print("\033[" + str(shift) + "G┃ " + desc)
                 clearline()
-                print("\033[" + str(shift) + "G" + "┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
+                if cost != "":
+                    print("\033[" + str(shift) + "G" + "┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
             else:
-                if cost == "None":
-                    print(f"\033[{shift}G┃ There is nothing to buy.")
-                    var.can = False
-                else:
-                    print(f"\033[{shift}G┃ Buy for ${cost}?")
-                    var.can = True
+                match cost:
+                    case "None":
+                        print(f"\033[{shift}G┃ There is nothing to buy.")
+                        var.can = False
+                    case "":
+                        print(f"\033[{shift}G┃ " + desc)
+                    case _:
+                        print(f"\033[{shift}G┃ Buy for ${cost}?")
+                        var.can = True
         if var.selectcol == 2:
             clearline()
             if var.selected == False:
@@ -332,6 +355,9 @@ def page2(selected, cost, SMpS): # I WILL MERGE MINIGAMES ONTO THIS TAB
             if abs(var.select - var.unix) <= 1 and abs(var.selectcol - var.uniy) <= 1:
                 if var.money >= 10000000 + 62761.39 ** (var.select + var.selectcol + 2):
                     print("\033[" + str(shift) + "G" + "┃ You can travel here!")
+                    news("Enjoy our replayability by typing 'N' when restarting the game.")
+                    news("Sorry we haven't implemented these universes yet!")
+                    news("You bought this universe!")
                 else:
                     print("\033[" + str(shift) + "G" + "┃ You could travel here... if you were richer.")
             else:
@@ -388,6 +414,7 @@ def page5(selected, cost, SMpS):
 
 def buyupgrade():
     if var.money >= var.upgCost[var.select][var.upgBought[var.select]]:
+        news("You buy the upgrade '" + var.upg[var.select][var.upgBought[var.select]] + "' for your " + str(var.gnNames[var.select]))
         var.money -= var.upgCost[var.select][var.upgBought[var.select]]
         var.upgBought[var.select] += 1
 

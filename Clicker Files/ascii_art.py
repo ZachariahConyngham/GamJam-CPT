@@ -1,3 +1,6 @@
+import random
+import copy
+
 gnArt = {
     -1: [
             "┌───────────────────────────────────┐",
@@ -905,23 +908,21 @@ mapArt = [
         "│    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    │",
         "│    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    │",
         "│    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    │",
-        "│    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)    │",
-        "└───────────────────────────────────┘------------------------",
-    ],
-    [  # Completed map
-        "└───────────────────────────────────┘------------------------",
-        "│    (F)   (M)   (S)   (M)   (M)   (S)   (C)   (D)   (B)    │",
-        "│    (S)   (C)   (C)   (S)   (S)   (M)   (C)   (C)   (M)    │",
-        "│    (M)   (D)   (S)   (S)   (M)   (C)   (S)   (S)   (M)    │",
-        "│    (C)   (S)   (M)   (C)   (C)   (M)   (C)   (M)   (S)    │",
-        "│    (S)   (C)   (S)   (M)   (S)   (D)   (S)   (S)   (C)    │",
-        "│    (D)   (S)   (M)   (C)   (M)   (S)   (M)   (C)   (D)    │",
-        "│    (M)   (M)   (M)   (D)   (S)   (C)   (M)   (S)   (C)    │",
-        "│    (C)   (M)   (C)   (C)   (S)   (M)   (S)   (C)   (S)    │",
-        "│    (G)   (S)   (C)   (C)   (C)   (S)   (M)   (D)   (H)    │",
+        "│    (?)   (?)   (?)   (?)   (?)   (?)   (?)   (?)   (H)    │",
         "└───────────────────────────────────┘------------------------",
     ],
 ]
+mapArt.append(copy.deepcopy(mapArt[0]))
+mapSequence = 8 * ["M"] + 12 * ["S"] + 8 * ["C"] + 12 * ["M"] + 24 * ["D"] + 15 * ["B"]
+random.shuffle(mapSequence)
+temp = 0
+for rowindex, row in enumerate(mapArt[1]):
+    rowlist = list(row)
+    for tileindex, tile in enumerate(rowlist):
+        if tile == "?":
+            rowlist[tileindex] = mapSequence[temp]
+            temp += 1
+    mapArt[1][rowindex] = "".join(rowlist)
 
 titletext = [
 "┳┳   • ┓   ┓                       ",

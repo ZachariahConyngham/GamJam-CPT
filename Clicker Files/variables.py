@@ -184,6 +184,8 @@ flavortext = { # flavour text self explanatory (ZAC CAN ADD THESE)
     4: [],
 }
 
+news = 3 * [[70 * " " + "╡", -1]] # in form [news, timer]
+
 settingstxt = ["Number Format: "]
 settings = [True]
 
@@ -205,6 +207,20 @@ gnNames = [  # generator names
     "Casino",
     "Power Plant",
 ]
+gnNamesPlural = [
+    "Market Stands",
+    "Green Grocers",
+    "Car Washes",
+    "McDolands'",
+    "Mines",
+    "Shopping Centres",
+    "Warehouses",
+    "Hotels",
+    "Banks",
+    "Casinos",
+    "Power Plants",
+]
+gnMilestones = [1, 100, 420, 1000, 31415, 1000000, 1000000000, 1000000000000000000]
 
 placeNames = [  # placeholder names
     "market",
