@@ -220,7 +220,7 @@ gnNamesPlural = [
     "Casinos",
     "Power Plants",
 ]
-gnMilestones = [1, 100, 420, 1000, 31415, 1000000, 1000000000, 1000000000000000000]
+gnMilestones = [1, 25, 50, 75, 100, 314, 420, 1000, 1000000]
 
 placeNames = [  # placeholder names
     "market",

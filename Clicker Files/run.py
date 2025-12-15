@@ -106,10 +106,10 @@ while True:
                                 case 420:
                                     func.news("The meaning of life. Have a bonus!")
                                     var.money += var.baseCost[var.select] * 420 * 100
-                                case 31415:
+                                case 314:
                                     func.news("It's Pi!")
                                     var.money += var.baseCost[var.select] * 31415 * 3.1415
-                                case 1000000000000000000:
+                                case 1000000:
                                     func.news("Your dedication astounds us. Have a huge bonus!")
                                     var.money += var.baseCost[var.select] * var.gn[var.select] * 31415926
                                 case milestone:
