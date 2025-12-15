@@ -159,7 +159,6 @@ def update():  # updates certain lines every frame
         else:
             clearline()
             yap(text, 0.001)
-    # printing anything here pretty much prints without issue, just don't print over the amount fo lines
 
 
     for i in range(5):
@@ -239,7 +238,7 @@ def page0(selected, cost, SMpS):
             print("\033[" + str(shift) + "G" + "┃ You aren't rich enough to buy this for $" + shorten(cost * (var.ramping ** var.gn[var.select])) + ".")
             clearline()
             print("\033[" + str(shift) + "G" + "┃ You are missing $" + shorten((cost * (var.ramping ** var.gn[var.select])) - var.money) + ".")
-            if random.randint(1, 80) == 1:
+            if random.randint(1, 200) == 1:
                 news("The %s rejected your poor status. You are emotionally hurt." % (var.gnNames[var.select]))
                 var.sanity -= 10
             clearline()

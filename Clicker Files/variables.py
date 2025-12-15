@@ -221,6 +221,17 @@ gnNamesPlural = [
     "Power Plants",
 ]
 gnMilestones = [1, 25, 50, 75, 100, 314, 420, 1000, 1000000]
+moneyMilestones = [
+    [100, "You have made your first $100. The first step to richness."],
+    [1000, "Your first $1000. You're on the right track!"],
+    [100000, "$100000 reached. This is impressive."],
+    [10000000, "$10 Million is fantastic!."],
+    [1000000000, "$1 Billion"],
+    [1000000000000, "$1 Trillion"],
+    [1000000000000000, "$1 Quadrillion"],
+    [1000000000000000000000000000000000, "$1 DECILLION"]
+]
+milestonesUnlocked = []
 
 placeNames = [  # placeholder names
     "market",

@@ -98,7 +98,7 @@ while True:
                     if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
                         var.gn[var.select] += 1
-                        if var.gn[var.select] in var.gnMilestones:
+                        if var.gn[var.select] in var.gnMilestones and var.gn[var.select] not in var.milestonesUnlocked:
                             match var.gn[var.select]:
                                 case 1:
                                     func.news("You have bought your FIRST %s, congratulations!" % (var.gnNames[var.select]))
@@ -115,6 +115,7 @@ while True:
                                 case milestone:
                                     func.news("You have bought %s %s!" % (var.gn[var.select], var.gnNamesPlural[var.select]))
                                     var.money += var.baseCost[var.select] * milestone / 5
+                            milestonesUnlocked.append(var.gn[var.select])
                 if var.page == 1 and var.select != -1 and var.selected and var.can:
                     if var.selectcol == 1:
                         func.buyupgrade()
@@ -246,3 +247,8 @@ while True:
 
             var.cost[i] = var.baseCost[i] * (0.8 ** (var.prestige[i] - 1))
         var.sanity -= var.sanmult * 0.02 * (1 / 60)
+
+    for milestone in var.moneyMilestones:
+        if var.money > milestone[0] and milestone not in var.milestonesUnlocked:
+            func.news(milestone[1])
+            var.milestonesUnlocked.append(milestone)
