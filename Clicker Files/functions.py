@@ -174,7 +174,9 @@ def box():
     for i in range(len(titletext)):
         sys.stdout.write(f"\033[{lineshift + i - 6};{22 + shift}H")
         print(titletext[i])
-    print("\033[" + str(shift + 24) + "GA game by Cameron, Zac and Kai")
+    style= "\033[1m\033[3m"
+    stylereset = "\033[0m"
+    print(f"\033[{shift + 24}GA game by Ca{style}m{stylereset}er{style}on{stylereset}, Z{style}a{stylereset}c and {style}K{stylereset}a{style}i{stylereset}")
 
     sys.stdout.write(f"\033[{0};{0}H")
     sys.stdout.flush()

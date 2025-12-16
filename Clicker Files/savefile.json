@@ -1,5 +1,5 @@
 {
-    "money": 1.2345678901234568e+39,
+    "money": 0,
     "gn": [
         1,
         0,
@@ -26,41 +26,8 @@
         0,
         0
     ],
-    "sanity": 99.96266666666702,
-    "time": 2.2600000000000016,
+    "sanity": 100,
+    "time": 0,
     "milestones": [
-        [
-            100,
-            "You have made your first $100. The first step to richness."
-        ],
-        [
-            1000,
-            "Your first $1000. You're on the right track!"
-        ],
-        [
-            100000,
-            "$100000 reached. This is impressive."
-        ],
-        [
-            10000000,
-            "$10 Million is fantastic!."
-        ],
-        [
-            1000000000,
-            "$1 Billion"
-        ],
-        [
-            1000000000000,
-            "$1 Trillion"
-        ],
-        [
-            1000000000000000,
-            "$1 Quadrillion"
-        ],
-        [
-            1000000000000000000000000000000000,
-            "$1 DECILLION"
-        ],
-        "konami"
-    ]
+        []
 }
