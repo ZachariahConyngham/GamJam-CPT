@@ -192,7 +192,7 @@ settings = [True]
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 
-code = "wwssadadba" # and enter
+code = "wwssadadba " # and enter
 secretcode = []
 
 gnNames = [  # generator names
@@ -232,7 +232,7 @@ moneyMilestones = [
     [1000000000000000, "$1 Quadrillion"],
     [1000000000000000000000000000000000, "$1 DECILLION"]
 ]
-milestonesUnlocked = []
+achievements = []
 
 placeNames = [  # placeholder names
     "market",

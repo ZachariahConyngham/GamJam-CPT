@@ -16,7 +16,7 @@ def savedata():
         "upg": var.upgBought,
         "sanity": var.sanity,
         "time": var.time,
-        "milestones": var.milestonesUnlocked
+        "milestones": var.achievements
     }
     with open("savefile.json", "w") as f:
         json.dump(player_data, f, indent=4)
@@ -63,7 +63,7 @@ while save == "":
                 var.upgBought = data["upg"]
                 var.sanity = data["sanity"]
                 var.time = data["time"]
-                var.milestonesUnlocked = data["milestones"]
+                var.achievements = data["milestones"]
         case "N":
             with open("savefile.json", "w") as f:
                 f.write("{}")
@@ -73,7 +73,7 @@ while save == "":
             var.upgBought = 11 * [0]
             var.sanity = 100
             var.time = 0
-            var.milestonesUnlocked = []
+            var.achievements = []
         case _:
             shifttext("Sorry, Y and N only.")
             save = ""
@@ -106,11 +106,14 @@ func.load()
 while True:
     if msvcrt.kbhit():  # Key check
         key = msvcrt.getch().decode()
-        if key in var.secretcode | key == b'\r':
-            if code[len(var.secretcode)] == key:
-                secretcode.append(key)
-            if "".join(var.secretcode) == var.code:
-                if key == b'\r':  # konami code stuff
+        if key in list(var.code) or key == '\r':
+            if var.code[len(var.secretcode)] == key or key == '\r':
+                if key != '\r':
+                    var.secretcode.append(key)
+            else: var.secretcode.clear()
+            if key == '\r':
+                if "".join(var.secretcode) + " " == var.code:
+                    func.news("this")
                     bonuschoice = random.randint(1, 100)
                     match bonuschoice:
                         case 1:
@@ -119,7 +122,13 @@ while True:
                         case 2 | 3 | 4:
                             bonus = "You remember its secrets."
                             var.sanity += 10
-                    news("The legendary Konami code. " + bonus)
+                        case _:
+                            bonus = ""
+                    func.news("The legendary Konami code. " + bonus)
+                    if "konami" not in var.achievements:
+                        var.achievements.append("konami")
+                        func.news("You got an achievement for the Konami Code.")
+                var.secretcode.clear()
         else:
             var.secretcode.clear()
         match key:
@@ -140,7 +149,7 @@ while True:
                     if var.money >= var.generators[var.placeNames[var.select]]["Money"]["cost"] and (var.ramping ** var.gn[var.select]) and var.selected:
                         var.money -= round(var.generators[var.placeNames[var.select]]["Money"]["cost"] * (var.ramping ** var.gn[var.select]), 2)
                         var.gn[var.select] += 1
-                        if var.gn[var.select] in var.gnMilestones and [var.gn[var.select], var.gnNames[var.select]] not in var.milestonesUnlocked:
+                        if var.gn[var.select] in var.gnMilestones and [var.gn[var.select], var.gnNames[var.select]] not in var.achievements:
                             match var.gn[var.select]:
                                 case 1:
                                     func.news("You have bought your FIRST %s, congratulations!" % (var.gnNames[var.select]))
@@ -157,7 +166,7 @@ while True:
                                 case milestone:
                                     func.news("You have bought %s %s!" % (var.gn[var.select], var.gnNamesPlural[var.select]))
                                     var.money += var.baseCost[var.select] * milestone / 5
-                            var.milestonesUnlocked += [var.gn[var.select], var.gnNames[var.select]]
+                            var.achievements += [var.gn[var.select], var.gnNames[var.select]]
                 if var.page == 1 and var.select != -1 and var.selected and var.can:
                     if var.selectcol == 1:
                         func.buyupgrade()
@@ -291,6 +300,6 @@ while True:
         var.sanity -= var.sanmult * 0.02 * (1 / 60)
 
     for milestone in var.moneyMilestones:
-        if var.money > milestone[0] and milestone not in var.milestonesUnlocked:
+        if var.money > milestone[0] and milestone not in var.achievements:
             func.news(milestone[1])
-            var.milestonesUnlocked.append(milestone)
+            var.achievements.append(milestone)
