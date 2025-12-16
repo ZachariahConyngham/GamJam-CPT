@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\run.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\run.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -11,19 +15,11 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\variables.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\functions.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\ascii_art.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\ascii_art.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\savefile.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Clicker Files\\savefile.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\Extensions\\Microsoft\\Python\\Core\\pylance\\dist\\typeshed-fallback\\stdlib\\datetime.pyi||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\Extensions\\Microsoft\\Python\\Core\\pylance\\dist\\typeshed-fallback\\stdlib\\datetime.pyi||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\Minigames\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -41,7 +37,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 20,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,19 +98,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "savefile.json",
-              "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\savefile.json",
-              "RelativeDocumentMoniker": "Clicker Files\\savefile.json",
-              "ToolTip": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\savefile.json",
-              "RelativeToolTip": "Clicker Files\\savefile.json",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-15T11:41:18.633Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "datetime.pyi",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\Extensions\\Microsoft\\Python\\Core\\pylance\\dist\\typeshed-fallback\\stdlib\\datetime.pyi",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\Extensions\\Microsoft\\Python\\Core\\pylance\\dist\\typeshed-fallback\\stdlib\\datetime.pyi",
@@ -127,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "__init__.py",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\Minigames\\__init__.py",
               "RelativeDocumentMoniker": "Clicker Files\\Minigames\\__init__.py",
@@ -148,51 +131,50 @@
               "RelativeToolTip": "Clicker Files\\ascii_art.py",
               "ViewState": "AgIAACgDAAAAAAAAAAAIwDgDAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-12-14T11:22:43.738Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-14T11:22:43.738Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "variables.py",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\variables.py",
               "RelativeDocumentMoniker": "Clicker Files\\variables.py",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\variables.py",
               "RelativeToolTip": "Clicker Files\\variables.py",
-              "ViewState": "AgIAANIAAAAAAAAAAAD4v94AAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAD4v+kAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-12-13T11:11:54.569Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "functions.py",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py",
               "RelativeDocumentMoniker": "Clicker Files\\functions.py",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\functions.py",
               "RelativeToolTip": "Clicker Files\\functions.py",
-              "ViewState": "AgIAAJIBAAAAAAAAAAAAAKABAACFAAAAAAAAAA==",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAAAJwAAABfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-12-15T01:14:20.954Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "run.py",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\run.py",
               "RelativeDocumentMoniker": "Clicker Files\\run.py",
               "ToolTip": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\Clicker Files\\run.py",
               "RelativeToolTip": "Clicker Files\\run.py",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAIwGwAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAO0AAAAAAAAAAAAAAPwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-12-13T11:08:57.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "README.md",
               "DocumentMoniker": "C:\\Users\\ape34\\source\\repos\\ZachariahConyngham\\GamJam-CPT\\README.md",
               "RelativeDocumentMoniker": "README.md",

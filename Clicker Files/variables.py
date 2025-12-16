@@ -192,7 +192,8 @@ settings = [True]
 select = 0  # y pos of cursor
 selectcol = 0  # x pos of cursor
 
-
+code = "wwssadadba" # and enter
+secretcode = []
 
 gnNames = [  # generator names
     "Market Stand",
@@ -328,7 +329,7 @@ upg = {  # upgrade names for each generator
     9: [
         "Weighted Dice",
         "Magician Dealers",
-        "Dopamine Injections"
+        "Dopamine Injections",
         "Neural Dampeners",
         "'Yes, a lucky guy could win the jackpot!'",
         ],

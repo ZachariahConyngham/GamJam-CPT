@@ -46,7 +46,7 @@ def shorten(n):  # shortens numbers so that they are readable
 def to_roman(num):  # roman numeral converter (literally just for prestiges)
     roman_map = {
         1000: "M",
-        900: "CM",      
+        900: "CM",
         500: "D",
         400: "CD",
         100: "C",
@@ -153,7 +153,10 @@ def update():  # updates certain lines every frame
     sys.stdout.flush()
     print("\x1B[3m" + var.flavortext[0][0] + "\x1B[0m")
     for i in range(1, min(4, len(var.news) + 1)):
-        text = f"\033[{lineshift + 2 + i};{shift + 1}H╞   " + var.news[-i][0].ljust(70, ' ') + '╡'
+        if len(var.news[-i][0]) > 71:
+            text = f"\033[{lineshift + 2 + i};{shift + 1}H╞   " + var.news[-i][0][:67] + '...'
+        else:
+            text = f"\033[{lineshift + 2 + i};{shift + 1}H╞   " + var.news[-i][0].ljust(70, ' ') + '╡'
         if var.news[-i][1] > 0.1 or var.news[-i][1] == -1:
             print(text)
         else:
@@ -288,8 +291,13 @@ def page1(selected, cost, SMpS):
             if not var.selected:
                 print("\033[" + str(shift) + "G┃ " + desc)
                 clearline()
-                if cost != "":
-                    print("\033[" + str(shift) + "G" + "┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
+                match cost:
+                    case "":
+                        print(f"\033[{shift}G┃ First buy the %s." % (var.gnNames[var.select]))
+                    case "None":
+                        print(f"\033[{shift}G┃ Total %s Mult: x64" % (var.gnNames[var.select]))
+                    case _:
+                        print(f"\033[{shift}G┃ Doubles the production rate of " + var.gnNames[var.select] + ".")
             else:
                 match cost:
                     case "None":

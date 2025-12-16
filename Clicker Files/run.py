@@ -1,4 +1,4 @@
-﻿import sys, time, os, math, msvcrt, shutil, json
+﻿import sys, time, os, math, msvcrt, shutil, json, random
 import functions as func
 import variables as var
 from Minigames import hangman, blackjack, ROSHAMBO, snakes_ladders, skills_gamblingtime, battleshipsadv
@@ -15,7 +15,8 @@ def savedata():
         "gn": var.gn,
         "upg": var.upgBought,
         "sanity": var.sanity,
-        "time": var.time
+        "time": var.time,
+        "milestones": var.milestonesUnlocked
     }
     with open("savefile.json", "w") as f:
         json.dump(player_data, f, indent=4)
@@ -28,9 +29,30 @@ def load_data(filename="savefile.json"):
     except FileNotFoundError:
         return None
 
-print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+reset = f"\033[{var.lineshift + 2};{var.shift + 2}H"
+print(reset)
+textshift = f"\n\033[{var.shift + 2}G"
+def shifttext(text):
+    print(textshift + text)
+
+shifttext("Instructions and Tips:")
+shifttext("1. To fit UI to screen (Theoretical):")
+shifttext("  1.1 On Windows: Press ctrl + 0")
+shifttext("  1.2 On MacOs: Press cmd + 0")
+shifttext("2. Use 'r' to reload the page.")
+shifttext("3. Read instructions on bottom of the page.")
+shifttext("4. Use any arrow keys to exit terminal.")
+
+print(textshift, end="")
+input("Press Enter to continue.")
+
+func.clear()
+func.box()
+print(reset)
+
 save = ""
 while save == "":
+    print(reset, end="")
     save = input("Do you want to load your save? (Y/N) ").upper()
     match save:
         case "Y":
@@ -41,6 +63,7 @@ while save == "":
                 var.upgBought = data["upg"]
                 var.sanity = data["sanity"]
                 var.time = data["time"]
+                var.milestonesUnlocked = data["milestones"]
         case "N":
             with open("savefile.json", "w") as f:
                 f.write("{}")
@@ -50,21 +73,24 @@ while save == "":
             var.upgBought = 11 * [0]
             var.sanity = 100
             var.time = 0
+            var.milestonesUnlocked = []
         case _:
-            print("Sorry, Y and N only.")
+            shifttext("Sorry, Y and N only.")
             save = ""
 
-print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+func.clear()
+func.box()
+print(reset, end="")
 
 if (input("Do you want to read the opening dialogue? (Y/N) ")).upper() == "Y":
     func.clear()
     func.box()
-    print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+    print(reset, end="")
     for line in var.dialogue[0]:
         if line == "clear":
             func.clear()
             func.box()
-            print("\033[" + str(var.lineshift + 2) + ";" + str(var.shift + 2) + "H", end="")
+            print(reset, end="")
         else:
             func.yap("\033[" + str(var.shift + 2) + "G\033[?25h" + line)
             print("\033[?25l\n")
@@ -80,6 +106,22 @@ func.load()
 while True:
     if msvcrt.kbhit():  # Key check
         key = msvcrt.getch().decode()
+        if key in var.secretcode | key == b'\r':
+            if code[len(var.secretcode)] == key:
+                secretcode.append(key)
+            if "".join(var.secretcode) == var.code:
+                if key == b'\r':  # konami code stuff
+                    bonuschoice = random.randint(1, 100)
+                    match bonuschoice:
+                        case 1:
+                            bonus = "Have some cash."
+                            var.money += var.money * 0.01
+                        case 2 | 3 | 4:
+                            bonus = "You remember its secrets."
+                            var.sanity += 10
+                    news("The legendary Konami code. " + bonus)
+        else:
+            var.secretcode.clear()
         match key:
             case "w":
                 var.select -= 1
@@ -115,7 +157,7 @@ while True:
                                 case milestone:
                                     func.news("You have bought %s %s!" % (var.gn[var.select], var.gnNamesPlural[var.select]))
                                     var.money += var.baseCost[var.select] * milestone / 5
-                            milestonesUnlocked += [var.gn[var.select], var.gnNames[var.select]]
+                            var.milestonesUnlocked += [var.gn[var.select], var.gnNames[var.select]]
                 if var.page == 1 and var.select != -1 and var.selected and var.can:
                     if var.selectcol == 1:
                         func.buyupgrade()
